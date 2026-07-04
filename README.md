@@ -13,6 +13,8 @@ The project is intentionally small enough for judges to run quickly, but it incl
 
 ![Cup Signal player board](docs/assets/cup-signal-player-board.png)
 
+![Cup Signal expanded squads](docs/assets/cup-signal-expanded-squads.png)
+
 ![Cup Signal motion layer](docs/assets/cup-signal-motion.png)
 
 ## What It Solves
@@ -183,7 +185,8 @@ docs/
 
 The player board adds a detailed match layer on top of the team forecast:
 
-- 6 demo players from the Mexico vs Argentina match context.
+- 22 demo players from the Mexico vs Argentina match context.
+- Original national flag and team-badge SVG assets for Argentina and Mexico. These are not official federation marks.
 - 10 baseline ability dimensions per player.
 - 10 current-form ability dimensions per player.
 - 28 live stat fields covering xG, xA, shots, progressive actions, duels, tackles, recoveries, pressures, distance, and sprint load.

@@ -194,10 +194,12 @@ function PlayerDashboard({
           </div>
           <div className="team-edge">
             <div>
+              <img src={assetPath("/teams/crest-mex.svg")} alt="" />
               <span>Mexico avg</span>
               <strong>{homeAvg.toFixed(2)}</strong>
             </div>
             <div>
+              <img src={assetPath("/teams/crest-arg.svg")} alt="" />
               <span>Argentina avg</span>
               <strong>{awayAvg.toFixed(2)}</strong>
             </div>
@@ -212,7 +214,11 @@ function PlayerDashboard({
                 <span className="rank">{String(index + 1).padStart(2, "0")}</span>
                 <img src={assetPath(score.player.portrait)} alt="" />
                 <span>
-                  <strong>{score.player.displayName}</strong>
+                  <strong>
+                    {score.player.displayName}
+                    <img src={assetPath(score.player.flag)} alt="" />
+                    <img src={assetPath(score.player.crest)} alt="" />
+                  </strong>
                   <small>
                     {score.player.team} · #{score.player.number} · {score.player.role}
                   </small>
@@ -228,7 +234,9 @@ function PlayerDashboard({
             <img src={assetPath(selectedScore.player.portrait)} alt="" />
             <div>
               <p className="eyebrow">
-                #{selectedScore.player.number} · {selectedScore.player.role} · {selectedScore.player.team}
+                <img src={assetPath(selectedScore.player.flag)} alt="" />
+                <img src={assetPath(selectedScore.player.crest)} alt="" />#{selectedScore.player.number} · {selectedScore.player.role} ·{" "}
+                {selectedScore.player.team}
               </p>
               <h3>{selectedScore.player.name}</h3>
               <div className="trait-strip">
@@ -317,6 +325,7 @@ function WorldCupMotionPanel({ scores, selected }: { scores: PlayerScore[]; sele
           {leaders.map((score) => (
             <div key={score.player.id}>
               <img src={assetPath(score.player.portrait)} alt="" />
+              <img src={assetPath(score.player.flag)} alt="" />
               <span>{score.player.displayName}</span>
               <strong>{score.score.toFixed(2)}</strong>
             </div>

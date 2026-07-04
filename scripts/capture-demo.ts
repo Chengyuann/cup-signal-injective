@@ -23,9 +23,17 @@ const worldCupImagesLoaded = await page.evaluate(() =>
 if (!worldCupImagesLoaded) {
   throw new Error("World Cup motion images did not load");
 }
+const teamAssetsLoaded = await page.evaluate(() =>
+  [...document.images]
+    .filter((image) => image.src.includes("/teams/"))
+    .every((image) => image.complete && image.naturalWidth > 0),
+);
+if (!teamAssetsLoaded) {
+  throw new Error("Team flag or crest images did not load");
+}
 await page.getByRole("button", { name: "defense" }).click();
-if (!(await page.getByText("Edson Alvarez").isVisible())) {
-  throw new Error("Defense mode did not focus Edson Alvarez");
+if (!(await page.getByText("stop actions").first().isVisible())) {
+  throw new Error("Defense mode did not expose defensive player strengths");
 }
 await page.screenshot({ path: "outputs/cup-signal-player-board.png", fullPage: true });
 

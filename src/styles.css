@@ -857,6 +857,18 @@ input[type="range"] {
   background: rgba(16, 20, 16, 0.28);
 }
 
+.team-edge div {
+  grid-template-columns: 34px 1fr;
+  align-items: center;
+}
+
+.team-edge div img {
+  grid-row: span 2;
+  width: 30px;
+  height: 34px;
+  object-fit: contain;
+}
+
 .team-edge span,
 .player-kpis span,
 .stat-grid span,
@@ -876,6 +888,10 @@ input[type="range"] {
 .player-score-list {
   display: grid;
   gap: 9px;
+  max-height: 680px;
+  overflow: auto;
+  padding-right: 4px;
+  scrollbar-color: rgba(217, 186, 114, 0.5) rgba(237, 242, 232, 0.08);
 }
 
 .player-row {
@@ -928,6 +944,27 @@ input[type="range"] {
   gap: 3px;
 }
 
+.player-row strong {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 6px;
+}
+
+.player-row strong img {
+  width: 18px;
+  height: 14px;
+  flex: 0 0 auto;
+  border-radius: 3px;
+  object-fit: cover;
+}
+
+.player-row strong img:last-child {
+  width: 17px;
+  height: 19px;
+  object-fit: contain;
+}
+
 .player-row b {
   color: var(--gold);
   font-family: "Geist Mono", "SFMono-Regular", Consolas, monospace;
@@ -953,6 +990,26 @@ input[type="range"] {
   margin-bottom: 12px;
   font-size: clamp(30px, 4vw, 52px);
   line-height: 0.94;
+}
+
+.player-identity .eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  align-items: center;
+}
+
+.player-identity .eyebrow img {
+  width: 26px;
+  height: 18px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.player-identity .eyebrow img:nth-child(2) {
+  width: 24px;
+  height: 28px;
+  object-fit: contain;
 }
 
 .trait-strip {
@@ -1216,7 +1273,7 @@ input[type="range"] {
 
 .leader-ribbon div {
   display: grid;
-  grid-template-columns: 34px 1fr auto;
+  grid-template-columns: 34px 20px 1fr auto;
   gap: 8px;
   align-items: center;
   padding: 8px;
@@ -1231,6 +1288,12 @@ input[type="range"] {
   height: 34px;
   border-radius: 50%;
   object-fit: cover;
+}
+
+.leader-ribbon img:nth-child(2) {
+  width: 20px;
+  height: 14px;
+  border-radius: 3px;
 }
 
 .leader-ribbon span {

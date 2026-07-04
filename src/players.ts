@@ -61,6 +61,8 @@ export type Player = {
   role: PlayerRole;
   side: "home" | "away";
   portrait: string;
+  flag: string;
+  crest: string;
   baseline: PlayerAbility;
   current: PlayerAbility;
   live: PlayerLiveStats;
@@ -96,7 +98,7 @@ export const abilityLabels: { key: keyof PlayerAbility; label: string; short: st
   { key: "composure", label: "Composure", short: "CMP" },
 ];
 
-export const matchPlayers: Player[] = [
+const corePlayers: Player[] = [
   {
     id: "arg-10",
     name: "Lionel Messi",
@@ -106,6 +108,8 @@ export const matchPlayers: Player[] = [
     role: "AM",
     side: "away",
     portrait: "/players/argentina-playmaker-chibi.png",
+    flag: "/teams/flag-arg.svg",
+    crest: "/teams/crest-arg.svg",
     baseline: {
       pace: 78,
       finishing: 93,
@@ -179,6 +183,8 @@ export const matchPlayers: Player[] = [
     role: "ST",
     side: "away",
     portrait: "/players/julian-alvarez-chibi.png",
+    flag: "/teams/flag-arg.svg",
+    crest: "/teams/crest-arg.svg",
     baseline: {
       pace: 84,
       finishing: 86,
@@ -252,6 +258,8 @@ export const matchPlayers: Player[] = [
     role: "CM",
     side: "away",
     portrait: "/players/player-placeholder-chibi.png",
+    flag: "/teams/flag-arg.svg",
+    crest: "/teams/crest-arg.svg",
     baseline: {
       pace: 70,
       finishing: 72,
@@ -325,6 +333,8 @@ export const matchPlayers: Player[] = [
     role: "ST",
     side: "home",
     portrait: "/players/santiago-gimenez-chibi.png",
+    flag: "/teams/flag-mex.svg",
+    crest: "/teams/crest-mex.svg",
     baseline: {
       pace: 78,
       finishing: 84,
@@ -398,6 +408,8 @@ export const matchPlayers: Player[] = [
     role: "DM",
     side: "home",
     portrait: "/players/edson-alvarez-chibi.png",
+    flag: "/teams/flag-mex.svg",
+    crest: "/teams/crest-mex.svg",
     baseline: {
       pace: 67,
       finishing: 58,
@@ -471,6 +483,8 @@ export const matchPlayers: Player[] = [
     role: "CM",
     side: "home",
     portrait: "/players/player-placeholder-chibi.png",
+    flag: "/teams/flag-mex.svg",
+    crest: "/teams/crest-mex.svg",
     baseline: {
       pace: 72,
       finishing: 74,
@@ -536,6 +550,335 @@ export const matchPlayers: Player[] = [
     ],
   },
 ];
+
+type ExtraPlayerSeed = {
+  id: string;
+  name: string;
+  displayName: string;
+  team: TeamCode;
+  side: "home" | "away";
+  number: number;
+  role: PlayerRole;
+  base: PlayerAbility;
+  currentLift: Partial<PlayerAbility>;
+  statBias: Partial<PlayerLiveStats>;
+  condition: PlayerForm["condition"];
+  traits: string[];
+};
+
+const extraPlayerSeeds: ExtraPlayerSeed[] = [
+  {
+    id: "arg-23",
+    name: "Emiliano Martinez",
+    displayName: "Martinez",
+    team: "ARG",
+    side: "away",
+    number: 23,
+    role: "GK",
+    base: ability(66, 50, 58, 76, 62, 87, 58, 82, 74, 91),
+    currentLift: { composure: 2, defending: 2, passing: 1 },
+    statBias: { touches: 34, progressivePasses: 4, ballRecoveries: 5, duelsWon: 2, xg: 0, xa: 0.01, turnovers: 2 },
+    condition: "stable",
+    traits: ["shot command", "box voice", "long outlet"],
+  },
+  {
+    id: "arg-13",
+    name: "Cristian Romero",
+    displayName: "Romero",
+    team: "ARG",
+    side: "away",
+    number: 13,
+    role: "CB",
+    base: ability(73, 61, 63, 76, 67, 88, 82, 84, 83, 80),
+    currentLift: { defending: 2, pressing: 2, composure: -1 },
+    statBias: { touches: 55, tackles: 4, interceptions: 2, ballRecoveries: 7, duelsWon: 8, pressures: 11, foulsCommitted: 2 },
+    condition: "stable",
+    traits: ["front-foot duel", "line step", "aerial control"],
+  },
+  {
+    id: "arg-03",
+    name: "Nicolas Tagliafico",
+    displayName: "Tagliafico",
+    team: "ARG",
+    side: "away",
+    number: 3,
+    role: "CB",
+    base: ability(77, 63, 72, 78, 76, 82, 84, 76, 87, 79),
+    currentLift: { stamina: 2, pressing: 2, passing: 1 },
+    statBias: { touches: 61, progressivePasses: 6, finalThirdEntries: 5, tackles: 3, interceptions: 2, pressures: 16, sprintCount: 16 },
+    condition: "stable",
+    traits: ["overlap timing", "back-post cover", "press jump"],
+  },
+  {
+    id: "arg-07",
+    name: "Rodrigo De Paul",
+    displayName: "De Paul",
+    team: "ARG",
+    side: "away",
+    number: 7,
+    role: "CM",
+    base: ability(78, 72, 81, 84, 82, 76, 88, 69, 90, 82),
+    currentLift: { pressing: 3, stamina: 2, passing: 1 },
+    statBias: { touches: 68, progressivePasses: 7, keyPasses: 2, tackles: 3, ballRecoveries: 9, pressures: 21, pressureRegains: 5 },
+    condition: "hot",
+    traits: ["right-half engine", "counter press", "support run"],
+  },
+  {
+    id: "arg-20",
+    name: "Alexis Mac Allister",
+    displayName: "Mac Allister",
+    team: "ARG",
+    side: "away",
+    number: 20,
+    role: "CM",
+    base: ability(76, 79, 84, 86, 81, 74, 82, 67, 85, 86),
+    currentLift: { chanceCreation: 2, composure: 2, passing: 2 },
+    statBias: { touches: 63, progressivePasses: 8, keyPasses: 3, finalThirdEntries: 6, xg: 0.12, xa: 0.27, turnovers: 3 },
+    condition: "hot",
+    traits: ["third-man pass", "box arrival", "press escape"],
+  },
+  {
+    id: "arg-11",
+    name: "Angel Di Maria",
+    displayName: "Di Maria",
+    team: "ARG",
+    side: "away",
+    number: 11,
+    role: "W",
+    base: ability(82, 82, 88, 84, 88, 48, 69, 58, 78, 88),
+    currentLift: { pace: -2, chanceCreation: 2, composure: 1 },
+    statBias: { touches: 39, shots: 2, shotsOnTarget: 1, xg: 0.18, xa: 0.24, keyPasses: 3, successfulDribbles: 3, turnovers: 5 },
+    condition: "stable",
+    traits: ["wide isolation", "early cross", "curling shot"],
+  },
+  {
+    id: "arg-17",
+    name: "Alejandro Garnacho",
+    displayName: "Garnacho",
+    team: "ARG",
+    side: "away",
+    number: 17,
+    role: "W",
+    base: ability(88, 78, 76, 72, 86, 44, 76, 61, 82, 74),
+    currentLift: { pace: 2, ballCarry: 3, composure: -1 },
+    statBias: { touches: 28, shots: 2, shotsOnTarget: 1, xg: 0.19, xa: 0.1, successfulDribbles: 3, sprintCount: 19, turnovers: 5 },
+    condition: "hot",
+    traits: ["bench acceleration", "left-channel carry", "late shot"],
+  },
+  {
+    id: "arg-06",
+    name: "Leandro Paredes",
+    displayName: "Paredes",
+    team: "ARG",
+    side: "away",
+    number: 6,
+    role: "DM",
+    base: ability(64, 70, 78, 85, 70, 75, 76, 69, 78, 84),
+    currentLift: { passing: 2, composure: 2, pace: -1 },
+    statBias: { touches: 48, progressivePasses: 7, keyPasses: 1, tackles: 2, interceptions: 2, ballRecoveries: 6, pressures: 10, turnovers: 2 },
+    condition: "stable",
+    traits: ["tempo lock", "diagonal switch", "foul management"],
+  },
+  {
+    id: "mex-13",
+    name: "Guillermo Ochoa",
+    displayName: "Ochoa",
+    team: "MEX",
+    side: "home",
+    number: 13,
+    role: "GK",
+    base: ability(62, 48, 55, 70, 58, 84, 52, 78, 72, 88),
+    currentLift: { defending: 3, composure: 2 },
+    statBias: { touches: 31, progressivePasses: 3, ballRecoveries: 6, duelsWon: 2, xg: 0, xa: 0, turnovers: 1 },
+    condition: "hot",
+    traits: ["reaction save", "near-post guard", "crowd lift"],
+  },
+  {
+    id: "mex-03",
+    name: "Cesar Montes",
+    displayName: "Montes",
+    team: "MEX",
+    side: "home",
+    number: 3,
+    role: "CB",
+    base: ability(66, 57, 60, 71, 62, 82, 75, 86, 80, 75),
+    currentLift: { aerial: 2, defending: 2, composure: -1 },
+    statBias: { touches: 49, tackles: 3, interceptions: 2, duelsWon: 9, ballRecoveries: 6, pressures: 9, foulsCommitted: 2 },
+    condition: "stable",
+    traits: ["aerial first contact", "box clearance", "deep block"],
+  },
+  {
+    id: "mex-15",
+    name: "Johan Vasquez",
+    displayName: "Vasquez",
+    team: "MEX",
+    side: "home",
+    number: 15,
+    role: "CB",
+    base: ability(70, 58, 62, 72, 66, 80, 78, 81, 82, 74),
+    currentLift: { defending: 1, pressing: 2, stamina: 1 },
+    statBias: { touches: 53, progressivePasses: 4, tackles: 3, interceptions: 3, ballRecoveries: 7, pressures: 13, duelsWon: 7 },
+    condition: "stable",
+    traits: ["left channel cover", "recovery run", "diagonal pass"],
+  },
+  {
+    id: "mex-19",
+    name: "Jorge Sanchez",
+    displayName: "Sanchez",
+    team: "MEX",
+    side: "home",
+    number: 19,
+    role: "W",
+    base: ability(83, 63, 72, 73, 80, 72, 82, 65, 86, 72),
+    currentLift: { pace: 2, pressing: 2, defending: 1 },
+    statBias: { touches: 47, progressiveCarries: 5, finalThirdEntries: 6, tackles: 2, pressures: 18, sprintCount: 21, turnovers: 4 },
+    condition: "hot",
+    traits: ["right-lane burst", "touchline press", "recovery sprint"],
+  },
+  {
+    id: "mex-22",
+    name: "Hirving Lozano",
+    displayName: "Lozano",
+    team: "MEX",
+    side: "home",
+    number: 22,
+    role: "W",
+    base: ability(89, 80, 78, 73, 85, 45, 74, 58, 83, 76),
+    currentLift: { pace: 1, ballCarry: 2, finishing: -1 },
+    statBias: { touches: 42, shots: 3, shotsOnTarget: 1, xg: 0.25, xa: 0.18, successfulDribbles: 4, sprintCount: 24, turnovers: 7 },
+    condition: "risk",
+    traits: ["inside cut", "transition sprint", "isolation threat"],
+  },
+  {
+    id: "mex-09",
+    name: "Raul Jimenez",
+    displayName: "Raul",
+    team: "MEX",
+    side: "home",
+    number: 9,
+    role: "ST",
+    base: ability(70, 80, 76, 75, 70, 55, 70, 84, 76, 82),
+    currentLift: { aerial: 1, composure: 1, pace: -2 },
+    statBias: { touches: 26, shots: 2, shotsOnTarget: 1, xg: 0.21, xa: 0.08, duelsWon: 5, foulsWon: 2, pressures: 9 },
+    condition: "stable",
+    traits: ["hold-up wall", "penalty-box feel", "near-post pin"],
+  },
+  {
+    id: "mex-07",
+    name: "Uriel Antuna",
+    displayName: "Antuna",
+    team: "MEX",
+    side: "home",
+    number: 7,
+    role: "W",
+    base: ability(86, 70, 73, 71, 82, 55, 78, 59, 85, 72),
+    currentLift: { pace: 2, pressing: 2, chanceCreation: 1 },
+    statBias: { touches: 36, shots: 2, shotsOnTarget: 1, xg: 0.13, xa: 0.22, keyPasses: 2, successfulDribbles: 2, pressures: 16, sprintCount: 22 },
+    condition: "hot",
+    traits: ["touchline burst", "low cross", "counter outlet"],
+  },
+  {
+    id: "mex-05",
+    name: "Erick Gutierrez",
+    displayName: "Gutierrez",
+    team: "MEX",
+    side: "home",
+    number: 5,
+    role: "CM",
+    base: ability(70, 68, 76, 80, 74, 73, 80, 67, 84, 78),
+    currentLift: { passing: 2, stamina: 1, defending: 1 },
+    statBias: { touches: 59, progressivePasses: 6, keyPasses: 2, tackles: 2, interceptions: 2, ballRecoveries: 7, pressures: 14, turnovers: 3 },
+    condition: "stable",
+    traits: ["left-foot recycle", "second-ball cover", "middle-third balance"],
+  },
+];
+
+const extraPlayers = extraPlayerSeeds.map(makeExtraPlayer);
+
+export const matchPlayers: Player[] = [...corePlayers, ...extraPlayers];
+
+function makeExtraPlayer(seed: ExtraPlayerSeed): Player {
+  const current = {
+    pace: seed.base.pace + (seed.currentLift.pace ?? 0),
+    finishing: seed.base.finishing + (seed.currentLift.finishing ?? 0),
+    chanceCreation: seed.base.chanceCreation + (seed.currentLift.chanceCreation ?? 0),
+    passing: seed.base.passing + (seed.currentLift.passing ?? 0),
+    ballCarry: seed.base.ballCarry + (seed.currentLift.ballCarry ?? 0),
+    defending: seed.base.defending + (seed.currentLift.defending ?? 0),
+    pressing: seed.base.pressing + (seed.currentLift.pressing ?? 0),
+    aerial: seed.base.aerial + (seed.currentLift.aerial ?? 0),
+    stamina: seed.base.stamina + (seed.currentLift.stamina ?? 0),
+    composure: seed.base.composure + (seed.currentLift.composure ?? 0),
+  };
+  const live = liveStats(seed.statBias);
+  const lastTrend = Number((6.8 + (current.composure + current.stamina + current.pressing) / 90).toFixed(1));
+  return {
+    ...seed,
+    portrait: "/players/player-placeholder-chibi.png",
+    flag: seed.team === "ARG" ? "/teams/flag-arg.svg" : "/teams/flag-mex.svg",
+    crest: seed.team === "ARG" ? "/teams/crest-arg.svg" : "/teams/crest-mex.svg",
+    baseline: seed.base,
+    current,
+    live,
+    form: {
+      last5: clamp(Math.round((current.composure + current.stamina + current.pressing) / 3), 60, 94),
+      season: clamp(Math.round((seed.base.composure + seed.base.stamina + seed.base.passing) / 3), 60, 94),
+      trend: [lastTrend - 0.7, lastTrend - 0.4, lastTrend - 0.2, lastTrend, lastTrend + 0.1, lastTrend + 0.2],
+      condition: seed.condition,
+      note: `${seed.displayName} profile: ${seed.traits.join(", ")}.`,
+    },
+    events: [
+      { minute: 12 + (seed.number % 9), type: "touch", detail: `${seed.traits[0]} shaped the next phase`, impact: 0.1 + (seed.number % 4) * 0.03 },
+      { minute: 35 + (seed.number % 11), type: "duel", detail: `${seed.traits[1]} changed local momentum`, impact: 0.12 + (seed.number % 3) * 0.04 },
+      { minute: 54 + (seed.number % 8), type: "read", detail: `${seed.traits[2]} is the late-match watch item`, impact: 0.09 + (seed.number % 5) * 0.03 },
+    ],
+  };
+}
+
+function ability(
+  pace: number,
+  finishing: number,
+  chanceCreation: number,
+  passing: number,
+  ballCarry: number,
+  defending: number,
+  pressing: number,
+  aerial: number,
+  stamina: number,
+  composure: number,
+): PlayerAbility {
+  return { pace, finishing, chanceCreation, passing, ballCarry, defending, pressing, aerial, stamina, composure };
+}
+
+function liveStats(overrides: Partial<PlayerLiveStats>): PlayerLiveStats {
+  return {
+    minutes: 64,
+    goals: 0,
+    assists: 0,
+    shots: 1,
+    shotsOnTarget: 0,
+    xg: 0.04,
+    xa: 0.06,
+    touches: 42,
+    progressivePasses: 3,
+    progressiveCarries: 1,
+    keyPasses: 0,
+    finalThirdEntries: 2,
+    successfulDribbles: 0,
+    duelsWon: 4,
+    tackles: 1,
+    interceptions: 1,
+    ballRecoveries: 4,
+    pressures: 8,
+    pressureRegains: 1,
+    foulsWon: 1,
+    foulsCommitted: 1,
+    turnovers: 3,
+    distanceKm: 7.4,
+    sprintCount: 10,
+    ...overrides,
+  };
+}
 
 const modeWeights: Record<RatingMode, Partial<Record<keyof PlayerAbility, number>>> = {
   balanced: {
