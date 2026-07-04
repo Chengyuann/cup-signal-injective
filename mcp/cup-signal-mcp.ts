@@ -5,6 +5,7 @@ import { eventSnapshot, matches, teams } from "../src/data";
 import { buildPredictions, buildWatchBrief, predictMatch } from "../src/forecast";
 import { scorePlayers } from "../src/players";
 import { tournamentStats, worldCupGroups, worldCupMatches, worldCupSource, worldCupTeams } from "../src/worldcupData";
+import { injectivePlaybookSummary, injectivePlays } from "../src/injectivePlaybook";
 
 const server = new McpServer({
   name: "cup-signal-injective-mcp",
@@ -160,6 +161,21 @@ server.registerTool(
       openingMatches: worldCupMatches.slice(0, 4),
       knockoutSample: worldCupMatches.filter((match) => match.type !== "group").slice(0, 4),
     });
+  },
+);
+
+server.registerTool(
+  "get_injective_playbook",
+  {
+    title: "Get Injective playbook",
+    description: "Explain how Cup Signal uses x402, USDC CCTP, MCP Server, and Agent Skills as product actions.",
+    inputSchema: {
+      tech: z.enum(["all", "x402", "cctp", "mcp", "agent-skill"]).default("all"),
+    },
+  },
+  async ({ tech }) => {
+    const plays = tech === "all" ? injectivePlays : injectivePlays.filter((play) => play.key === tech);
+    return jsonResult({ summary: injectivePlaybookSummary, plays });
   },
 );
 

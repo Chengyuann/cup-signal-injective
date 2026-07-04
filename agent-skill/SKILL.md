@@ -16,6 +16,8 @@ Use this skill when a user wants a concise World Cup match read, a watch-party p
   - `build_watch_brief`
   - `rank_teams`
   - `rank_match_players`
+  - `get_worldcup_2026_data`
+  - `get_injective_playbook`
 - Use `global_cup_commentary` for a post draft.
 
 ## Workflow
@@ -24,9 +26,11 @@ Use this skill when a user wants a concise World Cup match read, a watch-party p
 2. Call `forecast_match` for probability, score, volatility, and tactical read.
 3. Call `build_watch_brief` for free summary, premium report, x402 resource, and USDC CCTP memo.
 4. Call `rank_match_players` when the user asks for player ratings, form comparison, or dashboard commentary.
-5. Produce a short answer with:
+5. Call `get_injective_playbook` when the output needs to explain x402, CCTP, MCP Server, or Agent Skills to judges.
+6. Produce a short answer with:
    - one-line match signal,
    - top player rating and ability-delta note,
+   - one Injective technical hook and how a fan uses it,
    - one watch-party interaction prompt,
    - one live screenshot/comment idea for `#InjectiveGlobalCupHackathon`,
    - a clear note if payment is still dry-run.

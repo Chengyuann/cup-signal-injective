@@ -32,6 +32,10 @@ const worldCup = await client.callTool({
   name: "get_worldcup_2026_data",
   arguments: { section: "summary", limit: 4 },
 });
+const playbook = await client.callTool({
+  name: "get_injective_playbook",
+  arguments: { tech: "all" },
+});
 
 console.log(
   JSON.stringify(
@@ -41,6 +45,7 @@ console.log(
       briefContentItems: contentLength(brief),
       playerContentItems: contentLength(players),
       worldCupContentItems: contentLength(worldCup),
+      playbookContentItems: contentLength(playbook),
     },
     null,
     2,

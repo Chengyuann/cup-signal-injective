@@ -22,6 +22,14 @@ if (!(await page.getByText("本场球员评分").isVisible())) {
 if (!(await page.getByText("Motion Layer").isVisible())) {
   throw new Error("Motion layer heading not visible");
 }
+if (!(await page.getByText("Injective Playbook").isVisible())) {
+  throw new Error("Injective playbook heading not visible");
+}
+for (const label of ["x402 Paid Scout Intel", "USDC CCTP Fan Pool", "MCP Match Analyst Server", "Agent Skill Live Posting Coach"]) {
+  if (!(await page.getByText(label).isVisible())) {
+    throw new Error(`Injective playbook card missing: ${label}`);
+  }
+}
 const worldCupImagesLoaded = await page.evaluate(() =>
   [...document.images]
     .filter((image) => image.src.includes("/worldcup/"))

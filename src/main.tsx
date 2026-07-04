@@ -24,6 +24,7 @@ import { buildPredictions, buildWatchBrief, formatPercent } from "./forecast";
 import { abilityLabels, scorePlayers, type PlayerScore, type RatingMode, type WindowKey } from "./players";
 import type { Prediction, WeightKey, Weights } from "./types";
 import { tournamentStats, worldCupGroups, worldCupMatches, worldCupSource, worldCupTeams } from "./worldcupData";
+import { injectivePlaybookSummary, injectivePlays, type InjectivePlay } from "./injectivePlaybook";
 import "./styles.css";
 
 const weightLabels: Record<WeightKey, string> = {
@@ -86,6 +87,7 @@ function App() {
         onWindow={setWindowKey}
       />
       <WorldCupMotionPanel scores={playerScores} selected={selected} />
+      <InjectivePlaybookPanel />
       <section className="shell lower-grid">
         <InjectivePanel paid={paid} loading={loading} onUnlock={unlockReport} brief={brief} />
         <AgentPanel selected={selected} />
@@ -106,6 +108,66 @@ function App() {
         </div>
       </section>
     </main>
+  );
+}
+
+function InjectivePlaybookPanel() {
+  return (
+    <section className="shell injective-playbook reveal-block" aria-label="Injective technology playbook">
+      <div className="playbook-copy">
+        <p className="eyebrow">Injective Playbook</p>
+        <h2>四个技术点不是贴标签，而是观赛动作</h2>
+        <p>
+          x402 负责付费情报，CCTP 负责 USDC 球迷奖池，MCP Server 负责把数据交给 Agent，Agent Skill 负责把实时赛事转成可发帖的操作流。
+        </p>
+      </div>
+      <div className="playbook-score">
+        <strong>{injectivePlaybookSummary.totalTechHooks}/4</strong>
+        <span>technical hooks covered</span>
+      </div>
+      <div className="playbook-grid">
+        {injectivePlays.map((play) => (
+          <PlaybookCard key={play.key} play={play} />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function PlaybookCard({ play }: { play: InjectivePlay }) {
+  const icon =
+    play.key === "x402" ? (
+      <CircleDollarSign size={18} />
+    ) : play.key === "cctp" ? (
+      <GitBranch size={18} />
+    ) : play.key === "mcp" ? (
+      <FileJson size={18} />
+    ) : (
+      <Bot size={18} />
+    );
+  return (
+    <article className={`playbook-card ${play.key}`}>
+      <div className="playbook-card-head">
+        {icon}
+        <span>{play.status}</span>
+      </div>
+      <h3>{play.label}</h3>
+      <p>{play.hook}</p>
+      <div className="playbook-lines">
+        <span>
+          <strong>Fan action</strong>
+          {play.fanAction}
+        </span>
+        <span>
+          <strong>Proof</strong>
+          {play.proof}
+        </span>
+        <span>
+          <strong>Bonus</strong>
+          {play.scoreBoost}
+        </span>
+      </div>
+    </article>
   );
 }
 

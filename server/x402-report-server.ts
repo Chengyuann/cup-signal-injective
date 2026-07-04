@@ -1,6 +1,7 @@
 import express from "express";
 import { buildWatchBrief } from "../src/forecast";
 import { scorePlayers } from "../src/players";
+import { injectivePlaybookSummary, injectivePlays } from "../src/injectivePlaybook";
 
 const app = express();
 const port = Number(process.env.PORT ?? 4020);
@@ -87,6 +88,14 @@ app.get("/api/player-ratings", (_request, response) => {
       strengths: score.strengths,
       watchItem: score.watchItem,
     })),
+  });
+});
+
+app.get("/api/injective-playbook", (_request, response) => {
+  response.json({
+    summary: injectivePlaybookSummary,
+    plays: injectivePlays,
+    note: "This endpoint is intentionally public so judges can inspect how x402, CCTP, MCP, and Agent Skills map to product actions.",
   });
 });
 

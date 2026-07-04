@@ -52,10 +52,10 @@ New layer: player ratings.
 - original GPT Image 2 chibi player avatars
 
 Injective hooks:
-- x402 premium report endpoint
-- USDC CCTP checkout memo
-- local MCP server tools
-- Agent Skill for live commentary
+- x402 Paid Scout Intel: premium tactical/player report endpoint
+- USDC CCTP Fan Pool: deterministic memo for cross-chain watch-party rewards
+- MCP Match Analyst Server: fixture, forecast, player, and World Cup tools
+- Agent Skill Live Posting Coach: repeatable live-post workflow
 
 Demo/GitHub:
 https://chengyuann.github.io/cup-signal-injective/

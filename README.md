@@ -9,6 +9,8 @@ The project is intentionally small enough for judges to run quickly, but it incl
 - **MCP Server**: local MCP tools expose fixtures, forecasts, watch briefs, and team ranking.
 - **Agent Skill**: a portable skill file teaches an agent how to use the MCP tools for live match commentary.
 
+The page includes an **Injective Playbook** section that maps each technical hook to a concrete fan action, proof command, and hackathon scoring angle.
+
 ![Cup Signal desktop demo](docs/assets/cup-signal-desktop.png)
 
 ![Cup Signal player board](docs/assets/cup-signal-player-board.png)
@@ -71,6 +73,7 @@ npm run server:x402
 curl -i http://127.0.0.1:4020/api/premium-report/cup-001
 curl -i -H 'X-PAYMENT: demo-paid' http://127.0.0.1:4020/api/premium-report/cup-001
 curl -i http://127.0.0.1:4020/api/player-ratings
+curl -i http://127.0.0.1:4020/api/injective-playbook
 ```
 
 Run the MCP verification:
@@ -136,6 +139,7 @@ Tools:
 - `rank_teams`
 - `rank_match_players`
 - `get_worldcup_2026_data`
+- `get_injective_playbook`
 
 Resource:
 
@@ -194,6 +198,15 @@ docs/
 - The x402/CCTP/MCP/Agent Skill surfaces are tied to the product flow, not pasted on as logos.
 - It creates repeatable live-match screenshots and X reply material for the Global Cup points race.
 
+## Injective Playbook
+
+The product now turns each Injective hook into a fan-facing action:
+
+- `x402 Paid Scout Intel`: paid tactical/player report via HTTP 402 challenge.
+- `USDC CCTP Fan Pool`: deterministic USDC memo for cross-chain watch-party rewards.
+- `MCP Match Analyst Server`: agent-readable match, player, and World Cup data tools.
+- `Agent Skill Live Posting Coach`: repeatable live-post workflow for Global Cup scoring.
+
 ## Player Dashboard
 
 The player board adds a detailed match layer on top of the team forecast:
@@ -228,6 +241,7 @@ The page includes a custom motion layer inspired by premium animated product sit
 - `npm run demo:agent`
 - `npm run capture`
 - x402 dry-run `curl` returned `402 Payment Required`, then `200 OK` with `X-PAYMENT-RESPONSE` when a demo `X-PAYMENT` header was supplied.
+- `npm run check:mcp` verifies `get_injective_playbook` alongside forecast, player, and World Cup tools.
 
 ## Limitations
 

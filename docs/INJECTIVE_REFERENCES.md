@@ -43,3 +43,14 @@ The new player board keeps the same dry-run boundary:
 - generated avatars are original fan-art assets and not official photos,
 - `rank_match_players` exposes player ratings through MCP,
 - `/api/player-ratings` exposes the same data through the local x402 report server for agent or dashboard use.
+
+## Injective Playbook Endpoint
+
+`/api/injective-playbook` and MCP `get_injective_playbook` expose the same four product hooks:
+
+- x402 Paid Scout Intel
+- USDC CCTP Fan Pool
+- MCP Match Analyst Server
+- Agent Skill Live Posting Coach
+
+This is included so judges can inspect the integration logic without reading all source files.
