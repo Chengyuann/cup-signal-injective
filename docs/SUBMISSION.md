@@ -17,13 +17,13 @@ Cup Signal is a World Cup matchday AI cockpit that turns fixture context, live p
 GitHub repository:
 
 ```text
-<add GitHub URL after push>
+https://github.com/Chengyuann/cup-signal-injective
 ```
 
 Product / demo link:
 
 ```text
-<add GitHub Pages or hosted demo URL after deploy>
+https://chengyuann.github.io/cup-signal-injective/
 ```
 
 Demo video:
@@ -52,8 +52,8 @@ Injective hooks:
 - Agent Skill for live commentary
 
 Demo/GitHub:
-<demo link>
-<github link>
+https://chengyuann.github.io/cup-signal-injective/
+https://github.com/Chengyuann/cup-signal-injective
 
 @injective @NinjaLabsHQ @NinjaLabsCN
 ```

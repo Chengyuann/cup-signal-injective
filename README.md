@@ -33,6 +33,12 @@ npm run dev
 
 Open the Vite URL shown in the terminal.
 
+Live demo:
+
+```text
+https://chengyuann.github.io/cup-signal-injective/
+```
+
 Build check:
 
 ```bash
