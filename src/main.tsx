@@ -67,6 +67,7 @@ function App() {
   return (
     <main>
       <Hero selected={selected} />
+      <LiveTicker selected={selected} topPlayer={playerScores[0]} />
       <section className="shell app-grid" aria-label="Cup Signal cockpit">
         <MatchRail predictions={predictions} selectedId={selectedId} onSelect={setSelectedId} />
         <SignalPanel selected={selected} />
@@ -82,6 +83,7 @@ function App() {
         windowKey={windowKey}
         onWindow={setWindowKey}
       />
+      <WorldCupMotionPanel scores={playerScores} selected={selected} />
       <section className="shell lower-grid">
         <InjectivePanel paid={paid} loading={loading} onUnlock={unlockReport} brief={brief} />
         <AgentPanel selected={selected} />
@@ -102,6 +104,26 @@ function App() {
         </div>
       </section>
     </main>
+  );
+}
+
+function LiveTicker({ selected, topPlayer }: { selected: Prediction; topPlayer: PlayerScore }) {
+  const items = [
+    `${selected.home.code} ${selected.projectedScore[0]}-${selected.projectedScore[1]} ${selected.away.code}`,
+    `xG ${selected.match.xgHome.toFixed(2)} / ${selected.match.xgAway.toFixed(2)}`,
+    `Top player ${topPlayer.player.displayName} ${topPlayer.score.toFixed(2)}`,
+    `Volatility ${Math.round(selected.volatility)}`,
+    `x402 resource /api/premium-report/${selected.match.id}`,
+    "MCP tool rank_match_players ready",
+  ];
+  return (
+    <section className="ticker-band" aria-label="Live match data ticker">
+      <div className="ticker-track">
+        {[...items, ...items].map((item, index) => (
+          <span key={`${item}-${index}`}>{item}</span>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -138,7 +160,7 @@ function PlayerDashboard({
   const awayAvg = teamSplit.away / awayScores;
 
   return (
-    <section id="players" className="shell player-dashboard" aria-label="Player data dashboard">
+    <section id="players" className="shell player-dashboard reveal-block" aria-label="Player data dashboard">
       <div className="player-head">
         <div>
           <p className="eyebrow">Player Data Board</p>
@@ -273,6 +295,44 @@ function PlayerDashboard({
   );
 }
 
+function WorldCupMotionPanel({ scores, selected }: { scores: PlayerScore[]; selected: Prediction }) {
+  const leaders = scores.slice(0, 4);
+  return (
+    <section className="shell motion-panel reveal-block" aria-label="World Cup motion layer">
+      <div className="motion-copy">
+        <p className="eyebrow">Motion Layer</p>
+        <h2>把比赛走势做成会动的数据场景</h2>
+        <p>
+          球场线路、实时排名、球员头像和链上支付节点被放在同一个动态画布里。它不是装饰背景，而是把“谁在制造优势、球权往哪里走、下一步该截图什么”表达出来。
+        </p>
+      </div>
+      <div className="motion-stage">
+        <img className="route-map" src={assetPath("/worldcup/pitch-routes.svg")} alt="" />
+        <img className="motion-trophy" src={assetPath("/worldcup/trophy-line.svg")} alt="" />
+        <img className="motion-ball" src={assetPath("/worldcup/football-line.svg")} alt="" />
+        <div className="pulse-node node-a" />
+        <div className="pulse-node node-b" />
+        <div className="pulse-node node-c" />
+        <div className="leader-ribbon">
+          {leaders.map((score) => (
+            <div key={score.player.id}>
+              <img src={assetPath(score.player.portrait)} alt="" />
+              <span>{score.player.displayName}</span>
+              <strong>{score.score.toFixed(2)}</strong>
+            </div>
+          ))}
+        </div>
+        <div className="match-chip">
+          <span>{selected.match.round}</span>
+          <strong>
+            {selected.home.code} / {selected.away.code}
+          </strong>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Metric({ label, value }: { label: string; value: string }) {
   return (
     <div>
@@ -400,6 +460,10 @@ function StatGrid({ score }: { score: PlayerScore }) {
 function Hero({ selected }: { selected: Prediction }) {
   return (
     <header className="hero">
+      <div className="hero-symbols" aria-hidden="true">
+        <img className="hero-trophy" src={assetPath("/worldcup/trophy-line.svg")} alt="" />
+        <img className="hero-football" src={assetPath("/worldcup/football-line.svg")} alt="" />
+      </div>
       <div className="hero-media" aria-hidden="true">
         <div className="pitch">
           <div className="pitch-line center-line" />
@@ -422,7 +486,7 @@ function Hero({ selected }: { selected: Prediction }) {
           <span>Agent Skill</span>
         </div>
       </nav>
-      <div className="shell hero-content">
+      <div className="shell hero-content reveal-block">
         <div>
           <p className="eyebrow">Injective Global Cup Matchday AI</p>
           <h1>Turn World Cup noise into one usable watch-party signal.</h1>

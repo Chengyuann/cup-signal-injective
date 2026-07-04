@@ -12,6 +12,17 @@ await page.screenshot({ path: "outputs/cup-signal-desktop.png", fullPage: true }
 if (!(await page.getByText("本场球员评分").isVisible())) {
   throw new Error("Player dashboard heading not visible");
 }
+if (!(await page.getByText("Motion Layer").isVisible())) {
+  throw new Error("Motion layer heading not visible");
+}
+const worldCupImagesLoaded = await page.evaluate(() =>
+  [...document.images]
+    .filter((image) => image.src.includes("/worldcup/"))
+    .every((image) => image.complete && image.naturalWidth > 0),
+);
+if (!worldCupImagesLoaded) {
+  throw new Error("World Cup motion images did not load");
+}
 await page.getByRole("button", { name: "defense" }).click();
 if (!(await page.getByText("Edson Alvarez").isVisible())) {
   throw new Error("Defense mode did not focus Edson Alvarez");

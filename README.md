@@ -13,6 +13,8 @@ The project is intentionally small enough for judges to run quickly, but it incl
 
 ![Cup Signal player board](docs/assets/cup-signal-player-board.png)
 
+![Cup Signal motion layer](docs/assets/cup-signal-motion.png)
+
 ## What It Solves
 
 During a World Cup match, fans usually jump between score apps, social feeds, group chats, and prediction threads. Cup Signal compresses that into one workflow:
@@ -189,6 +191,18 @@ The player board adds a detailed match layer on top of the team forecast:
 - Time windows: `live`, `last5`, `season`.
 - Dynamic radar chart, dual baseline/current bars, form trend, event timeline, and risk signal.
 - GPT Image 2 generated original chibi-style player avatars. The prompts avoid official logos, crests, watermarks, and photorealistic likeness claims.
+
+## Motion Layer
+
+The page includes a custom motion layer inspired by premium animated product sites:
+
+- live horizontal match ticker,
+- floating trophy and football line-art assets,
+- animated pitch route map,
+- pulsing match nodes,
+- moving data meters and radar fill,
+- leader ribbon with animated player avatars,
+- reduced-motion fallback for accessibility.
 
 ## Verified Locally
 
