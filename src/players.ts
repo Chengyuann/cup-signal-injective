@@ -107,7 +107,7 @@ const corePlayers: Player[] = [
     number: 10,
     role: "AM",
     side: "away",
-    portrait: "/players/argentina-playmaker-chibi.png",
+    portrait: "/players/generated-web/arg-10-messi-chibi.webp",
     flag: "/teams/flag-arg.svg",
     crest: "/teams/crest-arg.svg",
     baseline: {
@@ -182,7 +182,7 @@ const corePlayers: Player[] = [
     number: 9,
     role: "ST",
     side: "away",
-    portrait: "/players/julian-alvarez-chibi.png",
+    portrait: "/players/generated-web/arg-09-alvarez-chibi.webp",
     flag: "/teams/flag-arg.svg",
     crest: "/teams/crest-arg.svg",
     baseline: {
@@ -257,7 +257,7 @@ const corePlayers: Player[] = [
     number: 24,
     role: "CM",
     side: "away",
-    portrait: "/players/player-placeholder-chibi.png",
+    portrait: "/players/generated-web/arg-24-enzo-chibi.webp",
     flag: "/teams/flag-arg.svg",
     crest: "/teams/crest-arg.svg",
     baseline: {
@@ -332,7 +332,7 @@ const corePlayers: Player[] = [
     number: 11,
     role: "ST",
     side: "home",
-    portrait: "/players/santiago-gimenez-chibi.png",
+    portrait: "/players/generated-web/mex-11-gimenez-chibi.webp",
     flag: "/teams/flag-mex.svg",
     crest: "/teams/crest-mex.svg",
     baseline: {
@@ -407,7 +407,7 @@ const corePlayers: Player[] = [
     number: 4,
     role: "DM",
     side: "home",
-    portrait: "/players/edson-alvarez-chibi.png",
+    portrait: "/players/generated-web/mex-04-edson-chibi.webp",
     flag: "/teams/flag-mex.svg",
     crest: "/teams/crest-mex.svg",
     baseline: {
@@ -482,7 +482,7 @@ const corePlayers: Player[] = [
     number: 18,
     role: "CM",
     side: "home",
-    portrait: "/players/player-placeholder-chibi.png",
+    portrait: "/players/generated-web/mex-18-chavez-chibi.webp",
     flag: "/teams/flag-mex.svg",
     crest: "/teams/crest-mex.svg",
     baseline: {
@@ -814,7 +814,7 @@ function makeExtraPlayer(seed: ExtraPlayerSeed): Player {
   const lastTrend = Number((6.8 + (current.composure + current.stamina + current.pressing) / 90).toFixed(1));
   return {
     ...seed,
-    portrait: "/players/player-placeholder-chibi.png",
+    portrait: `/players/generated-web/${seed.id}-${seed.displayName.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-chibi.webp`,
     flag: seed.team === "ARG" ? "/teams/flag-arg.svg" : "/teams/flag-mex.svg",
     crest: seed.team === "ARG" ? "/teams/crest-arg.svg" : "/teams/crest-mex.svg",
     baseline: seed.base,

@@ -10,3 +10,7 @@ work/
 outputs/playwright/
 .playwright-cli/
 outputs/
+
+# High-resolution generated source portraits
+public/players/generated/*.png
+dist-data/

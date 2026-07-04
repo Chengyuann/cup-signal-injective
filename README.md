@@ -219,7 +219,7 @@ The player board adds a detailed match layer on top of the team forecast:
 - Rating modes: `balanced`, `attack`, `defense`, `pressing`.
 - Time windows: `live`, `last5`, `season`.
 - Dynamic radar chart, dual baseline/current bars, form trend, event timeline, and risk signal.
-- GPT Image 2 generated original chibi-style player avatars. The prompts avoid official logos, crests, watermarks, and photorealistic likeness claims.
+- GPT Image 2 generated 22 distinct original chibi-style player avatars, one per dashboard player. The prompts avoid official logos, crests, watermarks, and photorealistic likeness claims; the committed web assets are compressed WebP versions for fast loading.
 - FUT-style star card treatment inspired by `Younesfdj/gitfut`, rebuilt as original CSS and using our own player data.
 
 ## Motion Layer
