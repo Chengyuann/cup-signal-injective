@@ -15,6 +15,7 @@ Use this skill when a user wants a concise World Cup match read, a watch-party p
   - `forecast_match`
   - `build_watch_brief`
   - `rank_teams`
+  - `rank_match_players`
 - Use `global_cup_commentary` for a post draft.
 
 ## Workflow
@@ -22,8 +23,10 @@ Use this skill when a user wants a concise World Cup match read, a watch-party p
 1. Call `list_fixtures` and pick the requested match.
 2. Call `forecast_match` for probability, score, volatility, and tactical read.
 3. Call `build_watch_brief` for free summary, premium report, x402 resource, and USDC CCTP memo.
-4. Produce a short answer with:
+4. Call `rank_match_players` when the user asks for player ratings, form comparison, or dashboard commentary.
+5. Produce a short answer with:
    - one-line match signal,
+   - top player rating and ability-delta note,
    - one watch-party interaction prompt,
    - one live screenshot/comment idea for `#InjectiveGlobalCupHackathon`,
    - a clear note if payment is still dry-run.

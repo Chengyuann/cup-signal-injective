@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
   Activity,
@@ -9,14 +9,19 @@ import {
   Crosshair,
   FileJson,
   GitBranch,
+  Gauge,
+  LineChart,
+  Medal,
   Radio,
   ShieldCheck,
   SlidersHorizontal,
+  Sparkles,
   Trophy,
   WalletCards,
 } from "lucide-react";
 import { defaultWeights, eventSnapshot, matches } from "./data";
 import { buildPredictions, buildWatchBrief, formatPercent } from "./forecast";
+import { abilityLabels, scorePlayers, type PlayerScore, type RatingMode, type WindowKey } from "./players";
 import type { Prediction, WeightKey, Weights } from "./types";
 import "./styles.css";
 
@@ -31,11 +36,20 @@ const weightLabels: Record<WeightKey, string> = {
 function App() {
   const [weights, setWeights] = useState<Weights>(defaultWeights);
   const [selectedId, setSelectedId] = useState(matches[0].id);
+  const [ratingMode, setRatingMode] = useState<RatingMode>("balanced");
+  const [windowKey, setWindowKey] = useState<WindowKey>("live");
+  const [selectedPlayerId, setSelectedPlayerId] = useState("arg-10");
   const [paid, setPaid] = useState(false);
   const [loading, setLoading] = useState(false);
   const predictions = useMemo(() => buildPredictions(weights), [weights]);
   const selected = predictions.find((prediction) => prediction.match.id === selectedId) ?? predictions[0];
   const brief = useMemo(() => buildWatchBrief(selected.match.id, weights), [selected.match.id, weights]);
+  const playerScores = useMemo(() => scorePlayers(ratingMode, windowKey), [ratingMode, windowKey]);
+  const selectedPlayer = playerScores.find((score) => score.player.id === selectedPlayerId) ?? playerScores[0];
+
+  useEffect(() => {
+    setSelectedPlayerId(playerScores[0].player.id);
+  }, [playerScores]);
 
   function unlockReport() {
     setLoading(true);
@@ -53,6 +67,16 @@ function App() {
         <SignalPanel selected={selected} />
         <ControlPanel weights={weights} setWeights={setWeights} />
       </section>
+      <PlayerDashboard
+        scores={playerScores}
+        selectedScore={selectedPlayer}
+        selectedPlayerId={selectedPlayer.player.id}
+        onSelect={setSelectedPlayerId}
+        ratingMode={ratingMode}
+        onMode={setRatingMode}
+        windowKey={windowKey}
+        onWindow={setWindowKey}
+      />
       <section className="shell lower-grid">
         <InjectivePanel paid={paid} loading={loading} onUnlock={unlockReport} brief={brief} />
         <AgentPanel selected={selected} />
@@ -73,6 +97,298 @@ function App() {
         </div>
       </section>
     </main>
+  );
+}
+
+function PlayerDashboard({
+  scores,
+  selectedScore,
+  selectedPlayerId,
+  onSelect,
+  ratingMode,
+  onMode,
+  windowKey,
+  onWindow,
+}: {
+  scores: PlayerScore[];
+  selectedScore: PlayerScore;
+  selectedPlayerId: string;
+  onSelect: (id: string) => void;
+  ratingMode: RatingMode;
+  onMode: (mode: RatingMode) => void;
+  windowKey: WindowKey;
+  onWindow: (key: WindowKey) => void;
+}) {
+  const top = scores[0];
+  const teamSplit = scores.reduce(
+    (acc, score) => {
+      acc[score.player.side] += score.score;
+      return acc;
+    },
+    { home: 0, away: 0 },
+  );
+  const homeScores = scores.filter((score) => score.player.side === "home").length;
+  const awayScores = scores.filter((score) => score.player.side === "away").length;
+  const homeAvg = teamSplit.home / homeScores;
+  const awayAvg = teamSplit.away / awayScores;
+
+  return (
+    <section id="players" className="shell player-dashboard" aria-label="Player data dashboard">
+      <div className="player-head">
+        <div>
+          <p className="eyebrow">Player Data Board</p>
+          <h2>本场球员评分、实时状态和能力差值</h2>
+          <p>
+            面板把本场事件、xG/xA、压迫、防守动作、跑动负荷和赛前能力值合成评分；切换评分口径时，雷达图、排名和风险提示都会同步变化。
+          </p>
+        </div>
+        <div className="mode-controls" aria-label="Player dashboard controls">
+          <div>
+            {(["balanced", "attack", "defense", "pressing"] as RatingMode[]).map((mode) => (
+              <button key={mode} className={ratingMode === mode ? "active" : ""} onClick={() => onMode(mode)}>
+                {mode}
+              </button>
+            ))}
+          </div>
+          <div>
+            {(["live", "last5", "season"] as WindowKey[]).map((key) => (
+              <button key={key} className={windowKey === key ? "active" : ""} onClick={() => onWindow(key)}>
+                {key}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="player-grid">
+        <section className="panel player-list-panel">
+          <div className="panel-title">
+            <Medal size={18} />
+            <span>Live Rating Table</span>
+          </div>
+          <div className="team-edge">
+            <div>
+              <span>Mexico avg</span>
+              <strong>{homeAvg.toFixed(2)}</strong>
+            </div>
+            <div>
+              <span>Argentina avg</span>
+              <strong>{awayAvg.toFixed(2)}</strong>
+            </div>
+          </div>
+          <div className="player-score-list">
+            {scores.map((score, index) => (
+              <button
+                key={score.player.id}
+                className={selectedPlayerId === score.player.id ? "player-row active" : "player-row"}
+                onClick={() => onSelect(score.player.id)}
+              >
+                <span className="rank">{String(index + 1).padStart(2, "0")}</span>
+                <img src={score.player.portrait} alt="" />
+                <span>
+                  <strong>{score.player.displayName}</strong>
+                  <small>
+                    {score.player.team} · #{score.player.number} · {score.player.role}
+                  </small>
+                </span>
+                <b>{score.score.toFixed(2)}</b>
+              </button>
+            ))}
+          </div>
+        </section>
+
+        <section className="panel player-focus-panel">
+          <div className="player-identity">
+            <img src={selectedScore.player.portrait} alt="" />
+            <div>
+              <p className="eyebrow">
+                #{selectedScore.player.number} · {selectedScore.player.role} · {selectedScore.player.team}
+              </p>
+              <h3>{selectedScore.player.name}</h3>
+              <div className="trait-strip">
+                {selectedScore.player.traits.map((trait) => (
+                  <span key={trait}>{trait}</span>
+                ))}
+              </div>
+            </div>
+            <div className="grade-badge">
+              <strong>{selectedScore.grade}</strong>
+              <span>{selectedScore.score.toFixed(2)}</span>
+            </div>
+          </div>
+          <div className="player-kpis">
+            <Metric label="Live impact" value={selectedScore.liveImpact.toFixed(0)} />
+            <Metric label="Ability index" value={selectedScore.abilityIndex.toFixed(0)} />
+            <Metric label="Form index" value={selectedScore.formIndex.toFixed(0)} />
+            <Metric label="Risk" value={selectedScore.risk.toFixed(0)} />
+          </div>
+          <div className="focus-body">
+            <Radar score={selectedScore} />
+            <AbilityCompare score={selectedScore} />
+          </div>
+          <div className="watch-item">
+            <Sparkles size={17} />
+            <span>{selectedScore.watchItem}</span>
+          </div>
+        </section>
+
+        <section className="panel player-detail-panel">
+          <div className="panel-title">
+            <LineChart size={18} />
+            <span>Events & Form</span>
+          </div>
+          <Trend values={selectedScore.player.form.trend} />
+          <div className="form-note">
+            <strong>{selectedScore.player.form.condition}</strong>
+            <span>{selectedScore.player.form.note}</span>
+          </div>
+          <div className="event-list">
+            {selectedScore.player.events.map((event) => (
+              <div key={`${event.minute}-${event.type}`}>
+                <time>{event.minute}'</time>
+                <span>
+                  <strong>{event.type}</strong>
+                  {event.detail}
+                </span>
+                <b className={event.impact >= 0 ? "positive" : "negative"}>{event.impact > 0 ? "+" : ""}{event.impact.toFixed(2)}</b>
+              </div>
+            ))}
+          </div>
+          <StatGrid score={selectedScore} />
+        </section>
+      </div>
+      <div className="player-insight-strip">
+        <Gauge size={18} />
+        <span>
+          Current leader: {top.player.displayName} at {top.score.toFixed(2)}. Difference from normal ability:{" "}
+          {selectedScore.delta > 0 ? "+" : ""}
+          {selectedScore.delta.toFixed(1)} pts for selected player.
+        </span>
+      </div>
+    </section>
+  );
+}
+
+function Metric({ label, value }: { label: string; value: string }) {
+  return (
+    <div>
+      <span>{label}</span>
+      <strong>{value}</strong>
+    </div>
+  );
+}
+
+function Radar({ score }: { score: PlayerScore }) {
+  const picked = abilityLabels.slice(0, 8);
+  const points = picked
+    .map((item, index) => {
+      const angle = -Math.PI / 2 + (index / picked.length) * Math.PI * 2;
+      const radius = 21 + score.player.current[item.key] * 0.47;
+      const x = 82 + Math.cos(angle) * radius;
+      const y = 82 + Math.sin(angle) * radius;
+      return `${x},${y}`;
+    })
+    .join(" ");
+
+  return (
+    <div className="radar-card">
+      <svg viewBox="0 0 164 164" role="img" aria-label="Current ability radar">
+        {[32, 54, 76].map((radius) => (
+          <circle key={radius} cx="82" cy="82" r={radius} />
+        ))}
+        {picked.map((item, index) => {
+          const angle = -Math.PI / 2 + (index / picked.length) * Math.PI * 2;
+          return (
+            <g key={item.key}>
+              <line x1="82" y1="82" x2={82 + Math.cos(angle) * 76} y2={82 + Math.sin(angle) * 76} />
+              <text x={82 + Math.cos(angle) * 68} y={82 + Math.sin(angle) * 68}>
+                {item.short}
+              </text>
+            </g>
+          );
+        })}
+        <polygon points={points} />
+      </svg>
+      <div>
+        <strong>{score.strengths.join(" / ")}</strong>
+        <span>Top live strengths under selected mode</span>
+      </div>
+    </div>
+  );
+}
+
+function AbilityCompare({ score }: { score: PlayerScore }) {
+  return (
+    <div className="ability-compare">
+      {abilityLabels.map((item) => {
+        const current = score.player.current[item.key];
+        const base = score.player.baseline[item.key];
+        const delta = current - base;
+        return (
+          <div key={item.key} className="ability-line">
+            <span>{item.label}</span>
+            <div className="dual-track">
+              <i className="base" style={{ width: `${base}%` }} />
+              <i className={delta >= 0 ? "current up" : "current down"} style={{ width: `${current}%` }} />
+            </div>
+            <b className={delta >= 0 ? "positive" : "negative"}>
+              {delta > 0 ? "+" : ""}
+              {delta}
+            </b>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function Trend({ values }: { values: number[] }) {
+  const max = Math.max(...values);
+  const min = Math.min(...values);
+  const points = values
+    .map((value, index) => {
+      const x = 10 + index * (180 / (values.length - 1));
+      const y = 76 - ((value - min) / Math.max(0.1, max - min)) * 56;
+      return `${x},${y}`;
+    })
+    .join(" ");
+  return (
+    <svg className="trend-line" viewBox="0 0 200 90" aria-label="recent rating trend">
+      <polyline points={points} />
+      {values.map((value, index) => (
+        <circle
+          key={`${value}-${index}`}
+          cx={10 + index * (180 / (values.length - 1))}
+          cy={76 - ((value - min) / Math.max(0.1, max - min)) * 56}
+          r="3.5"
+        />
+      ))}
+    </svg>
+  );
+}
+
+function StatGrid({ score }: { score: PlayerScore }) {
+  const stats = score.player.live;
+  const rows = [
+    ["xG", stats.xg.toFixed(2)],
+    ["xA", stats.xa.toFixed(2)],
+    ["Shots", `${stats.shots}/${stats.shotsOnTarget}`],
+    ["Key passes", stats.keyPasses],
+    ["Prog passes", stats.progressivePasses],
+    ["Carries", stats.progressiveCarries],
+    ["Duels won", stats.duelsWon],
+    ["Recoveries", stats.ballRecoveries],
+    ["Pressures", stats.pressures],
+    ["Distance", `${stats.distanceKm.toFixed(1)}km`],
+  ];
+  return (
+    <div className="stat-grid">
+      {rows.map(([label, value]) => (
+        <div key={label}>
+          <span>{label}</span>
+          <strong>{value}</strong>
+        </div>
+      ))}
+    </div>
   );
 }
 

@@ -1,5 +1,6 @@
 import express from "express";
 import { buildWatchBrief } from "../src/forecast";
+import { scorePlayers } from "../src/players";
 
 const app = express();
 const port = Number(process.env.PORT ?? 4020);
@@ -68,6 +69,25 @@ app.get("/api/premium-report/:matchId", (request, response) => {
     }),
   );
   response.json(brief);
+});
+
+app.get("/api/player-ratings", (_request, response) => {
+  response.json({
+    mode: "balanced",
+    window: "live",
+    ratings: scorePlayers("balanced", "live").map((score) => ({
+      player: score.player.name,
+      team: score.player.team,
+      role: score.player.role,
+      score: Number(score.score.toFixed(2)),
+      grade: score.grade,
+      abilityDelta: Number(score.delta.toFixed(1)),
+      liveImpact: Number(score.liveImpact.toFixed(1)),
+      risk: Number(score.risk.toFixed(1)),
+      strengths: score.strengths,
+      watchItem: score.watchItem,
+    })),
+  });
 });
 
 app.listen(port, "127.0.0.1", () => {

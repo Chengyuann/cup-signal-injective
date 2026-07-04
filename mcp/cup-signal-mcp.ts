@@ -3,6 +3,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { z } from "zod";
 import { eventSnapshot, matches, teams } from "../src/data";
 import { buildPredictions, buildWatchBrief, predictMatch } from "../src/forecast";
+import { scorePlayers } from "../src/players";
 
 const server = new McpServer({
   name: "cup-signal-injective-mcp",
@@ -104,6 +105,36 @@ server.registerTool(
       }))
       .sort((a, b) => b.attack + b.defense + b.pressure + b.liveEdge * 50 - (a.attack + a.defense + a.pressure + a.liveEdge * 50))
       .slice(0, limit);
+    return jsonResult(ranked);
+  },
+);
+
+server.registerTool(
+  "rank_match_players",
+  {
+    title: "Rank match players",
+    description: "Return live player ratings with current-form-vs-baseline deltas.",
+    inputSchema: {
+      mode: z.enum(["balanced", "attack", "defense", "pressing"]).default("balanced"),
+      window: z.enum(["live", "last5", "season"]).default("live"),
+      limit: z.number().min(1).max(6).default(6),
+    },
+  },
+  async ({ mode, window, limit }) => {
+    const ranked = scorePlayers(mode, window)
+      .slice(0, limit)
+      .map((score) => ({
+        player: score.player.name,
+        team: score.player.team,
+        role: score.player.role,
+        score: Number(score.score.toFixed(2)),
+        grade: score.grade,
+        abilityDelta: Number(score.delta.toFixed(1)),
+        liveImpact: Number(score.liveImpact.toFixed(1)),
+        risk: Number(score.risk.toFixed(1)),
+        strengths: score.strengths,
+        watchItem: score.watchItem,
+      }));
     return jsonResult(ranked);
   },
 );

@@ -9,6 +9,14 @@ page.on("console", (message) => {
 
 await page.goto("http://127.0.0.1:5173/", { waitUntil: "networkidle" });
 await page.screenshot({ path: "outputs/cup-signal-desktop.png", fullPage: true });
+if (!(await page.getByText("本场球员评分").isVisible())) {
+  throw new Error("Player dashboard heading not visible");
+}
+await page.getByRole("button", { name: "defense" }).click();
+if (!(await page.getByText("Edson Alvarez").isVisible())) {
+  throw new Error("Defense mode did not focus Edson Alvarez");
+}
+await page.screenshot({ path: "outputs/cup-signal-player-board.png", fullPage: true });
 
 await page.setViewportSize({ width: 390, height: 844 });
 await page.goto("http://127.0.0.1:5173/", { waitUntil: "networkidle" });
@@ -25,6 +33,7 @@ console.log(
     {
       screenshots: [
         "outputs/cup-signal-desktop.png",
+        "outputs/cup-signal-player-board.png",
         "outputs/cup-signal-mobile.png",
         "outputs/cup-signal-unlocked.png",
       ],

@@ -34,3 +34,12 @@ Cup Signal provides a local MCP server for World Cup match context. This can be 
 ## Agent Skill
 
 `agent-skill/SKILL.md` is a portable instruction file for agents. It teaches the agent how to call Cup Signal tools and produce live match commentary without overclaiming on-chain execution.
+
+## Player Rating Layer
+
+The new player board keeps the same dry-run boundary:
+
+- live player ratings are deterministic local TypeScript calculations,
+- generated avatars are original fan-art assets and not official photos,
+- `rank_match_players` exposes player ratings through MCP,
+- `/api/player-ratings` exposes the same data through the local x402 report server for agent or dashboard use.

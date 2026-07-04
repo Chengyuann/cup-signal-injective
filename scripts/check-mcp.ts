@@ -24,6 +24,10 @@ const brief = await client.callTool({
   name: "build_watch_brief",
   arguments: { matchId: "cup-001" },
 });
+const players = await client.callTool({
+  name: "rank_match_players",
+  arguments: { mode: "balanced", window: "live", limit: 3 },
+});
 
 console.log(
   JSON.stringify(
@@ -31,6 +35,7 @@ console.log(
       tools: tools.tools.map((tool) => tool.name),
       forecastContentItems: contentLength(forecast),
       briefContentItems: contentLength(brief),
+      playerContentItems: contentLength(players),
     },
     null,
     2,

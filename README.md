@@ -11,6 +11,8 @@ The project is intentionally small enough for judges to run quickly, but it incl
 
 ![Cup Signal desktop demo](docs/assets/cup-signal-desktop.png)
 
+![Cup Signal player board](docs/assets/cup-signal-player-board.png)
+
 ## What It Solves
 
 During a World Cup match, fans usually jump between score apps, social feeds, group chats, and prediction threads. Cup Signal compresses that into one workflow:
@@ -18,9 +20,10 @@ During a World Cup match, fans usually jump between score apps, social feeds, gr
 1. Pick a match.
 2. Tune the model weights for form, attack, defense, pressure, and travel.
 3. Read the AI signal and volatility.
-4. Generate a watch-party prompt or live X reply.
-5. Unlock the premium brief through an x402-style paid API resource.
-6. Use the CCTP memo as the settlement note when moving USDC into Injective-oriented flows.
+4. Inspect the player dashboard: live rating, current-form-vs-normal ability deltas, radar profile, event timeline, and risk.
+5. Generate a watch-party prompt or live X reply.
+6. Unlock the premium brief through an x402-style paid API resource.
+7. Use the CCTP memo as the settlement note when moving USDC into Injective-oriented flows.
 
 This is not betting advice. It is a fan utility and AI-agent demo for matchday discussion.
 
@@ -51,6 +54,7 @@ Run the dry-run x402 report service:
 npm run server:x402
 curl -i http://127.0.0.1:4020/api/premium-report/cup-001
 curl -i -H 'X-PAYMENT: demo-paid' http://127.0.0.1:4020/api/premium-report/cup-001
+curl -i http://127.0.0.1:4020/api/player-ratings
 ```
 
 Run the MCP verification:
@@ -114,6 +118,7 @@ Tools:
 - `forecast_match`
 - `build_watch_brief`
 - `rank_teams`
+- `rank_match_players`
 
 Resource:
 
@@ -147,6 +152,7 @@ It tells an agent how to call Cup Signal MCP tools, generate a short match read,
 src/
   data.ts          Demo fixture and team data
   forecast.ts      Deterministic AI-style prediction and brief builder
+  players.ts       Player stats, ability baselines, live ratings, and scoring model
   main.tsx         React app
   styles.css       Interface styling
 server/
@@ -167,8 +173,22 @@ docs/
 
 - It is usable by non-Web3 football fans immediately.
 - It has a clean, inspectable TypeScript model rather than a static mockup.
+- It now includes detailed match player ratings, ability-vs-current-form comparisons, live event timelines, and generated chibi player art.
 - The x402/CCTP/MCP/Agent Skill surfaces are tied to the product flow, not pasted on as logos.
 - It creates repeatable live-match screenshots and X reply material for the Global Cup points race.
+
+## Player Dashboard
+
+The player board adds a detailed match layer on top of the team forecast:
+
+- 6 demo players from the Mexico vs Argentina match context.
+- 10 baseline ability dimensions per player.
+- 10 current-form ability dimensions per player.
+- 28 live stat fields covering xG, xA, shots, progressive actions, duels, tackles, recoveries, pressures, distance, and sprint load.
+- Rating modes: `balanced`, `attack`, `defense`, `pressing`.
+- Time windows: `live`, `last5`, `season`.
+- Dynamic radar chart, dual baseline/current bars, form trend, event timeline, and risk signal.
+- GPT Image 2 generated original chibi-style player avatars. The prompts avoid official logos, crests, watermarks, and photorealistic likeness claims.
 
 ## Verified Locally
 
