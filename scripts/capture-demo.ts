@@ -7,8 +7,15 @@ page.on("console", (message) => {
   if (message.type() === "error") errors.push(message.text());
 });
 
-await page.goto("http://127.0.0.1:5173/", { waitUntil: "networkidle" });
+await page.goto("http://127.0.0.1:5173/", { waitUntil: "domcontentloaded" });
+await page.waitForTimeout(1400);
 await page.screenshot({ path: "outputs/cup-signal-desktop.png", fullPage: true });
+if (!(await page.getByText("接入 2026 世界杯真实赛程数据").isVisible())) {
+  throw new Error("Real World Cup data panel not visible");
+}
+if (!(await page.getByText("Matches").first().isVisible())) {
+  throw new Error("Tournament stats not visible");
+}
 if (!(await page.getByText("本场球员评分").isVisible())) {
   throw new Error("Player dashboard heading not visible");
 }
@@ -38,7 +45,8 @@ if (!(await page.getByText("stop actions").first().isVisible())) {
 await page.screenshot({ path: "outputs/cup-signal-player-board.png", fullPage: true });
 
 await page.setViewportSize({ width: 390, height: 844 });
-await page.goto("http://127.0.0.1:5173/", { waitUntil: "networkidle" });
+await page.goto("http://127.0.0.1:5173/", { waitUntil: "domcontentloaded" });
+await page.waitForTimeout(1400);
 await page.screenshot({ path: "outputs/cup-signal-mobile.png", fullPage: true });
 
 await page.getByRole("button", { name: /Simulate x402 Unlock/i }).click();

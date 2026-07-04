@@ -28,6 +28,10 @@ const players = await client.callTool({
   name: "rank_match_players",
   arguments: { mode: "balanced", window: "live", limit: 3 },
 });
+const worldCup = await client.callTool({
+  name: "get_worldcup_2026_data",
+  arguments: { section: "summary", limit: 4 },
+});
 
 console.log(
   JSON.stringify(
@@ -36,6 +40,7 @@ console.log(
       forecastContentItems: contentLength(forecast),
       briefContentItems: contentLength(brief),
       playerContentItems: contentLength(players),
+      worldCupContentItems: contentLength(worldCup),
     },
     null,
     2,

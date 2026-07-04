@@ -17,6 +17,18 @@ The project is intentionally small enough for judges to run quickly, but it incl
 
 ![Cup Signal motion layer](docs/assets/cup-signal-motion.png)
 
+![Cup Signal real data and star card](docs/assets/cup-signal-real-data-card.png)
+
+## Real World Cup Data
+
+Cup Signal now includes a real tournament data layer:
+
+- 48 teams, 12 groups, 16 stadiums from `rezarahiminia/worldcup2026`.
+- 72 group-stage matches from `rezarahiminia/worldcup2026`.
+- 32 knockout slots and Football.TXT tournament context from `openfootball/worldcup`.
+- A visible data panel shows source files, group matrix, opening slate, and knockout sample.
+- The knockout rows from openfootball include some projected/result text in Football.TXT form. The app labels the data source and keeps the player live layer separate from official results.
+
 ## What It Solves
 
 During a World Cup match, fans usually jump between score apps, social feeds, group chats, and prediction threads. Cup Signal compresses that into one workflow:
@@ -123,6 +135,7 @@ Tools:
 - `build_watch_brief`
 - `rank_teams`
 - `rank_match_players`
+- `get_worldcup_2026_data`
 
 Resource:
 
@@ -194,6 +207,7 @@ The player board adds a detailed match layer on top of the team forecast:
 - Time windows: `live`, `last5`, `season`.
 - Dynamic radar chart, dual baseline/current bars, form trend, event timeline, and risk signal.
 - GPT Image 2 generated original chibi-style player avatars. The prompts avoid official logos, crests, watermarks, and photorealistic likeness claims.
+- FUT-style star card treatment inspired by `Younesfdj/gitfut`, rebuilt as original CSS and using our own player data.
 
 ## Motion Layer
 

@@ -4,6 +4,7 @@ import { z } from "zod";
 import { eventSnapshot, matches, teams } from "../src/data";
 import { buildPredictions, buildWatchBrief, predictMatch } from "../src/forecast";
 import { scorePlayers } from "../src/players";
+import { tournamentStats, worldCupGroups, worldCupMatches, worldCupSource, worldCupTeams } from "../src/worldcupData";
 
 const server = new McpServer({
   name: "cup-signal-injective-mcp",
@@ -136,6 +137,29 @@ server.registerTool(
         watchItem: score.watchItem,
       }));
     return jsonResult(ranked);
+  },
+);
+
+server.registerTool(
+  "get_worldcup_2026_data",
+  {
+    title: "Get World Cup 2026 data",
+    description: "Return the real-data snapshot sourced from openfootball/worldcup and rezarahiminia/worldcup2026.",
+    inputSchema: {
+      section: z.enum(["summary", "groups", "matches"]).default("summary"),
+      limit: z.number().min(1).max(104).default(12),
+    },
+  },
+  async ({ section, limit }) => {
+    if (section === "groups") return jsonResult({ source: worldCupSource, groups: worldCupGroups });
+    if (section === "matches") return jsonResult({ source: worldCupSource, matches: worldCupMatches.slice(0, limit) });
+    return jsonResult({
+      source: worldCupSource,
+      stats: tournamentStats,
+      sampleTeams: worldCupTeams.slice(0, 8),
+      openingMatches: worldCupMatches.slice(0, 4),
+      knockoutSample: worldCupMatches.filter((match) => match.type !== "group").slice(0, 4),
+    });
   },
 );
 

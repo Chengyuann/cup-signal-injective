@@ -23,6 +23,7 @@ import { defaultWeights, eventSnapshot, matches } from "./data";
 import { buildPredictions, buildWatchBrief, formatPercent } from "./forecast";
 import { abilityLabels, scorePlayers, type PlayerScore, type RatingMode, type WindowKey } from "./players";
 import type { Prediction, WeightKey, Weights } from "./types";
+import { tournamentStats, worldCupGroups, worldCupMatches, worldCupSource, worldCupTeams } from "./worldcupData";
 import "./styles.css";
 
 const weightLabels: Record<WeightKey, string> = {
@@ -68,6 +69,7 @@ function App() {
     <main>
       <Hero selected={selected} />
       <LiveTicker selected={selected} topPlayer={playerScores[0]} />
+      <RealWorldCupDataPanel />
       <section className="shell app-grid" aria-label="Cup Signal cockpit">
         <MatchRail predictions={predictions} selectedId={selectedId} onSelect={setSelectedId} />
         <SignalPanel selected={selected} />
@@ -104,6 +106,81 @@ function App() {
         </div>
       </section>
     </main>
+  );
+}
+
+function RealWorldCupDataPanel() {
+  const openingMatches = worldCupMatches.slice(0, 6);
+  const knockoutPreview = worldCupMatches.filter((match) => match.type !== "group").slice(0, 6);
+  const lookup = new Map(worldCupTeams.map((team) => [team.fifaCode, team]));
+  return (
+    <section className="shell real-data-panel reveal-block" aria-label="World Cup real data panel">
+      <div className="real-data-head">
+        <div>
+          <p className="eyebrow">Real Data Layer</p>
+          <h2>接入 2026 世界杯真实赛程数据</h2>
+          <p>
+            数据层来自 openfootball/worldcup 与 rezarahiminia/worldcup2026：48 支球队、12 个小组、72 场小组赛、32 场淘汰赛槽位和 16 座球场。
+          </p>
+        </div>
+        <div className="source-stack">
+          <span>{worldCupSource.teams}</span>
+          <span>{worldCupSource.knockout}</span>
+        </div>
+      </div>
+      <div className="real-stat-grid">
+        <Metric label="Teams" value={String(tournamentStats.teams)} />
+        <Metric label="Groups" value={String(tournamentStats.groups)} />
+        <Metric label="Matches" value={String(tournamentStats.matches)} />
+        <Metric label="Stadiums" value={String(tournamentStats.stadiums)} />
+      </div>
+      <div className="real-data-body">
+        <div className="group-matrix">
+          {worldCupGroups.map((group) => (
+            <div key={group.group}>
+              <strong>Group {group.group}</strong>
+              {group.teams.map((code, index) => {
+                const team = lookup.get(code);
+                return (
+                  <span key={`${group.group}-${code}-${index}`}>
+                    {team?.flag ? <img src={team.flag} alt="" /> : <i />}
+                    {team?.name ?? code}
+                  </span>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+        <div className="schedule-stack">
+          <div>
+            <strong>Opening slate</strong>
+            {openingMatches.map((match) => (
+              <MatchMini key={match.id} match={match} />
+            ))}
+          </div>
+          <div>
+            <strong>Knockout slots</strong>
+            {knockoutPreview.map((match) => (
+              <MatchMini key={match.id} match={match} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function MatchMini({ match }: { match: (typeof worldCupMatches)[number] }) {
+  return (
+    <article className="match-mini">
+      <span>#{match.id}</span>
+      <strong>
+        {match.homeName} / {match.awayName}
+      </strong>
+      <small>
+        {match.localDate} · {match.city || match.stadium}
+      </small>
+    </article>
   );
 }
 
@@ -250,6 +327,7 @@ function PlayerDashboard({
               <span>{selectedScore.score.toFixed(2)}</span>
             </div>
           </div>
+          <StarCard score={selectedScore} />
           <div className="player-kpis">
             <Metric label="Live impact" value={selectedScore.liveImpact.toFixed(0)} />
             <Metric label="Ability index" value={selectedScore.abilityIndex.toFixed(0)} />
@@ -300,6 +378,40 @@ function PlayerDashboard({
         </span>
       </div>
     </section>
+  );
+}
+
+function StarCard({ score }: { score: PlayerScore }) {
+  const ability = score.player.current;
+  const statPairs = [
+    ["PAC", ability.pace],
+    ["SHO", Math.round((ability.finishing + score.player.live.xg * 10) / 1.1)],
+    ["PAS", ability.passing],
+    ["DRI", ability.ballCarry],
+    ["DEF", ability.defending],
+    ["PHY", Math.round((ability.stamina + ability.aerial + ability.pressing) / 3)],
+  ];
+  const overall = Math.round(Math.min(99, Math.max(55, score.score * 10.6)));
+  const tier = overall >= 90 ? "icon" : overall >= 85 ? "toty" : overall >= 75 ? "gold" : "silver";
+  return (
+    <div className={`star-card ${tier}`} aria-label={`${score.player.displayName} star card`}>
+      <div className="star-card-top">
+        <strong>{overall}</strong>
+        <span>{score.player.role}</span>
+        <img src={assetPath(score.player.flag)} alt="" />
+        <img src={assetPath(score.player.crest)} alt="" />
+      </div>
+      <img className="star-card-player" src={assetPath(score.player.portrait)} alt="" />
+      <div className="star-card-name">{score.player.displayName.toUpperCase()}</div>
+      <div className="star-card-stats">
+        {statPairs.map(([label, value]) => (
+          <span key={label}>
+            <b>{value}</b>
+            {label}
+          </span>
+        ))}
+      </div>
+    </div>
   );
 }
 
