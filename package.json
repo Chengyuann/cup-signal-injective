@@ -1,0 +1,42 @@
+{
+  "name": "cup-signal-injective",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "description": "World Cup matchday AI cockpit for Injective Global Cup, with x402 paywall demo, USDC CCTP checkout flow, MCP tools, and Agent Skill handoff.",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "server:x402": "tsx server/x402-report-server.ts",
+    "mcp": "tsx mcp/cup-signal-mcp.ts",
+    "demo:agent": "tsx scripts/agent-demo.ts",
+    "check:mcp": "tsx scripts/check-mcp.ts",
+    "capture": "tsx scripts/capture-demo.ts"
+  },
+  "dependencies": {
+    "@coinbase/x402": "^2.1.0",
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "@types/express": "^4.17.25",
+    "@vitejs/plugin-react": "^4.6.0",
+    "@x402/core": "^2.17.0",
+    "@x402/express": "^2.17.0",
+    "express": "^4.22.2",
+    "lucide-react": "^0.468.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2",
+    "vite": "^7.0.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.10",
+    "@types/react": "^18.3.23",
+    "@types/react-dom": "^18.3.7",
+    "playwright": "^1.61.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

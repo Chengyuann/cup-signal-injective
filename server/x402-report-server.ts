@@ -1,0 +1,75 @@
+import express from "express";
+import { buildWatchBrief } from "../src/forecast";
+
+const app = express();
+const port = Number(process.env.PORT ?? 4020);
+const receiver = process.env.X402_RECEIVER ?? "0x0000000000000000000000000000000000004020";
+const network = process.env.X402_NETWORK ?? "base-sepolia";
+
+app.use(express.json());
+
+app.get("/health", (_request, response) => {
+  response.json({
+    ok: true,
+    service: "cup-signal-x402-report-server",
+    mode: process.env.X402_LIVE === "true" ? "live-facilitator-ready" : "dry-run",
+  });
+});
+
+app.get("/api/free-brief/:matchId", (request, response) => {
+  const brief = buildWatchBrief(request.params.matchId);
+  response.json({
+    matchId: brief.matchId,
+    headline: brief.headline,
+    freeSummary: brief.freeSummary,
+    unlock: brief.payment,
+  });
+});
+
+app.get("/api/premium-report/:matchId", (request, response) => {
+  const brief = buildWatchBrief(request.params.matchId);
+  const paymentHeader = request.header("X-PAYMENT");
+
+  if (!paymentHeader && process.env.X402_LIVE !== "true") {
+    response.status(402).json({
+      x402Version: 2,
+      accepts: [
+        {
+          scheme: "exact",
+          network,
+          maxAmountRequired: "100000",
+          resource: brief.payment.resource,
+          description: `Cup Signal premium World Cup report for ${brief.matchId}`,
+          mimeType: "application/json",
+          payTo: receiver,
+          maxTimeoutSeconds: 120,
+          asset: "USDC",
+          outputSchema: {
+            type: "object",
+            properties: {
+              headline: { type: "string" },
+              premiumReport: { type: "array", items: { type: "string" } },
+              cctp: { type: "object" },
+            },
+          },
+        },
+      ],
+      note: "Dry-run x402 challenge. In production, wire @x402/express with a facilitator and settle the X-PAYMENT header.",
+    });
+    return;
+  }
+
+  response.setHeader(
+    "X-PAYMENT-RESPONSE",
+    JSON.stringify({
+      success: true,
+      mode: process.env.X402_LIVE === "true" ? "facilitator" : "dry-run-header-accepted",
+      receiver,
+    }),
+  );
+  response.json(brief);
+});
+
+app.listen(port, "127.0.0.1", () => {
+  console.log(`Cup Signal x402 report server listening on http://127.0.0.1:${port}`);
+});
