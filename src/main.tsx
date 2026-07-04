@@ -33,6 +33,11 @@ const weightLabels: Record<WeightKey, string> = {
   travel: "Travel",
 };
 
+function assetPath(path: string): string {
+  if (/^https?:\/\//.test(path)) return path;
+  return `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
+}
+
 function App() {
   const [weights, setWeights] = useState<Weights>(defaultWeights);
   const [selectedId, setSelectedId] = useState(matches[0].id);
@@ -183,7 +188,7 @@ function PlayerDashboard({
                 onClick={() => onSelect(score.player.id)}
               >
                 <span className="rank">{String(index + 1).padStart(2, "0")}</span>
-                <img src={score.player.portrait} alt="" />
+                <img src={assetPath(score.player.portrait)} alt="" />
                 <span>
                   <strong>{score.player.displayName}</strong>
                   <small>
@@ -198,7 +203,7 @@ function PlayerDashboard({
 
         <section className="panel player-focus-panel">
           <div className="player-identity">
-            <img src={selectedScore.player.portrait} alt="" />
+            <img src={assetPath(selectedScore.player.portrait)} alt="" />
             <div>
               <p className="eyebrow">
                 #{selectedScore.player.number} · {selectedScore.player.role} · {selectedScore.player.team}
