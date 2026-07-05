@@ -35,12 +35,50 @@ const weightLabels: Record<WeightKey, string> = {
   travel: "Travel",
 };
 
+type Lang = "en" | "zh";
+
+const copy = {
+  en: {
+    playbookTitle: "Four technical hooks, four matchday actions",
+    playbookBody:
+      "x402 gates paid scout intel, CCTP frames a USDC fan pool, MCP Server hands match data to agents, and Agent Skills turn live football context into a repeatable posting workflow.",
+    realTitle: "Real World Cup 2026 data is wired in",
+    realBody:
+      "The data layer uses openfootball/worldcup and rezarahiminia/worldcup2026: 48 teams, 12 groups, 72 group-stage matches, 32 knockout slots, and 16 stadiums.",
+    playerTitle: "Live player ratings, form state, and ability deltas",
+    playerBody:
+      "The board combines match events, xG/xA, pressing, defensive actions, running load, and pre-match ability into a rating. Change the mode and the radar, ranking, risk note, and star card update together.",
+    motionTitle: "Match momentum as a moving data scene",
+    motionBody:
+      "Pitch routes, live rankings, player portraits, and Injective payment nodes share one animated canvas. It shows who is creating edge, where the ball is moving, and which panel is worth capturing next.",
+    langButton: "中文",
+    langLabel: "Language",
+  },
+  zh: {
+    playbookTitle: "四个技术点不是贴标签，而是观赛动作",
+    playbookBody:
+      "x402 负责付费情报，CCTP 负责 USDC 球迷奖池，MCP Server 负责把数据交给 Agent，Agent Skill 负责把实时赛事转成可发帖的操作流。",
+    realTitle: "接入 2026 世界杯真实赛程数据",
+    realBody:
+      "数据层来自 openfootball/worldcup 与 rezarahiminia/worldcup2026：48 支球队、12 个小组、72 场小组赛、32 场淘汰赛槽位和 16 座球场。",
+    playerTitle: "本场球员评分、实时状态和能力差值",
+    playerBody:
+      "面板把本场事件、xG/xA、压迫、防守动作、跑动负荷和赛前能力值合成评分；切换评分口径时，雷达图、排名、风险提示和球星卡都会同步变化。",
+    motionTitle: "把比赛走势做成会动的数据场景",
+    motionBody:
+      "球场线路、实时排名、球员头像和链上支付节点被放在同一个动态画布里。它不是装饰背景，而是把谁在制造优势、球权往哪里走、下一步该截图什么表达出来。",
+    langButton: "EN",
+    langLabel: "语言",
+  },
+} satisfies Record<Lang, Record<string, string>>;
+
 function assetPath(path: string): string {
   if (/^https?:\/\//.test(path)) return path;
   return `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
 }
 
 function App() {
+  const [lang, setLang] = useState<Lang>("en");
   const [weights, setWeights] = useState<Weights>(defaultWeights);
   const [selectedId, setSelectedId] = useState(matches[0].id);
   const [ratingMode, setRatingMode] = useState<RatingMode>("balanced");
@@ -68,15 +106,17 @@ function App() {
 
   return (
     <main>
+      <LanguageToggle lang={lang} onToggle={() => setLang((current) => (current === "en" ? "zh" : "en"))} />
       <Hero selected={selected} />
       <LiveTicker selected={selected} topPlayer={playerScores[0]} />
-      <RealWorldCupDataPanel />
+      <RealWorldCupDataPanel lang={lang} />
       <section className="shell app-grid" aria-label="Cup Signal cockpit">
         <MatchRail predictions={predictions} selectedId={selectedId} onSelect={setSelectedId} />
         <SignalPanel selected={selected} />
         <ControlPanel weights={weights} setWeights={setWeights} />
       </section>
       <PlayerDashboard
+        lang={lang}
         scores={playerScores}
         selectedScore={selectedPlayer}
         selectedPlayerId={selectedPlayer.player.id}
@@ -86,8 +126,8 @@ function App() {
         windowKey={windowKey}
         onWindow={setWindowKey}
       />
-      <WorldCupMotionPanel scores={playerScores} selected={selected} />
-      <InjectivePlaybookPanel />
+      <WorldCupMotionPanel lang={lang} scores={playerScores} selected={selected} />
+      <InjectivePlaybookPanel lang={lang} />
       <section className="shell lower-grid">
         <InjectivePanel paid={paid} loading={loading} onUnlock={unlockReport} brief={brief} />
         <AgentPanel selected={selected} />
@@ -111,15 +151,22 @@ function App() {
   );
 }
 
-function InjectivePlaybookPanel() {
+function LanguageToggle({ lang, onToggle }: { lang: Lang; onToggle: () => void }) {
+  return (
+    <button className="language-toggle" onClick={onToggle} aria-label={copy[lang].langLabel}>
+      <span>{lang.toUpperCase()}</span>
+      <strong>{copy[lang].langButton}</strong>
+    </button>
+  );
+}
+
+function InjectivePlaybookPanel({ lang }: { lang: Lang }) {
   return (
     <section className="shell injective-playbook reveal-block" aria-label="Injective technology playbook">
       <div className="playbook-copy">
         <p className="eyebrow">Injective Playbook</p>
-        <h2>四个技术点不是贴标签，而是观赛动作</h2>
-        <p>
-          x402 负责付费情报，CCTP 负责 USDC 球迷奖池，MCP Server 负责把数据交给 Agent，Agent Skill 负责把实时赛事转成可发帖的操作流。
-        </p>
+        <h2>{copy[lang].playbookTitle}</h2>
+        <p>{copy[lang].playbookBody}</p>
       </div>
       <div className="playbook-score">
         <strong>{injectivePlaybookSummary.totalTechHooks}/4</strong>
@@ -171,7 +218,7 @@ function PlaybookCard({ play }: { play: InjectivePlay }) {
   );
 }
 
-function RealWorldCupDataPanel() {
+function RealWorldCupDataPanel({ lang }: { lang: Lang }) {
   const openingMatches = worldCupMatches.slice(0, 6);
   const knockoutPreview = worldCupMatches.filter((match) => match.type !== "group").slice(0, 6);
   const lookup = new Map(worldCupTeams.map((team) => [team.fifaCode, team]));
@@ -180,10 +227,8 @@ function RealWorldCupDataPanel() {
       <div className="real-data-head">
         <div>
           <p className="eyebrow">Real Data Layer</p>
-          <h2>接入 2026 世界杯真实赛程数据</h2>
-          <p>
-            数据层来自 openfootball/worldcup 与 rezarahiminia/worldcup2026：48 支球队、12 个小组、72 场小组赛、32 场淘汰赛槽位和 16 座球场。
-          </p>
+          <h2>{copy[lang].realTitle}</h2>
+          <p>{copy[lang].realBody}</p>
         </div>
         <div className="source-stack">
           <span>{worldCupSource.teams}</span>
@@ -267,6 +312,7 @@ function LiveTicker({ selected, topPlayer }: { selected: Prediction; topPlayer: 
 }
 
 function PlayerDashboard({
+  lang,
   scores,
   selectedScore,
   selectedPlayerId,
@@ -276,6 +322,7 @@ function PlayerDashboard({
   windowKey,
   onWindow,
 }: {
+  lang: Lang;
   scores: PlayerScore[];
   selectedScore: PlayerScore;
   selectedPlayerId: string;
@@ -303,10 +350,8 @@ function PlayerDashboard({
       <div className="player-head">
         <div>
           <p className="eyebrow">Player Data Board</p>
-          <h2>本场球员评分、实时状态和能力差值</h2>
-          <p>
-            面板把本场事件、xG/xA、压迫、防守动作、跑动负荷和赛前能力值合成评分；切换评分口径时，雷达图、排名和风险提示都会同步变化。
-          </p>
+          <h2>{copy[lang].playerTitle}</h2>
+          <p>{copy[lang].playerBody}</p>
         </div>
         <div className="mode-controls" aria-label="Player dashboard controls">
           <div>
@@ -477,16 +522,14 @@ function StarCard({ score }: { score: PlayerScore }) {
   );
 }
 
-function WorldCupMotionPanel({ scores, selected }: { scores: PlayerScore[]; selected: Prediction }) {
+function WorldCupMotionPanel({ lang, scores, selected }: { lang: Lang; scores: PlayerScore[]; selected: Prediction }) {
   const leaders = scores.slice(0, 4);
   return (
     <section className="shell motion-panel reveal-block" aria-label="World Cup motion layer">
       <div className="motion-copy">
         <p className="eyebrow">Motion Layer</p>
-        <h2>把比赛走势做成会动的数据场景</h2>
-        <p>
-          球场线路、实时排名、球员头像和链上支付节点被放在同一个动态画布里。它不是装饰背景，而是把“谁在制造优势、球权往哪里走、下一步该截图什么”表达出来。
-        </p>
+        <h2>{copy[lang].motionTitle}</h2>
+        <p>{copy[lang].motionBody}</p>
       </div>
       <div className="motion-stage">
         <img className="route-map" src={assetPath("/worldcup/pitch-routes.svg")} alt="" />

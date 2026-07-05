@@ -87,6 +87,35 @@ button {
   margin: 0 auto;
 }
 
+.language-toggle {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 8px;
+  align-items: center;
+  color: var(--chalk);
+  border: 1px solid rgba(217, 186, 114, 0.45);
+  border-radius: 999px;
+  padding: 9px 12px;
+  background: rgba(7, 10, 8, 0.72);
+  backdrop-filter: blur(18px);
+  cursor: pointer;
+}
+
+.language-toggle span {
+  color: var(--muted);
+  font-family: "Geist Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 11px;
+}
+
+.language-toggle strong {
+  color: var(--gold);
+  font-size: 12px;
+}
+
 .hero {
   position: relative;
   min-height: 92dvh;

@@ -10,13 +10,13 @@ page.on("console", (message) => {
 await page.goto("http://127.0.0.1:5173/", { waitUntil: "domcontentloaded" });
 await page.waitForTimeout(1400);
 await page.screenshot({ path: "outputs/cup-signal-desktop.png", fullPage: true });
-if (!(await page.getByText("接入 2026 世界杯真实赛程数据").isVisible())) {
+if (!(await page.getByText("Real World Cup 2026 data is wired in").isVisible())) {
   throw new Error("Real World Cup data panel not visible");
 }
 if (!(await page.getByText("Matches").first().isVisible())) {
   throw new Error("Tournament stats not visible");
 }
-if (!(await page.getByText("本场球员评分").isVisible())) {
+if (!(await page.getByText("Live player ratings, form state, and ability deltas").isVisible())) {
   throw new Error("Player dashboard heading not visible");
 }
 if (!(await page.getByText("Motion Layer").isVisible())) {
@@ -30,6 +30,11 @@ for (const label of ["x402 Paid Scout Intel", "USDC CCTP Fan Pool", "MCP Match A
     throw new Error(`Injective playbook card missing: ${label}`);
   }
 }
+await page.getByRole("button", { name: "Language" }).click();
+if (!(await page.getByText("接入 2026 世界杯真实赛程数据").isVisible())) {
+  throw new Error("Chinese language toggle did not work");
+}
+await page.getByRole("button", { name: "语言" }).click();
 const worldCupImagesLoaded = await page.evaluate(() =>
   [...document.images]
     .filter((image) => image.src.includes("/worldcup/"))
