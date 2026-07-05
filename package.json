@@ -12,7 +12,8 @@
     "mcp": "tsx mcp/cup-signal-mcp.ts",
     "demo:agent": "tsx scripts/agent-demo.ts",
     "check:mcp": "tsx scripts/check-mcp.ts",
-    "capture": "tsx scripts/capture-demo.ts"
+    "capture": "tsx scripts/capture-demo.ts",
+    "update:worldcup": "node --import tsx scripts/update-worldcup-data.mjs"
   },
   "dependencies": {
     "@coinbase/x402": "^2.1.0",
