@@ -51,7 +51,7 @@ const copy = {
     motionTitle: "Match momentum as a moving data scene",
     motionBody:
       "Pitch routes, live rankings, player portraits, and Injective payment nodes share one animated canvas. It shows who is creating edge, where the ball is moving, and which panel is worth capturing next.",
-    langButton: "中文",
+    langButton: "ZH",
     langLabel: "Language",
   },
   zh: {
