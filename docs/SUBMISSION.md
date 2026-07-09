@@ -82,7 +82,7 @@ Screenshot from the live panel attached.
 ## Demo Checklist
 
 - Open the web demo.
-- Select `Mexico / Argentina`.
+- Select the default real-schedule fixture, `Mexico / England`.
 - Move one model slider and show probabilities changing.
 - Open the player board, switch `attack / defense / pressing`, and select Messi, Alvarez, Gimenez, or Edson.
 - Click `Simulate x402 Unlock`.

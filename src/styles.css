@@ -1037,6 +1037,13 @@ input[type="range"] {
   line-height: 1.6;
 }
 
+.player-head .data-disclaimer {
+  margin-top: 10px;
+  color: #f0dfb5;
+  border-left: 3px solid var(--gold);
+  padding-left: 12px;
+}
+
 .mode-controls {
   display: grid;
   gap: 10px;

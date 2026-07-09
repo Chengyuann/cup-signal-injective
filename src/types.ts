@@ -10,7 +10,15 @@ export type TeamCode =
   | "USA"
   | "MEX"
   | "JPN"
-  | "MAR";
+  | "MAR"
+  | "ECU"
+  | "CAN"
+  | "PAR"
+  | "BEL"
+  | "NOR"
+  | "SUI"
+  | "COL"
+  | "EGY";
 
 export type Team = {
   code: TeamCode;

@@ -58,7 +58,7 @@ const copy = {
       "The data layer uses openfootball/worldcup and rezarahiminia/worldcup2026: 48 teams, 12 groups, 72 group-stage matches, 32 knockout slots, and 16 stadiums.",
     playerTitle: "Live player ratings, form state, and ability deltas",
     playerBody:
-      "The board combines match events, xG/xA, pressing, defensive actions, running load, and pre-match ability into a rating. Change the mode and the radar, ranking, risk note, and star card update together.",
+      "This is a simulated player-analysis layer for the product demo. It combines match-style events, xG/xA, pressing, defensive actions, running load, and pre-match ability into a rating without claiming official live player data.",
     motionTitle: "Match momentum as a moving data scene",
     motionBody:
       "Pitch routes, live rankings, player portraits, and Injective payment nodes share one animated canvas. It shows who is creating edge, where the ball is moving, and which panel is worth capturing next.",
@@ -78,7 +78,7 @@ const copy = {
       "数据层来自 openfootball/worldcup 与 rezarahiminia/worldcup2026：48 支球队、12 个小组、72 场小组赛、32 场淘汰赛槽位和 16 座球场。",
     playerTitle: "本场球员评分、实时状态和能力差值",
     playerBody:
-      "面板把本场事件、xG/xA、压迫、防守动作、跑动负荷和赛前能力值合成评分；切换评分口径时，雷达图、排名、风险提示和球星卡都会同步变化。",
+      "这是产品演示用的模拟球员分析层：把类比赛事件、xG/xA、压迫、防守动作、跑动负荷和赛前能力值合成评分，不声称是官方实时球员数据。",
     motionTitle: "把比赛走势做成会动的数据场景",
     motionBody:
       "球场线路、实时排名、球员头像和链上支付节点被放在同一个动态画布里。它不是装饰背景，而是把谁在制造优势、球权往哪里走、下一步该截图什么表达出来。",
@@ -556,6 +556,7 @@ function PlayerDashboard({
           <p className="eyebrow">Player Data Board</p>
           <h2>{copy[lang].playerTitle}</h2>
           <p>{copy[lang].playerBody}</p>
+          <p className="data-disclaimer">Official schedule drives the match context. Player ratings below are simulated to demonstrate the product workflow.</p>
         </div>
         <div className="mode-controls" aria-label="Player dashboard controls">
           <div>

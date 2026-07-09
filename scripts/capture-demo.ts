@@ -10,6 +10,12 @@ page.on("console", (message) => {
 await page.goto("http://127.0.0.1:5173/", { waitUntil: "domcontentloaded" });
 await page.waitForTimeout(1400);
 await page.screenshot({ path: "outputs/cup-signal-desktop.png", fullPage: true });
+if (!(await page.getByText("Mexico vs England").first().isVisible())) {
+  throw new Error("Default hero fixture must use the real Mexico vs England schedule entry");
+}
+if (await page.getByText("Mexico vs Argentina").count()) {
+  throw new Error("Page still contains the invalid Mexico vs Argentina fixture");
+}
 if (!(await page.getByText("Real World Cup 2026 data is wired in").isVisible())) {
   throw new Error("Real World Cup data panel not visible");
 }
@@ -18,6 +24,9 @@ if (!(await page.getByText("Matches").first().isVisible())) {
 }
 if (!(await page.getByText("Live player ratings, form state, and ability deltas").isVisible())) {
   throw new Error("Player dashboard heading not visible");
+}
+if (!(await page.getByText("Player ratings below are simulated").isVisible())) {
+  throw new Error("Simulated player layer disclaimer missing");
 }
 if (!(await page.getByText("Motion Layer").isVisible())) {
   throw new Error("Motion layer heading not visible");
