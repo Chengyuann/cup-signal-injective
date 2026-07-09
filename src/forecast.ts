@@ -71,8 +71,10 @@ export function predictMatch(match: Match, weights: Weights = defaultWeights): P
 function projectScore(match: Match, homeWin: number, awayWin: number): [number, number] {
   const liveHome = match.homeGoals ?? 0;
   const liveAway = match.awayGoals ?? 0;
-  const baselineHome = match.status === "live" ? liveHome : Math.round(match.xgHome);
-  const baselineAway = match.status === "live" ? liveAway : Math.round(match.xgAway);
+  const hasActualScore = match.status === "live" || match.status === "final";
+  const baselineHome = hasActualScore ? liveHome : Math.round(match.xgHome);
+  const baselineAway = hasActualScore ? liveAway : Math.round(match.xgAway);
+  if (match.status === "final") return [baselineHome, baselineAway];
   const homeAdd = homeWin > 0.48 ? 1 : homeWin < 0.28 ? 0 : match.xgHome > 1.55 ? 1 : 0;
   const awayAdd = awayWin > 0.48 ? 1 : awayWin < 0.28 ? 0 : match.xgAway > 1.55 ? 1 : 0;
   return [clamp(baselineHome + homeAdd, 0, 4), clamp(baselineAway + awayAdd, 0, 4)];
@@ -119,10 +121,11 @@ export function buildWatchBrief(matchId: string, weights: Weights = defaultWeigh
   );
   const leader = prediction.edge === "away" ? prediction.away : prediction.home;
   const [homeGoals, awayGoals] = prediction.projectedScore;
+  const scoreKind = prediction.match.status === "final" ? "final result" : "projection";
   return {
     matchId: prediction.match.id,
     headline: `${prediction.home.name} vs ${prediction.away.name}: ${leader.name} carries the sharper live edge`,
-    freeSummary: `${prediction.home.name} ${homeGoals}-${awayGoals} ${prediction.away.name} projection, confidence ${Math.round(
+    freeSummary: `${prediction.home.name} ${homeGoals}-${awayGoals} ${prediction.away.name} ${scoreKind}, confidence ${Math.round(
       prediction.confidence * 100,
     )} percent, volatility ${Math.round(prediction.volatility)}.`,
     premiumReport: [

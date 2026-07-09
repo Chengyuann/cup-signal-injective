@@ -50,6 +50,7 @@ export type Match = {
   minute?: number;
   homeGoals?: number;
   awayGoals?: number;
+  scoreLabel?: "projected" | "final";
   xgHome: number;
   xgAway: number;
   shotPressureHome: number;

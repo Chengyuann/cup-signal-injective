@@ -13,6 +13,9 @@ await page.screenshot({ path: "outputs/cup-signal-desktop.png", fullPage: true }
 if (!(await page.getByText("Mexico vs England").first().isVisible())) {
   throw new Error("Default hero fixture must use the real Mexico vs England schedule entry");
 }
+if (!(await page.getByText("Final score").isVisible()) || !(await page.getByText("2 - 3").first().isVisible())) {
+  throw new Error("Mexico vs England must show the verified final score 2-3");
+}
 if (await page.getByText("Mexico vs Argentina").count()) {
   throw new Error("Page still contains the invalid Mexico vs Argentina fixture");
 }

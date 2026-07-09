@@ -967,7 +967,7 @@ function Hero({
           </h2>
           <div className="scoreline">
             <strong>{selected.projectedScore[0]}</strong>
-            <span>projected</span>
+            <span>{selected.match.scoreLabel === "final" ? "final" : "projected"}</span>
             <strong>{selected.projectedScore[1]}</strong>
           </div>
           <div className="prob-row">
@@ -1057,7 +1057,7 @@ function SignalPanel({ selected }: { selected: Prediction }) {
       </div>
       <div className="readout">
         <div>
-          <span>Projected score</span>
+          <span>{selected.match.scoreLabel === "final" ? "Final score" : "Projected score"}</span>
           <strong>
             {selected.projectedScore[0]} - {selected.projectedScore[1]}
           </strong>
