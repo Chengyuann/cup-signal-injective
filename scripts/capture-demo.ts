@@ -22,6 +22,18 @@ if (!(await page.getByText("Live player ratings, form state, and ability deltas"
 if (!(await page.getByText("Motion Layer").isVisible())) {
   throw new Error("Motion layer heading not visible");
 }
+if (!(await page.getByRole("button", { name: /Refresh Live Data/i }).isVisible())) {
+  throw new Error("Live data refresh button not visible");
+}
+await page.getByRole("button", { name: /Refresh Live Data/i }).click();
+await page.waitForTimeout(14000);
+const refreshWorked = await page.evaluate(() => {
+  const text = document.body.innerText;
+  return text.includes("Live data updated") || text.includes("Live API unavailable");
+});
+if (!refreshWorked) {
+  throw new Error("Live data refresh button did not report a result");
+}
 if (!(await page.getByText("Injective Playbook").isVisible())) {
   throw new Error("Injective playbook heading not visible");
 }

@@ -23,7 +23,7 @@ import { defaultWeights, eventSnapshot, matches } from "./data";
 import { buildPredictions, buildWatchBrief, formatPercent } from "./forecast";
 import { abilityLabels, scorePlayers, type PlayerScore, type RatingMode, type WindowKey } from "./players";
 import type { Prediction, WeightKey, Weights } from "./types";
-import { tournamentStats, worldCupGroups, worldCupMatches, worldCupSource, worldCupTeams } from "./worldcupData";
+import { worldCupGroups, worldCupMatches, worldCupSource, worldCupStadiums, worldCupTeams, type WorldCupGroup, type WorldCupMatch, type WorldCupStadium, type WorldCupTeam } from "./worldcupData";
 import { injectivePlaybookSummary, injectivePlays, type InjectivePlay } from "./injectivePlaybook";
 import "./styles.css";
 
@@ -36,6 +36,17 @@ const weightLabels: Record<WeightKey, string> = {
 };
 
 type Lang = "en" | "zh";
+type RefreshState = "idle" | "loading" | "success" | "error";
+type WorldCupRuntimeData = {
+  teams: WorldCupTeam[];
+  groups: WorldCupGroup[];
+  matches: WorldCupMatch[];
+  stadiums: WorldCupStadium[];
+  source: Record<string, string>;
+  updatedAt: string;
+  mode: "snapshot" | "live-browser";
+  error?: string;
+};
 
 const copy = {
   en: {
@@ -53,6 +64,10 @@ const copy = {
       "Pitch routes, live rankings, player portraits, and Injective payment nodes share one animated canvas. It shows who is creating edge, where the ball is moving, and which panel is worth capturing next.",
     langButton: "ZH",
     langLabel: "Language",
+    refreshIdle: "Refresh Live Data",
+    refreshLoading: "Updating...",
+    refreshSuccess: "Live data updated",
+    refreshError: "Live API unavailable",
   },
   zh: {
     playbookTitle: "四个技术点不是贴标签，而是观赛动作",
@@ -69,12 +84,123 @@ const copy = {
       "球场线路、实时排名、球员头像和链上支付节点被放在同一个动态画布里。它不是装饰背景，而是把谁在制造优势、球权往哪里走、下一步该截图什么表达出来。",
     langButton: "EN",
     langLabel: "语言",
+    refreshIdle: "更新实时数据",
+    refreshLoading: "更新中...",
+    refreshSuccess: "实时数据已更新",
+    refreshError: "实时接口不可用",
   },
 } satisfies Record<Lang, Record<string, string>>;
+
+const initialWorldCupRuntimeData: WorldCupRuntimeData = {
+  teams: worldCupTeams,
+  groups: worldCupGroups,
+  matches: worldCupMatches,
+  stadiums: worldCupStadiums,
+  source: worldCupSource,
+  updatedAt: "",
+  mode: "snapshot",
+};
 
 function assetPath(path: string): string {
   if (/^https?:\/\//.test(path)) return path;
   return `${import.meta.env.BASE_URL}${path.replace(/^\//, "")}`;
+}
+
+async function fetchJsonWithTimeout(url: string, timeoutMs = 12000): Promise<unknown> {
+  const controller = new AbortController();
+  const timer = window.setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const response = await fetch(url, { signal: controller.signal, headers: { accept: "application/json" } });
+    if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
+    return response.json();
+  } finally {
+    window.clearTimeout(timer);
+  }
+}
+
+async function fetchLiveWorldCupData(): Promise<WorldCupRuntimeData> {
+  const base = "https://worldcup26.ir/get";
+  const [teamPayload, stadiumPayload, gamePayload] = await Promise.all([
+    fetchJsonWithTimeout(`${base}/teams`),
+    fetchJsonWithTimeout(`${base}/stadiums`),
+    fetchJsonWithTimeout(`${base}/games`),
+  ]);
+  const teams = ((teamPayload as { teams?: unknown[] }).teams ?? (Array.isArray(teamPayload) ? teamPayload : [])).map(normalizeLiveTeam);
+  const stadiums = ((stadiumPayload as { stadiums?: unknown[] }).stadiums ?? (Array.isArray(stadiumPayload) ? stadiumPayload : [])).map(normalizeLiveStadium);
+  const teamById = new Map(teams.map((team) => [team.id, team]));
+  const stadiumById = new Map(stadiums.map((stadium) => [stadium.id, stadium]));
+  const matches = ((gamePayload as { games?: unknown[] }).games ?? (Array.isArray(gamePayload) ? gamePayload : [])).map((item) =>
+    normalizeLiveMatch(item, teamById, stadiumById),
+  );
+  if (teams.length < 40 || stadiums.length < 10 || matches.length < 60) {
+    throw new Error(`incomplete payload: ${teams.length} teams, ${stadiums.length} stadiums, ${matches.length} matches`);
+  }
+  const groups = [...new Set(teams.map((team) => team.group).filter(Boolean))]
+    .sort()
+    .map((group) => ({ group, teams: teams.filter((team) => team.group === group).map((team) => team.fifaCode) }));
+  return {
+    teams,
+    stadiums,
+    groups,
+    matches,
+    source: {
+      liveApi: `${base}/*`,
+      updateMode: "browser-live-api",
+      teams: `${base}/teams`,
+      groupMatches: `${base}/games`,
+      stadiums: `${base}/stadiums`,
+      knockout: "current bundled snapshot for knockout slots",
+      context: "browser refresh",
+    },
+    updatedAt: new Date().toISOString(),
+    mode: "live-browser",
+  };
+}
+
+function normalizeLiveTeam(item: unknown): WorldCupTeam {
+  const record = item as Record<string, unknown>;
+  return {
+    id: Number(record.id),
+    name: String(record.name_en ?? record.name ?? "TBD"),
+    fifaCode: String(record.fifa_code ?? record.fifaCode ?? "TBD"),
+    iso2: String(record.iso2 ?? "TBD"),
+    group: String(record.groups ?? record.group ?? ""),
+    flag: String(record.flag ?? ""),
+  };
+}
+
+function normalizeLiveStadium(item: unknown): WorldCupStadium {
+  const record = item as Record<string, unknown>;
+  return {
+    id: Number(record.id),
+    name: String(record.name_en ?? record.name ?? record.fifa_name ?? ""),
+    city: String(record.city_en ?? record.city ?? ""),
+    country: String(record.country_en ?? record.country ?? ""),
+    capacity: Number(record.capacity ?? 0),
+  };
+}
+
+function normalizeLiveMatch(item: unknown, teamById: Map<number, WorldCupTeam>, stadiumById: Map<number, WorldCupStadium>): WorldCupMatch {
+  const record = item as Record<string, unknown>;
+  const home = teamById.get(Number(record.home_team_id));
+  const away = teamById.get(Number(record.away_team_id));
+  const stadium = stadiumById.get(Number(record.stadium_id));
+  return {
+    id: Number(record.id),
+    type: String(record.type ?? "group"),
+    group: String(record.group ?? ""),
+    matchday: Number(record.matchday ?? 0),
+    localDate: String(record.local_date ?? record.localDate ?? ""),
+    date: String(record.date ?? ""),
+    home: home?.fifaCode ?? "TBD",
+    away: away?.fifaCode ?? "TBD",
+    homeName: home?.name ?? "TBD",
+    awayName: away?.name ?? "TBD",
+    stadium: stadium?.name ?? "",
+    city: stadium?.city ?? "",
+    country: stadium?.country ?? "",
+    source: "worldcup26.ir browser refresh",
+  };
 }
 
 function App() {
@@ -87,6 +213,9 @@ function App() {
   const [selectedPlayerId, setSelectedPlayerId] = useState("arg-10");
   const [paid, setPaid] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [worldData, setWorldData] = useState<WorldCupRuntimeData>(initialWorldCupRuntimeData);
+  const [refreshState, setRefreshState] = useState<RefreshState>("idle");
+  const [refreshMessage, setRefreshMessage] = useState("");
   const predictions = useMemo(() => buildPredictions(weights), [weights]);
   const selected = predictions.find((prediction) => prediction.match.id === selectedId) ?? predictions[0];
   const brief = useMemo(() => buildWatchBrief(selected.match.id, weights), [selected.match.id, weights]);
@@ -124,14 +253,30 @@ function App() {
     }, 650);
   }
 
+  async function refreshLiveData() {
+    setRefreshState("loading");
+    setRefreshMessage(copy[lang].refreshLoading);
+    try {
+      const next = await fetchLiveWorldCupData();
+      setWorldData(next);
+      setRefreshState("success");
+      setRefreshMessage(`${copy[lang].refreshSuccess}: ${next.teams.length} teams / ${next.matches.length} matches`);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      setRefreshState("error");
+      setRefreshMessage(`${copy[lang].refreshError}: ${message}`);
+      setWorldData((current) => ({ ...current, error: message }));
+    }
+  }
+
   return (
     <main>
       <div className="scroll-progress" style={{ transform: `scaleX(${scrollProgress})` }} />
       <LanguageToggle lang={lang} onToggle={() => setLang((current) => (current === "en" ? "zh" : "en"))} />
-      <Hero selected={selected} />
+      <Hero selected={selected} lang={lang} refreshState={refreshState} refreshMessage={refreshMessage} onRefresh={refreshLiveData} />
       <LiveTicker selected={selected} topPlayer={playerScores[0]} />
       <MotionPromptStrip />
-      <RealWorldCupDataPanel lang={lang} />
+      <RealWorldCupDataPanel lang={lang} data={worldData} refreshState={refreshState} refreshMessage={refreshMessage} />
       <section className="shell app-grid" aria-label="Cup Signal cockpit">
         <MatchRail predictions={predictions} selectedId={selectedId} onSelect={setSelectedId} />
         <SignalPanel selected={selected} />
@@ -260,10 +405,26 @@ function PlaybookCard({ play }: { play: InjectivePlay }) {
   );
 }
 
-function RealWorldCupDataPanel({ lang }: { lang: Lang }) {
-  const openingMatches = worldCupMatches.slice(0, 6);
-  const knockoutPreview = worldCupMatches.filter((match) => match.type !== "group").slice(0, 6);
-  const lookup = new Map(worldCupTeams.map((team) => [team.fifaCode, team]));
+function RealWorldCupDataPanel({
+  lang,
+  data,
+  refreshState,
+  refreshMessage,
+}: {
+  lang: Lang;
+  data: WorldCupRuntimeData;
+  refreshState: RefreshState;
+  refreshMessage: string;
+}) {
+  const openingMatches = data.matches.slice(0, 6);
+  const knockoutPreview = data.matches.filter((match) => match.type !== "group").slice(0, 6);
+  const lookup = new Map(data.teams.map((team) => [team.fifaCode, team]));
+  const stats = {
+    teams: data.teams.length,
+    groups: data.groups.length,
+    matches: data.matches.length,
+    stadiums: data.stadiums.length,
+  };
   return (
     <section className="shell real-data-panel reveal-block tilt-card" aria-label="World Cup real data panel">
       <div className="real-data-head">
@@ -273,19 +434,20 @@ function RealWorldCupDataPanel({ lang }: { lang: Lang }) {
           <p>{copy[lang].realBody}</p>
         </div>
         <div className="source-stack">
-          <span>{worldCupSource.teams}</span>
-          <span>{worldCupSource.knockout}</span>
+          <span>{data.source.teams}</span>
+          <span>{data.mode === "live-browser" ? `Browser refresh ${data.updatedAt}` : data.source.knockout}</span>
         </div>
       </div>
+      {refreshMessage ? <div className={`refresh-status ${refreshState}`}>{refreshMessage}</div> : null}
       <div className="real-stat-grid">
-        <Metric label="Teams" value={String(tournamentStats.teams)} />
-        <Metric label="Groups" value={String(tournamentStats.groups)} />
-        <Metric label="Matches" value={String(tournamentStats.matches)} />
-        <Metric label="Stadiums" value={String(tournamentStats.stadiums)} />
+        <Metric label="Teams" value={String(stats.teams)} />
+        <Metric label="Groups" value={String(stats.groups)} />
+        <Metric label="Matches" value={String(stats.matches)} />
+        <Metric label="Stadiums" value={String(stats.stadiums)} />
       </div>
       <div className="real-data-body">
         <div className="group-matrix">
-          {worldCupGroups.map((group) => (
+          {data.groups.map((group) => (
             <div key={group.group}>
               <strong>Group {group.group}</strong>
               {group.teams.map((code, index) => {
@@ -319,7 +481,7 @@ function RealWorldCupDataPanel({ lang }: { lang: Lang }) {
   );
 }
 
-function MatchMini({ match }: { match: (typeof worldCupMatches)[number] }) {
+function MatchMini({ match }: { match: WorldCupMatch }) {
   return (
     <article className="match-mini">
       <span>#{match.id}</span>
@@ -725,7 +887,19 @@ function StatGrid({ score }: { score: PlayerScore }) {
   );
 }
 
-function Hero({ selected }: { selected: Prediction }) {
+function Hero({
+  selected,
+  lang,
+  refreshState,
+  refreshMessage,
+  onRefresh,
+}: {
+  selected: Prediction;
+  lang: Lang;
+  refreshState: RefreshState;
+  refreshMessage: string;
+  onRefresh: () => void;
+}) {
   return (
     <header className="hero">
       <div className="spotlight-layer" aria-hidden="true" />
@@ -754,13 +928,20 @@ function Hero({ selected }: { selected: Prediction }) {
           <Crosshair size={20} />
           <span>Cup Signal</span>
         </div>
-        <div className="nav-pills">
-          <span>x402</span>
-          <span>CCTP</span>
-          <span>MCP</span>
-          <span>Agent Skill</span>
+        <div className="nav-actions">
+          <div className="nav-pills">
+            <span>x402</span>
+            <span>CCTP</span>
+            <span>MCP</span>
+            <span>Agent Skill</span>
+          </div>
+          <button className={`live-refresh-button ${refreshState}`} onClick={onRefresh} disabled={refreshState === "loading"}>
+            <Activity size={15} />
+            {refreshState === "loading" ? copy[lang].refreshLoading : copy[lang].refreshIdle}
+          </button>
         </div>
       </nav>
+      {refreshMessage ? <div className={`hero-refresh-note shell ${refreshState}`}>{refreshMessage}</div> : null}
       <div className="shell hero-content reveal-block">
         <div>
           <p className="eyebrow">Injective Global Cup Matchday AI</p>

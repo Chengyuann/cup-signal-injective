@@ -322,6 +322,14 @@ button {
   gap: 8px;
 }
 
+.nav-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  align-items: center;
+}
+
 .nav-pills span,
 .submission-list span {
   border: 1px solid var(--line);
@@ -331,6 +339,68 @@ button {
   background: rgba(16, 20, 16, 0.38);
   backdrop-filter: blur(18px);
   font-size: 12px;
+}
+
+.live-refresh-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #12160f;
+  border: 1px solid rgba(217, 186, 114, 0.45);
+  border-radius: 999px;
+  padding: 9px 12px;
+  background: var(--gold);
+  font-size: 12px;
+  font-weight: 850;
+  cursor: pointer;
+  transition:
+    transform 180ms ease,
+    opacity 180ms ease,
+    background 180ms ease;
+}
+
+.live-refresh-button:hover {
+  transform: translateY(-2px);
+}
+
+.live-refresh-button.loading {
+  cursor: wait;
+  opacity: 0.78;
+}
+
+.live-refresh-button.success {
+  background: #9fcf88;
+}
+
+.live-refresh-button.error {
+  color: var(--chalk);
+  background: rgba(214, 109, 98, 0.28);
+}
+
+.hero-refresh-note,
+.refresh-status {
+  position: relative;
+  z-index: 2;
+  margin-top: 6px;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: rgba(7, 10, 8, 0.48);
+  font-family: "Geist Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 12px;
+}
+
+.hero-refresh-note.success,
+.refresh-status.success {
+  color: #cceabd;
+  border-color: rgba(159, 207, 136, 0.42);
+}
+
+.hero-refresh-note.error,
+.refresh-status.error {
+  color: #f4b7af;
+  border-color: rgba(214, 109, 98, 0.42);
 }
 
 .hero-content {
@@ -602,6 +672,10 @@ h1 {
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
   margin: 18px 0;
+}
+
+.refresh-status {
+  margin: 14px 0 0;
 }
 
 .real-data-body {
@@ -2156,6 +2230,11 @@ input[type="range"] {
 
   .nav-pills {
     display: none;
+  }
+
+  .nav-actions {
+    width: 100%;
+    justify-content: flex-start;
   }
 
   h1 {
