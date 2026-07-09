@@ -21,6 +21,8 @@ The page includes an **Injective Playbook** section that maps each technical hoo
 
 ![Cup Signal real data and star card](docs/assets/cup-signal-real-data-card.png)
 
+![Cup Signal MotionSites-style pass](docs/assets/cup-signal-motionsites-pass.png)
+
 ## Real World Cup Data
 
 Cup Signal now includes a real tournament data layer:
@@ -226,6 +228,10 @@ The player board adds a detailed match layer on top of the team forecast:
 
 The page includes a custom motion layer inspired by premium animated product sites:
 
+- MotionSites-style prompt strip and floating hero prompt chips,
+- pointer-following spotlight layer,
+- scroll progress bar,
+- tilt-card hover treatment for major panels,
 - live horizontal match ticker,
 - floating trophy and football line-art assets,
 - animated pitch route map,

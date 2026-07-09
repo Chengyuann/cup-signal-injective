@@ -79,6 +79,7 @@ function assetPath(path: string): string {
 
 function App() {
   const [lang, setLang] = useState<Lang>("en");
+  const [scrollProgress, setScrollProgress] = useState(0);
   const [weights, setWeights] = useState<Weights>(defaultWeights);
   const [selectedId, setSelectedId] = useState(matches[0].id);
   const [ratingMode, setRatingMode] = useState<RatingMode>("balanced");
@@ -96,6 +97,25 @@ function App() {
     setSelectedPlayerId(playerScores[0].player.id);
   }, [playerScores]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      setScrollProgress(max > 0 ? Math.min(1, window.scrollY / max) : 0);
+    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const handlePointer = (event: PointerEvent) => {
+      document.documentElement.style.setProperty("--pointer-x", `${event.clientX}px`);
+      document.documentElement.style.setProperty("--pointer-y", `${event.clientY}px`);
+    };
+    window.addEventListener("pointermove", handlePointer, { passive: true });
+    return () => window.removeEventListener("pointermove", handlePointer);
+  }, []);
+
   function unlockReport() {
     setLoading(true);
     window.setTimeout(() => {
@@ -106,9 +126,11 @@ function App() {
 
   return (
     <main>
+      <div className="scroll-progress" style={{ transform: `scaleX(${scrollProgress})` }} />
       <LanguageToggle lang={lang} onToggle={() => setLang((current) => (current === "en" ? "zh" : "en"))} />
       <Hero selected={selected} />
       <LiveTicker selected={selected} topPlayer={playerScores[0]} />
+      <MotionPromptStrip />
       <RealWorldCupDataPanel lang={lang} />
       <section className="shell app-grid" aria-label="Cup Signal cockpit">
         <MatchRail predictions={predictions} selectedId={selectedId} onSelect={setSelectedId} />
@@ -151,6 +173,26 @@ function App() {
   );
 }
 
+function MotionPromptStrip() {
+  const prompts = [
+    "Animated matchday cockpit",
+    "x402 unlock moment",
+    "CCTP fan-pool rail",
+    "MCP agent analyst",
+    "FUT-style player card",
+    "World Cup data stream",
+  ];
+  return (
+    <section className="motion-prompt-strip" aria-label="Motion design prompt strip">
+      <div className="prompt-track">
+        {[...prompts, ...prompts].map((prompt, index) => (
+          <span key={`${prompt}-${index}`}>{prompt}</span>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function LanguageToggle({ lang, onToggle }: { lang: Lang; onToggle: () => void }) {
   return (
     <button className="language-toggle" onClick={onToggle} aria-label={copy[lang].langLabel}>
@@ -162,7 +204,7 @@ function LanguageToggle({ lang, onToggle }: { lang: Lang; onToggle: () => void }
 
 function InjectivePlaybookPanel({ lang }: { lang: Lang }) {
   return (
-    <section className="shell injective-playbook reveal-block" aria-label="Injective technology playbook">
+    <section className="shell injective-playbook reveal-block tilt-card" aria-label="Injective technology playbook">
       <div className="playbook-copy">
         <p className="eyebrow">Injective Playbook</p>
         <h2>{copy[lang].playbookTitle}</h2>
@@ -223,7 +265,7 @@ function RealWorldCupDataPanel({ lang }: { lang: Lang }) {
   const knockoutPreview = worldCupMatches.filter((match) => match.type !== "group").slice(0, 6);
   const lookup = new Map(worldCupTeams.map((team) => [team.fifaCode, team]));
   return (
-    <section className="shell real-data-panel reveal-block" aria-label="World Cup real data panel">
+    <section className="shell real-data-panel reveal-block tilt-card" aria-label="World Cup real data panel">
       <div className="real-data-head">
         <div>
           <p className="eyebrow">Real Data Layer</p>
@@ -371,7 +413,7 @@ function PlayerDashboard({
         </div>
       </div>
       <div className="player-grid">
-        <section className="panel player-list-panel">
+        <section className="panel player-list-panel tilt-card">
           <div className="panel-title">
             <Medal size={18} />
             <span>Live Rating Table</span>
@@ -413,7 +455,7 @@ function PlayerDashboard({
           </div>
         </section>
 
-        <section className="panel player-focus-panel">
+        <section className="panel player-focus-panel tilt-card">
           <div className="player-identity">
             <img src={assetPath(selectedScore.player.portrait)} alt="" />
             <div>
@@ -451,7 +493,7 @@ function PlayerDashboard({
           </div>
         </section>
 
-        <section className="panel player-detail-panel">
+        <section className="panel player-detail-panel tilt-card">
           <div className="panel-title">
             <LineChart size={18} />
             <span>Events & Form</span>
@@ -525,7 +567,7 @@ function StarCard({ score }: { score: PlayerScore }) {
 function WorldCupMotionPanel({ lang, scores, selected }: { lang: Lang; scores: PlayerScore[]; selected: Prediction }) {
   const leaders = scores.slice(0, 4);
   return (
-    <section className="shell motion-panel reveal-block" aria-label="World Cup motion layer">
+    <section className="shell motion-panel reveal-block tilt-card" aria-label="World Cup motion layer">
       <div className="motion-copy">
         <p className="eyebrow">Motion Layer</p>
         <h2>{copy[lang].motionTitle}</h2>
@@ -686,6 +728,13 @@ function StatGrid({ score }: { score: PlayerScore }) {
 function Hero({ selected }: { selected: Prediction }) {
   return (
     <header className="hero">
+      <div className="spotlight-layer" aria-hidden="true" />
+      <div className="hero-prompt-cloud" aria-hidden="true">
+        <span>forecast_match()</span>
+        <span>x402 402</span>
+        <span>rank_match_players()</span>
+        <span>USDC CCTP memo</span>
+      </div>
       <div className="hero-symbols" aria-hidden="true">
         <img className="hero-trophy" src={assetPath("/worldcup/trophy-line.svg")} alt="" />
         <img className="hero-football" src={assetPath("/worldcup/football-line.svg")} alt="" />
@@ -725,7 +774,7 @@ function Hero({ selected }: { selected: Prediction }) {
             <a href="#injective">Inspect Injective Flow</a>
           </div>
         </div>
-        <aside className="live-card" aria-label="Selected live match">
+        <aside className="live-card tilt-card" aria-label="Selected live match">
           <div className="live-card-header">
             <span className="pulse-dot" />
             <span>{selected.match.status.toUpperCase()}</span>
@@ -760,7 +809,7 @@ function MatchRail({
   onSelect: (id: string) => void;
 }) {
   return (
-    <section className="panel match-rail" aria-label="Match list">
+    <section className="panel match-rail tilt-card" aria-label="Match list">
       <div className="panel-title">
         <Radio size={18} />
         <span>Fixtures</span>
@@ -796,7 +845,7 @@ function SignalPanel({ selected }: { selected: Prediction }) {
   ];
 
   return (
-    <section id="signal" className="panel signal-panel" aria-label="AI signal panel">
+    <section id="signal" className="panel signal-panel tilt-card" aria-label="AI signal panel">
       <div className="panel-title">
         <BarChart3 size={18} />
         <span>AI Match Signal</span>
@@ -866,7 +915,7 @@ function ControlPanel({
   setWeights: React.Dispatch<React.SetStateAction<Weights>>;
 }) {
   return (
-    <section className="panel controls" aria-label="Model controls">
+    <section className="panel controls tilt-card" aria-label="Model controls">
       <div className="panel-title">
         <SlidersHorizontal size={18} />
         <span>Model Weights</span>
@@ -915,7 +964,7 @@ function InjectivePanel({
   brief: ReturnType<typeof buildWatchBrief>;
 }) {
   return (
-    <section id="injective" className="panel injective-panel" aria-label="Injective integration panel">
+    <section id="injective" className="panel injective-panel tilt-card" aria-label="Injective integration panel">
       <div className="panel-title">
         <CircleDollarSign size={18} />
         <span>Injective Flow</span>
@@ -969,7 +1018,7 @@ function FlowStep({ icon, title, text }: { icon: React.ReactNode; title: string;
 
 function AgentPanel({ selected }: { selected: Prediction }) {
   return (
-    <section className="panel agent-panel" aria-label="Agent skills panel">
+    <section className="panel agent-panel tilt-card" aria-label="Agent skills panel">
       <div className="panel-title">
         <Bot size={18} />
         <span>Agent Output</span>
