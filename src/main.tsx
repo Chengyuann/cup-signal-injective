@@ -210,7 +210,7 @@ function App() {
   const [selectedId, setSelectedId] = useState(matches[0].id);
   const [ratingMode, setRatingMode] = useState<RatingMode>("balanced");
   const [windowKey, setWindowKey] = useState<WindowKey>("live");
-  const [selectedPlayerId, setSelectedPlayerId] = useState("arg-10");
+  const [selectedPlayerId, setSelectedPlayerId] = useState("eng-09");
   const [paid, setPaid] = useState(false);
   const [loading, setLoading] = useState(false);
   const [worldData, setWorldData] = useState<WorldCupRuntimeData>(initialWorldCupRuntimeData);
@@ -548,6 +548,8 @@ function PlayerDashboard({
   const awayScores = scores.filter((score) => score.player.side === "away").length;
   const homeAvg = teamSplit.home / homeScores;
   const awayAvg = teamSplit.away / awayScores;
+  const homeTeam = scores.find((score) => score.player.side === "home")?.player;
+  const awayTeam = scores.find((score) => score.player.side === "away")?.player;
 
   return (
     <section id="players" className="shell player-dashboard reveal-block" aria-label="Player data dashboard">
@@ -583,13 +585,13 @@ function PlayerDashboard({
           </div>
           <div className="team-edge">
             <div>
-              <img src={assetPath("/teams/crest-mex.svg")} alt="" />
-              <span>Mexico avg</span>
+              <img src={assetPath(homeTeam?.crest ?? "/teams/crest-mex.svg")} alt="" />
+              <span>{homeTeam?.team ?? "Home"} avg</span>
               <strong>{homeAvg.toFixed(2)}</strong>
             </div>
             <div>
-              <img src={assetPath("/teams/crest-arg.svg")} alt="" />
-              <span>Argentina avg</span>
+              <img src={assetPath(awayTeam?.crest ?? "/teams/crest-eng.svg")} alt="" />
+              <span>{awayTeam?.team ?? "Away"} avg</span>
               <strong>{awayAvg.toFixed(2)}</strong>
             </div>
           </div>

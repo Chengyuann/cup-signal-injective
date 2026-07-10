@@ -214,7 +214,7 @@ The product now turns each Injective hook into a fan-facing action:
 The player board adds a detailed match layer on top of the team forecast:
 
 - 22 simulated player profiles for the dashboard workflow. Official schedule data drives the match context; player ratings are a demo analytics layer.
-- Original national flag and team-badge SVG assets for Argentina and Mexico. These are not official federation marks.
+- Original national flag and team-badge SVG assets for England and Mexico. These are not official federation marks.
 - 10 baseline ability dimensions per player.
 - 10 current-form ability dimensions per player.
 - 28 live stat fields covering xG, xA, shots, progressive actions, duels, tackles, recoveries, pressures, distance, and sprint load.

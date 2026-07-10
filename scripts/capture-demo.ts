@@ -19,6 +19,16 @@ if (!(await page.getByText("Final score").isVisible()) || !(await page.getByText
 if (await page.getByText("Mexico vs Argentina").count()) {
   throw new Error("Page still contains the invalid Mexico vs Argentina fixture");
 }
+for (const staleText of ["Argentina avg", "Messi", "Enzo Fernandez"]) {
+  if (await page.getByText(staleText).count()) {
+    throw new Error(`Default page still contains stale Argentina player-board text: ${staleText}`);
+  }
+}
+for (const currentText of ["ENG avg", "Kane", "Bellingham", "Saka"]) {
+  if (!(await page.getByText(currentText).first().isVisible())) {
+    throw new Error(`Default Mexico vs England player-board text missing: ${currentText}`);
+  }
+}
 if (!(await page.getByText("Real World Cup 2026 data is wired in").isVisible())) {
   throw new Error("Real World Cup data panel not visible");
 }
