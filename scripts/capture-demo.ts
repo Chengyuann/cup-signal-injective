@@ -10,23 +10,20 @@ page.on("console", (message) => {
 await page.goto("http://127.0.0.1:5173/", { waitUntil: "domcontentloaded" });
 await page.waitForTimeout(1400);
 await page.screenshot({ path: "outputs/cup-signal-desktop.png", fullPage: true });
-if (!(await page.getByText("Mexico vs England").first().isVisible())) {
-  throw new Error("Default hero fixture must use the real Mexico vs England schedule entry");
+if (!(await page.getByText("Argentina vs Egypt").first().isVisible())) {
+  throw new Error("Default hero fixture must use the latest real Argentina vs Egypt schedule entry");
 }
-if (!(await page.getByText("Final score").isVisible()) || !(await page.getByText("2 - 3").first().isVisible())) {
-  throw new Error("Mexico vs England must show the verified final score 2-3");
+if (!(await page.getByText("Final score").isVisible()) || !(await page.getByText("3 - 2").first().isVisible())) {
+  throw new Error("Argentina vs Egypt must show the verified final score 3-2");
 }
-if (await page.getByText("Mexico vs Argentina").count()) {
-  throw new Error("Page still contains the invalid Mexico vs Argentina fixture");
-}
-for (const staleText of ["Argentina avg", "Messi", "Enzo Fernandez"]) {
+for (const staleText of ["Mexico vs England", "Mexico vs Argentina", "ENG avg", "Kane", "Bellingham", "Saka"]) {
   if (await page.getByText(staleText).count()) {
-    throw new Error(`Default page still contains stale Argentina player-board text: ${staleText}`);
+    throw new Error(`Default page still contains stale non-Argentina-homepage text: ${staleText}`);
   }
 }
-for (const currentText of ["ENG avg", "Kane", "Bellingham", "Saka"]) {
+for (const currentText of ["ARG avg", "EGY avg", "Messi", "Salah", "Enzo"]) {
   if (!(await page.getByText(currentText).first().isVisible())) {
-    throw new Error(`Default Mexico vs England player-board text missing: ${currentText}`);
+    throw new Error(`Default Argentina vs Egypt player-board text missing: ${currentText}`);
   }
 }
 if (!(await page.getByText("Real World Cup 2026 data is wired in").isVisible())) {

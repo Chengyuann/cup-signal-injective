@@ -210,7 +210,7 @@ function App() {
   const [selectedId, setSelectedId] = useState(matches[0].id);
   const [ratingMode, setRatingMode] = useState<RatingMode>("balanced");
   const [windowKey, setWindowKey] = useState<WindowKey>("live");
-  const [selectedPlayerId, setSelectedPlayerId] = useState("eng-09");
+  const [selectedPlayerId, setSelectedPlayerId] = useState("arg-10");
   const [paid, setPaid] = useState(false);
   const [loading, setLoading] = useState(false);
   const [worldData, setWorldData] = useState<WorldCupRuntimeData>(initialWorldCupRuntimeData);

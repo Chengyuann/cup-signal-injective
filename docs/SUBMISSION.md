@@ -82,9 +82,9 @@ Screenshot from the live panel attached.
 ## Demo Checklist
 
 - Open the web demo.
-- Select the default real-schedule fixture, `Mexico / England`.
+- Select the default real-result fixture, `Argentina / Egypt`.
 - Move one model slider and show probabilities changing.
-- Open the player board, switch `attack / defense / pressing`, and select Kane, Bellingham, Gimenez, or Edson.
+- Open the player board, switch `attack / defense / pressing`, and select Messi, Enzo, Salah, or Elneny.
 - Click `Simulate x402 Unlock`.
 - Show the premium report lines.
 - Run `npm run check:mcp` in terminal.

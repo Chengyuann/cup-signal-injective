@@ -9,6 +9,7 @@ mkdirSync(outDir, { recursive: true });
 
 const palette = {
   ARG: 'sky blue and warm white kit colors with small gold trim, no logos, no crests',
+  EGY: 'deep red, warm white, black, and muted gold kit colors, no logos, no crests',
   ENG: 'warm white kit colors with crisp red and muted navy trim, no logos, no crests',
   MEX: 'deep green kit colors with warm white and muted red trim, no logos, no crests',
 };
