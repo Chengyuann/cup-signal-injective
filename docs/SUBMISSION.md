@@ -94,6 +94,6 @@ Screenshot from the live panel attached.
 
 ## Visual Assets
 
-- `docs/assets/cup-signal-studio-hero.png`: GPT Image 2 horizontal key visual for X card, README cover, or submission thumbnail.
-- `docs/assets/cup-signal-video-keyframe.png`: GPT Image 2 vertical keyframe for video-generation reference.
+- `docs/assets/cup-signal-studio-hero.png`: GPT Image 2 horizontal key visual for X card, README cover, or submission thumbnail. It uses only universal football World Cup elements, with no country/team visual identity.
+- `docs/assets/cup-signal-video-keyframe.png`: GPT Image 2 vertical keyframe for video-generation reference. It uses only universal football World Cup elements, with no country/team visual identity.
 - `docs/VIDEO_PROMPTS.md`: video prompts and shot sequence.

@@ -246,12 +246,12 @@ The page includes a custom motion layer inspired by premium animated product sit
 
 ## Generated Visual Assets
 
-Two additional GPT Image 2 assets are included for the submission and social/video package:
+Two additional GPT Image 2 assets are included for the submission and social/video package. They intentionally use universal football World Cup elements rather than any country-specific scene:
 
 - `docs/assets/cup-signal-studio-hero.png`: horizontal cinematic key visual for README, X post, and submission cover usage.
 - `docs/assets/cup-signal-video-keyframe.png`: vertical keyframe reference for short-form video generation.
 
-The generated assets are original Cup Signal visuals. They do not use third-party website assets, official federation marks, or claimed player likenesses. The live site still uses the interactive canvas and data panels as the primary experience; these images are supporting campaign material.
+The generated assets are original Cup Signal visuals. They do not use third-party website assets, country names, national flags, team crests, official federation marks, jerseys, specific scorelines, or claimed player likenesses. The live site still uses the interactive canvas and data panels as the primary experience; these images are supporting campaign material.
 
 Video prompts and reference-frame notes are in `docs/VIDEO_PROMPTS.md`.
 
