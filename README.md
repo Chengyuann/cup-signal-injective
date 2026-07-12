@@ -23,6 +23,10 @@ The page includes an **Injective Playbook** section that maps each technical hoo
 
 ![Cup Signal MotionSites-style pass](docs/assets/cup-signal-motionsites-pass.png)
 
+![Cup Signal GPT Image 2 studio hero](docs/assets/cup-signal-studio-hero.png)
+
+![Cup Signal video keyframe](docs/assets/cup-signal-video-keyframe.png)
+
 ## Real World Cup Data
 
 Cup Signal now includes a real tournament data layer:
@@ -239,6 +243,17 @@ The page includes a custom motion layer inspired by premium animated product sit
 - moving data meters and radar fill,
 - leader ribbon with animated player avatars,
 - reduced-motion fallback for accessibility.
+
+## Generated Visual Assets
+
+Two additional GPT Image 2 assets are included for the submission and social/video package:
+
+- `docs/assets/cup-signal-studio-hero.png`: horizontal cinematic key visual for README, X post, and submission cover usage.
+- `docs/assets/cup-signal-video-keyframe.png`: vertical keyframe reference for short-form video generation.
+
+The generated assets are original Cup Signal visuals. They do not use third-party website assets, official federation marks, or claimed player likenesses. The live site still uses the interactive canvas and data panels as the primary experience; these images are supporting campaign material.
+
+Video prompts and reference-frame notes are in `docs/VIDEO_PROMPTS.md`.
 
 ## Verified Locally
 

@@ -30,6 +30,8 @@ Demo video:
 
 ```text
 Optional. A screen recording should show match selection, model tuning, x402 unlock simulation, and MCP check output.
+
+If generating a teaser video, use docs/assets/cup-signal-video-keyframe.png as the main reference frame and docs/VIDEO_PROMPTS.md for copy-ready video prompts.
 ```
 
 X tweet link:
@@ -89,3 +91,9 @@ Screenshot from the live panel attached.
 - Show the premium report lines.
 - Run `npm run check:mcp` in terminal.
 - Mention that CCTP is represented as a USDC settlement intent, not a fake completed transfer.
+
+## Visual Assets
+
+- `docs/assets/cup-signal-studio-hero.png`: GPT Image 2 horizontal key visual for X card, README cover, or submission thumbnail.
+- `docs/assets/cup-signal-video-keyframe.png`: GPT Image 2 vertical keyframe for video-generation reference.
+- `docs/VIDEO_PROMPTS.md`: video prompts and shot sequence.
