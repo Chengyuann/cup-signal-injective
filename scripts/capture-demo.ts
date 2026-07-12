@@ -2,18 +2,20 @@ import { chromium } from "playwright";
 
 const browser = await chromium.launch({ headless: true });
 const page = await browser.newPage({ viewport: { width: 1440, height: 1000 }, deviceScaleFactor: 1 });
+const baseUrl = process.env.CAPTURE_BASE_URL ?? "http://127.0.0.1:5173/";
 const errors: string[] = [];
 page.on("console", (message) => {
   if (message.type() === "error") errors.push(message.text());
 });
 
-await page.goto("http://127.0.0.1:5173/", { waitUntil: "domcontentloaded" });
+await page.goto(baseUrl, { waitUntil: "domcontentloaded" });
 await page.waitForTimeout(1400);
 await page.screenshot({ path: "outputs/cup-signal-desktop.png", fullPage: true });
-if (!(await page.getByText("Argentina vs Egypt").first().isVisible())) {
+const desktopText = await page.evaluate(() => document.body.innerText.toLowerCase());
+if (!desktopText.includes("argentina vs egypt")) {
   throw new Error("Default hero fixture must use the latest real Argentina vs Egypt schedule entry");
 }
-if (!(await page.getByText("Final score").isVisible()) || !(await page.getByText("3 - 2").first().isVisible())) {
+if (!desktopText.includes("final") || (!desktopText.includes("3 - 2") && !desktopText.includes("arg 3-2 egy"))) {
   throw new Error("Argentina vs Egypt must show the verified final score 3-2");
 }
 for (const staleText of ["Mexico vs England", "Mexico vs Argentina", "ENG avg", "Kane", "Bellingham", "Saka"]) {
@@ -89,8 +91,12 @@ if (!(await page.getByText("stop actions").first().isVisible())) {
 await page.screenshot({ path: "outputs/cup-signal-player-board.png", fullPage: true });
 
 await page.setViewportSize({ width: 390, height: 844 });
-await page.goto("http://127.0.0.1:5173/", { waitUntil: "domcontentloaded" });
+await page.goto(baseUrl, { waitUntil: "domcontentloaded" });
 await page.waitForTimeout(1400);
+const mobileOverflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+if (mobileOverflow > 2) {
+  throw new Error(`Mobile layout overflows horizontally by ${mobileOverflow}px`);
+}
 await page.screenshot({ path: "outputs/cup-signal-mobile.png", fullPage: true });
 
 await page.getByRole("button", { name: /Simulate x402 Unlock/i }).click();

@@ -8,21 +8,22 @@
     -apple-system,
     BlinkMacSystemFont,
     sans-serif;
-  background: #101410;
-  color: #edf2e8;
+  background: #000;
+  color: #f4f4ee;
   font-synthesis: none;
   text-rendering: geometricPrecision;
   -webkit-font-smoothing: antialiased;
-  --bg: #101410;
-  --panel: rgba(239, 244, 231, 0.08);
-  --panel-strong: rgba(239, 244, 231, 0.13);
-  --line: rgba(231, 242, 222, 0.18);
-  --text: #edf2e8;
-  --muted: #a9b5a3;
-  --grass: #8aa86f;
-  --chalk: #f3f0dc;
-  --gold: #d9ba72;
-  --red: #d66d62;
+  --bg: #000;
+  --panel: rgba(255, 255, 255, 0.055);
+  --panel-strong: rgba(255, 255, 255, 0.1);
+  --line: rgba(255, 255, 255, 0.16);
+  --text: #f4f4ee;
+  --muted: #8e948f;
+  --grass: #87a66c;
+  --chalk: #f4f4ee;
+  --gold: #cfb26a;
+  --red: #cc2f3d;
+  --ice: #a9f4ff;
 }
 
 * {
@@ -31,15 +32,21 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: clip;
 }
 
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100dvh;
+  overflow-x: hidden;
   background:
-    radial-gradient(circle at 72% 18%, rgba(138, 168, 111, 0.18), transparent 32rem),
-    linear-gradient(135deg, #101410 0%, #182015 48%, #0f1512 100%);
+    radial-gradient(circle at var(--pointer-x, 72vw) var(--pointer-y, 28vh), rgba(204, 47, 61, 0.16), transparent 34rem),
+    linear-gradient(180deg, #000 0%, #070707 45%, #020202 100%);
+}
+
+main {
+  overflow: clip;
 }
 
 body::before {
@@ -47,12 +54,12 @@ body::before {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  opacity: 0.08;
+  opacity: 0.18;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
-  background-size: 44px 44px;
-  mask-image: linear-gradient(to bottom, black, transparent 80%);
+    linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(to bottom, black, transparent 70%);
 }
 
 body::after {
@@ -60,11 +67,33 @@ body::after {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  opacity: 0.16;
+  opacity: 0.42;
   background:
-    linear-gradient(115deg, transparent 0 34%, rgba(217, 186, 114, 0.08) 34.2% 34.7%, transparent 35% 100%),
-    linear-gradient(68deg, transparent 0 58%, rgba(138, 168, 111, 0.08) 58.2% 58.7%, transparent 59% 100%);
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 4px),
+    linear-gradient(115deg, transparent 0 34%, rgba(207, 178, 106, 0.08) 34.2% 34.55%, transparent 35% 100%),
+    linear-gradient(68deg, transparent 0 58%, rgba(169, 244, 255, 0.055) 58.2% 58.55%, transparent 59% 100%);
   mix-blend-mode: screen;
+}
+
+.stage-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+}
+
+.cursor-orb {
+  position: fixed;
+  left: var(--pointer-x, 50vw);
+  top: var(--pointer-y, 50vh);
+  z-index: 30;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(244, 244, 238, 0.38);
+  border-radius: 50%;
+  pointer-events: none;
+  transform: translate3d(-50%, -50%, 0);
+  mix-blend-mode: difference;
 }
 
 button,
@@ -118,7 +147,7 @@ button {
 
 .hero {
   position: relative;
-  min-height: 92dvh;
+  min-height: 100dvh;
   overflow: hidden;
   border-bottom: 1px solid var(--line);
 }
@@ -127,7 +156,8 @@ button {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  z-index: 1;
+  z-index: 0;
+  opacity: 0.3;
 }
 
 .hero-trophy,
@@ -154,21 +184,21 @@ button {
 .hero-media {
   position: absolute;
   inset: 0;
-  opacity: 0.82;
+  opacity: 0.34;
 }
 
 .pitch {
   position: absolute;
-  right: -6vw;
-  top: 14dvh;
-  width: min(56vw, 760px);
+  right: -13vw;
+  top: 17dvh;
+  width: min(66vw, 920px);
   aspect-ratio: 1.42;
-  border: 2px solid rgba(243, 240, 220, 0.48);
-  border-radius: 8px;
-  transform: rotate(-7deg);
+  border: 1px solid rgba(244, 244, 238, 0.24);
+  border-radius: 0;
+  transform: rotate(-11deg) skewX(-3deg);
   background:
-    repeating-linear-gradient(90deg, rgba(158, 181, 118, 0.1) 0 6%, rgba(49, 72, 43, 0.08) 6% 12%),
-    rgba(69, 101, 55, 0.24);
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.055) 0 6%, rgba(255, 255, 255, 0.015) 6% 12%),
+    rgba(255, 255, 255, 0.03);
   box-shadow: inset 0 0 0 999px rgba(0, 0, 0, 0.1);
 }
 
@@ -296,7 +326,8 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 24px 0;
+  padding: 22px 0;
+  text-transform: uppercase;
 }
 
 .brand,
@@ -312,8 +343,9 @@ button {
 .brand {
   gap: 10px;
   color: var(--chalk);
-  font-weight: 720;
-  letter-spacing: 0;
+  font-size: 12px;
+  font-weight: 760;
+  letter-spacing: 0.16em;
 }
 
 .nav-pills {
@@ -332,22 +364,25 @@ button {
 
 .nav-pills span,
 .submission-list span {
-  border: 1px solid var(--line);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   color: var(--muted);
   padding: 8px 11px;
-  border-radius: 999px;
-  background: rgba(16, 20, 16, 0.38);
+  border-radius: 0;
+  background: rgba(0, 0, 0, 0.36);
   backdrop-filter: blur(18px);
-  font-size: 12px;
+  font-family: "Geist Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .live-refresh-button {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  color: #12160f;
+  color: #050505;
   border: 1px solid rgba(217, 186, 114, 0.45);
-  border-radius: 999px;
+  border-radius: 0;
   padding: 9px 12px;
   background: var(--gold);
   font-size: 12px;
@@ -407,10 +442,11 @@ button {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: minmax(0, 0.95fr) minmax(330px, 0.55fr);
-  gap: clamp(28px, 8vw, 120px);
-  align-items: end;
-  padding: 12dvh 0 10dvh;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.5fr);
+  gap: clamp(32px, 10vw, 150px);
+  align-items: center;
+  min-height: calc(100dvh - 92px);
+  padding: 8dvh 0 12dvh;
 }
 
 .reveal-block {
@@ -432,8 +468,8 @@ button {
   margin: 0 0 14px;
   color: var(--gold);
   text-transform: uppercase;
-  letter-spacing: 0.14em;
-  font-size: 12px;
+  letter-spacing: 0.22em;
+  font-size: 11px;
   font-weight: 800;
 }
 
@@ -445,18 +481,55 @@ p {
 }
 
 h1 {
-  max-width: 760px;
+  max-width: 980px;
   margin-bottom: 24px;
-  font-size: clamp(44px, 7vw, 92px);
-  line-height: 0.95;
-  letter-spacing: 0;
+  font-size: clamp(54px, 10.8vw, 162px);
+  line-height: 0.78;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
 }
 
 .hero-copy {
-  max-width: 660px;
-  color: #cbd5c2;
-  font-size: clamp(17px, 2vw, 21px);
-  line-height: 1.65;
+  max-width: 620px;
+  color: #b7bbb6;
+  font-size: clamp(15px, 1.55vw, 18px);
+  line-height: 1.62;
+}
+
+.studio-kicker,
+.hero-meta-rail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.studio-kicker span,
+.hero-meta-rail span {
+  color: rgba(244, 244, 238, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  padding: 8px 10px;
+  background: rgba(0, 0, 0, 0.34);
+  font-family: "Geist Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hero-meta-rail {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  left: 20px;
+  z-index: 2;
+  margin-bottom: 0;
+}
+
+.hero-meta-rail span:last-child {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .hero-actions {
@@ -469,12 +542,15 @@ h1 {
 .hero-actions a,
 .paywall button,
 .reset-button {
-  color: #12160f;
+  color: #050505;
   background: var(--chalk);
   text-decoration: none;
   font-weight: 800;
   padding: 13px 18px;
-  border-radius: 8px;
+  border-radius: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 12px;
   transition:
     transform 180ms ease,
     background 180ms ease;
@@ -504,17 +580,29 @@ h1 {
 
 .live-card,
 .panel {
-  border: 1px solid var(--line);
-  background: linear-gradient(180deg, rgba(239, 244, 231, 0.1), rgba(239, 244, 231, 0.06));
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.082), rgba(255, 255, 255, 0.026)),
+    rgba(0, 0, 0, 0.36);
   backdrop-filter: blur(20px);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 .live-card {
-  border-radius: 8px;
+  border-radius: 0;
   padding: 24px;
   position: relative;
   overflow: hidden;
+}
+
+.live-card::after,
+.panel::after {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  pointer-events: none;
+  border: 1px solid rgba(255, 255, 255, 0.055);
 }
 
 .live-card::before,
@@ -563,8 +651,9 @@ h1 {
 
 .live-card h2 {
   margin: 24px 0;
-  font-size: clamp(28px, 4vw, 48px);
-  line-height: 1;
+  font-size: clamp(34px, 4.6vw, 64px);
+  line-height: 0.86;
+  text-transform: uppercase;
 }
 
 .live-card h2 span {
@@ -584,7 +673,7 @@ h1 {
 
 .scoreline strong {
   font-family: "Geist Mono", "SFMono-Regular", Consolas, monospace;
-  font-size: 72px;
+  font-size: clamp(72px, 8vw, 118px);
   line-height: 0.9;
 }
 
@@ -624,10 +713,10 @@ h1 {
   margin-top: 18px;
   padding: 28px;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 0;
   background:
-    linear-gradient(135deg, rgba(239, 244, 231, 0.085), rgba(16, 20, 16, 0.36)),
-    rgba(16, 20, 16, 0.34);
+    linear-gradient(135deg, rgba(255, 255, 255, 0.075), rgba(0, 0, 0, 0.46)),
+    rgba(0, 0, 0, 0.48);
 }
 
 .real-data-head {
@@ -658,9 +747,9 @@ h1 {
   overflow: hidden;
   color: var(--muted);
   border: 1px solid var(--line);
-  border-radius: 999px;
+  border-radius: 0;
   padding: 9px 11px;
-  background: rgba(7, 10, 8, 0.42);
+  background: rgba(0, 0, 0, 0.48);
   font-family: "Geist Mono", "SFMono-Regular", Consolas, monospace;
   font-size: 11px;
   text-overflow: ellipsis;
@@ -695,9 +784,9 @@ h1 {
   display: grid;
   gap: 8px;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 0;
   padding: 12px;
-  background: rgba(7, 10, 8, 0.28);
+  background: rgba(0, 0, 0, 0.34);
 }
 
 .group-matrix strong,
@@ -2486,5 +2575,118 @@ input[type="range"] {
 @media (max-width: 640px) {
   .hero-prompt-cloud span {
     display: none;
+  }
+}
+
+/* Website-cloner inspired studio pass: original Active-Theory-style translation for Cup Signal. */
+.panel,
+.live-card,
+.real-data-panel,
+.injective-playbook,
+.motion-panel,
+.submission-band,
+.group-matrix div,
+.schedule-stack > div,
+.metric,
+.flow-step,
+.playbook-card,
+.star-card,
+.player-row,
+.mode-controls button,
+.match-item,
+.control-panel input,
+.agent-terminal,
+.paywall,
+.submission-list span,
+.nav-pills span,
+.hero-actions a,
+.reset-button,
+.live-refresh-button,
+.language-toggle,
+.source-stack span,
+.refresh-status,
+.hero-refresh-note {
+  border-radius: 0 !important;
+}
+
+.panel,
+.live-card,
+.real-data-panel,
+.injective-playbook,
+.motion-panel,
+.submission-band,
+.paywall,
+.agent-terminal {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.072), rgba(255, 255, 255, 0.026)),
+    rgba(0, 0, 0, 0.52) !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
+}
+
+.panel-title,
+.metric label,
+.readout span,
+.flow-step span,
+.playbook-card-head,
+.match-item span,
+.match-mini span {
+  font-family: "Geist Mono", "SFMono-Regular", Consolas, monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.reveal-block,
+.panel,
+.live-card,
+.playbook-card,
+.star-card,
+.player-row {
+  will-change: transform, opacity;
+}
+
+.panel:hover,
+.live-card:hover,
+.playbook-card:hover,
+.player-row:hover,
+.star-card:hover {
+  border-color: rgba(244, 244, 238, 0.36) !important;
+  transform: translate3d(0, -3px, 0);
+}
+
+.scroll-progress {
+  background: linear-gradient(90deg, var(--red), var(--gold), var(--ice));
+  height: 2px;
+  transform-origin: left;
+}
+
+@media (max-width: 760px) {
+  .cursor-orb {
+    display: none;
+  }
+
+  .hero-meta-rail {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    margin-top: -42px;
+    padding-bottom: 24px;
+  }
+
+  h1 {
+    font-size: clamp(48px, 17vw, 78px);
+  }
+
+  .pitch {
+    right: -44vw;
+    width: 82vw;
+    max-width: 82vw;
+  }
+
+  .ticker-band,
+  .motion-prompt-strip {
+    overflow: hidden;
+    max-width: 100vw;
+    contain: paint;
   }
 }

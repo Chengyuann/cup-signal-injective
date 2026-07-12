@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
   Activity,
@@ -271,6 +271,8 @@ function App() {
 
   return (
     <main>
+      <StageCanvas />
+      <div className="cursor-orb" aria-hidden="true" />
       <div className="scroll-progress" style={{ transform: `scaleX(${scrollProgress})` }} />
       <LanguageToggle lang={lang} onToggle={() => setLang((current) => (current === "en" ? "zh" : "en"))} />
       <Hero selected={selected} lang={lang} refreshState={refreshState} refreshMessage={refreshMessage} onRefresh={refreshLiveData} />
@@ -316,6 +318,104 @@ function App() {
       </section>
     </main>
   );
+}
+
+function StageCanvas() {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    let frame = 0;
+    let raf = 0;
+    let width = 0;
+    let height = 0;
+    const pointer = { x: 0.72, y: 0.28 };
+    const nodes = Array.from({ length: 74 }, (_, index) => ({
+      seed: index * 17.13,
+      radius: 0.7 + (index % 5) * 0.22,
+      speed: 0.0025 + (index % 7) * 0.0007,
+    }));
+
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+
+    const move = (event: PointerEvent) => {
+      pointer.x = event.clientX / Math.max(1, width);
+      pointer.y = event.clientY / Math.max(1, height);
+    };
+
+    const draw = () => {
+      frame += 1;
+      ctx.clearRect(0, 0, width, height);
+      const gradient = ctx.createRadialGradient(pointer.x * width, pointer.y * height, 0, pointer.x * width, pointer.y * height, width * 0.72);
+      gradient.addColorStop(0, "rgba(204, 47, 61, 0.22)");
+      gradient.addColorStop(0.28, "rgba(207, 178, 106, 0.08)");
+      gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, width, height);
+
+      ctx.strokeStyle = "rgba(255,255,255,0.055)";
+      ctx.lineWidth = 1;
+      for (let x = (frame * 0.18) % 96; x < width; x += 96) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x - height * 0.24, height);
+        ctx.stroke();
+      }
+
+      const points = nodes.map((node) => {
+        const t = frame * node.speed + node.seed;
+        return {
+          x: width * (0.5 + Math.sin(t * 1.7) * 0.46) + (pointer.x - 0.5) * 34,
+          y: height * (0.5 + Math.cos(t * 1.19) * 0.42) + (pointer.y - 0.5) * 28,
+          r: node.radius,
+        };
+      });
+
+      for (let i = 0; i < points.length; i += 1) {
+        const a = points[i];
+        for (let j = i + 1; j < points.length; j += 11) {
+          const b = points[j];
+          const dist = Math.hypot(a.x - b.x, a.y - b.y);
+          if (dist < 150) {
+            ctx.strokeStyle = `rgba(255,255,255,${0.09 - dist / 1900})`;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+        ctx.fillStyle = i % 8 === 0 ? "rgba(207,178,106,0.9)" : "rgba(235,241,238,0.58)";
+        ctx.beginPath();
+        ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      raf = requestAnimationFrame(draw);
+    };
+
+    resize();
+    draw();
+    window.addEventListener("resize", resize);
+    window.addEventListener("pointermove", move, { passive: true });
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", resize);
+      window.removeEventListener("pointermove", move);
+    };
+  }, []);
+
+  return <canvas ref={canvasRef} className="stage-canvas" aria-hidden="true" />;
 }
 
 function MotionPromptStrip() {
@@ -947,6 +1047,11 @@ function Hero({
       {refreshMessage ? <div className={`hero-refresh-note shell ${refreshState}`}>{refreshMessage}</div> : null}
       <div className="shell hero-content reveal-block">
         <div>
+          <div className="studio-kicker">
+            <span>Live World Cup Signal</span>
+            <span>{selected.match.round}</span>
+            <span>{selected.match.scoreLabel === "final" ? "verified result" : "model watch"}</span>
+          </div>
           <p className="eyebrow">Injective Global Cup Matchday AI</p>
           <h1>Turn World Cup noise into one usable watch-party signal.</h1>
           <p className="hero-copy">
@@ -978,6 +1083,11 @@ function Hero({
             <span>{formatPercent(selected.awayWin)} away</span>
           </div>
         </aside>
+      </div>
+      <div className="shell hero-meta-rail" aria-label="Hero match metadata">
+        <span>{selected.match.venue}</span>
+        <span>xG {selected.match.xgHome.toFixed(2)} / {selected.match.xgAway.toFixed(2)}</span>
+        <span>{selected.match.liveDataSource}</span>
       </div>
     </header>
   );
