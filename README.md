@@ -27,6 +27,16 @@ The page includes an **Injective Playbook** section that maps each technical hoo
 
 ![Cup Signal video keyframe](docs/assets/cup-signal-video-keyframe.png)
 
+## Teaser Video
+
+The generated teaser video is bundled in the public demo:
+
+```text
+https://chengyuann.github.io/cup-signal-injective/media/cup-signal-teaser.mp4
+```
+
+<video src="public/media/cup-signal-teaser.mp4" poster="docs/assets/cup-signal-teaser-cover.jpg" controls muted playsinline width="720"></video>
+
 ## Real World Cup Data
 
 Cup Signal now includes a real tournament data layer:
@@ -250,6 +260,8 @@ Two additional GPT Image 2 assets are included for the submission and social/vid
 
 - `docs/assets/cup-signal-studio-hero.png`: horizontal cinematic key visual for README, X post, and submission cover usage.
 - `docs/assets/cup-signal-video-keyframe.png`: vertical keyframe reference for short-form video generation.
+- `public/media/cup-signal-teaser.mp4`: 6-second H.264/AAC teaser video generated from the no-country football data-cockpit direction.
+- `docs/assets/cup-signal-teaser-cover.jpg`: extracted cover frame for the teaser.
 
 The generated assets are original Cup Signal visuals. They do not use third-party website assets, country names, national flags, team crests, official federation marks, jerseys, specific scorelines, or claimed player likenesses. The live site still uses the interactive canvas and data panels as the primary experience; these images are supporting campaign material.
 

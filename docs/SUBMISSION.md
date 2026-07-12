@@ -29,9 +29,7 @@ https://chengyuann.github.io/cup-signal-injective/
 Demo video:
 
 ```text
-Optional. A screen recording should show match selection, model tuning, x402 unlock simulation, and MCP check output.
-
-If generating a teaser video, use docs/assets/cup-signal-video-keyframe.png as the main reference frame and docs/VIDEO_PROMPTS.md for copy-ready video prompts.
+https://chengyuann.github.io/cup-signal-injective/media/cup-signal-teaser.mp4
 ```
 
 X tweet link:
@@ -96,4 +94,6 @@ Screenshot from the live panel attached.
 
 - `docs/assets/cup-signal-studio-hero.png`: GPT Image 2 horizontal key visual for X card, README cover, or submission thumbnail. It uses only universal football World Cup elements, with no country/team visual identity.
 - `docs/assets/cup-signal-video-keyframe.png`: GPT Image 2 vertical keyframe for video-generation reference. It uses only universal football World Cup elements, with no country/team visual identity.
+- `public/media/cup-signal-teaser.mp4`: 6-second H.264/AAC teaser video generated from the no-country football data-cockpit direction.
+- `docs/assets/cup-signal-teaser-cover.jpg`: extracted cover frame for the teaser.
 - `docs/VIDEO_PROMPTS.md`: video prompts and shot sequence.
