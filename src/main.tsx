@@ -277,6 +277,7 @@ function App() {
       <LanguageToggle lang={lang} onToggle={() => setLang((current) => (current === "en" ? "zh" : "en"))} />
       <Hero selected={selected} lang={lang} refreshState={refreshState} refreshMessage={refreshMessage} onRefresh={refreshLiveData} />
       <LiveTicker selected={selected} topPlayer={playerScores[0]} />
+      <TeaserVideoPanel />
       <MotionPromptStrip />
       <RealWorldCupDataPanel lang={lang} data={worldData} refreshState={refreshState} refreshMessage={refreshMessage} />
       <section className="shell app-grid" aria-label="Cup Signal cockpit">
@@ -433,6 +434,31 @@ function MotionPromptStrip() {
         {[...prompts, ...prompts].map((prompt, index) => (
           <span key={`${prompt}-${index}`}>{prompt}</span>
         ))}
+      </div>
+    </section>
+  );
+}
+
+function TeaserVideoPanel() {
+  return (
+    <section className="shell teaser-video-panel reveal-block" aria-label="Cup Signal teaser video">
+      <div className="teaser-video-copy">
+        <p className="eyebrow">Teaser Video</p>
+        <h2>World Cup data cockpit in motion</h2>
+        <p>
+          A short generated teaser for the submission pack. The video keeps the campaign visual generic to football and World Cup
+          data signals, without country, team, or player identity elements.
+        </p>
+      </div>
+      <div className="teaser-video-frame tilt-card">
+        <video
+          src={assetPath("/media/cup-signal-teaser.mp4")}
+          poster={assetPath("/media/cup-signal-teaser-cover.jpg")}
+          controls
+          muted
+          playsInline
+          preload="metadata"
+        />
       </div>
     </section>
   );
