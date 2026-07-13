@@ -275,12 +275,15 @@ function App() {
       <div className="cursor-orb" aria-hidden="true" />
       <div className="scroll-progress" style={{ transform: `scaleX(${scrollProgress})` }} />
       <LanguageToggle lang={lang} onToggle={() => setLang((current) => (current === "en" ? "zh" : "en"))} />
-      <Hero selected={selected} lang={lang} refreshState={refreshState} refreshMessage={refreshMessage} onRefresh={refreshLiveData} />
-      <LiveTicker selected={selected} topPlayer={playerScores[0]} />
-      <StudioIndex selected={selected} topPlayer={playerScores[0]} />
-      <TeaserVideoPanel />
-      <MotionPromptStrip />
-      <RealWorldCupDataPanel lang={lang} data={worldData} refreshState={refreshState} refreshMessage={refreshMessage} />
+      <Hero selected={selected} lang={lang} />
+      <VisualReel />
+      <RealWorldCupDataPanel
+        lang={lang}
+        data={worldData}
+        refreshState={refreshState}
+        refreshMessage={refreshMessage}
+        onRefresh={refreshLiveData}
+      />
       <section className="shell app-grid" aria-label="Cup Signal cockpit">
         <MatchRail predictions={predictions} selectedId={selectedId} onSelect={setSelectedId} />
         <SignalPanel selected={selected} />
@@ -418,6 +421,39 @@ function StageCanvas() {
   }, []);
 
   return <canvas ref={canvasRef} className="stage-canvas" aria-hidden="true" />;
+}
+
+function VisualReel() {
+  const rows = [
+    [
+      "/media/cup-signal-teaser-cover.jpg",
+      "/players/generated-web/arg-10-messi-chibi.webp",
+      "/players/generated-web/arg-11-di-maria-chibi.webp",
+      "/players/generated-web/arg-24-enzo-chibi.webp",
+      "/players/generated-web/arg-09-alvarez-chibi.webp",
+      "/players/generated-web/arg-20-mac-allister-chibi.webp",
+    ],
+    [
+      "/players/generated-web/arg-23-martinez-chibi.webp",
+      "/players/generated-web/arg-07-de-paul-chibi.webp",
+      "/players/generated-web/arg-17-garnacho-chibi.webp",
+      "/players/generated-web/arg-03-tagliafico-chibi.webp",
+      "/players/generated-web/arg-13-romero-chibi.webp",
+      "/media/cup-signal-teaser-cover.jpg",
+    ],
+  ];
+
+  return (
+    <section className="visual-reel" aria-label="Cup Signal visual reel">
+      {rows.map((row, rowIndex) => (
+        <div className={rowIndex === 0 ? "visual-reel-track row-one" : "visual-reel-track row-two"} key={rowIndex}>
+          {[...row, ...row, ...row].map((src, index) => (
+            <img src={assetPath(src)} alt="" loading="lazy" key={`${src}-${index}`} />
+          ))}
+        </div>
+      ))}
+    </section>
+  );
 }
 
 function MotionPromptStrip() {
@@ -605,11 +641,13 @@ function RealWorldCupDataPanel({
   data,
   refreshState,
   refreshMessage,
+  onRefresh,
 }: {
   lang: Lang;
   data: WorldCupRuntimeData;
   refreshState: RefreshState;
   refreshMessage: string;
+  onRefresh: () => void;
 }) {
   const openingMatches = data.matches.slice(0, 6);
   const knockoutPreview = data.matches.filter((match) => match.type !== "group").slice(0, 6);
@@ -621,7 +659,7 @@ function RealWorldCupDataPanel({
     stadiums: data.stadiums.length,
   };
   return (
-    <section className="shell real-data-panel reveal-block tilt-card" aria-label="World Cup real data panel">
+    <section id="real-data" className="shell real-data-panel reveal-block tilt-card" aria-label="World Cup real data panel">
       <div className="real-data-head">
         <div>
           <p className="eyebrow">Real Data Layer</p>
@@ -631,6 +669,10 @@ function RealWorldCupDataPanel({
         <div className="source-stack">
           <span>{data.source.teams}</span>
           <span>{data.mode === "live-browser" ? `Browser refresh ${data.updatedAt}` : data.source.knockout}</span>
+          <button className={`live-refresh-button ${refreshState}`} onClick={onRefresh} disabled={refreshState === "loading"}>
+            <Activity size={15} />
+            {refreshState === "loading" ? copy[lang].refreshLoading : copy[lang].refreshIdle}
+          </button>
         </div>
       </div>
       {refreshMessage ? <div className={`refresh-status ${refreshState}`}>{refreshMessage}</div> : null}
@@ -1088,101 +1130,57 @@ function StatGrid({ score }: { score: PlayerScore }) {
 function Hero({
   selected,
   lang,
-  refreshState,
-  refreshMessage,
-  onRefresh,
 }: {
   selected: Prediction;
   lang: Lang;
-  refreshState: RefreshState;
-  refreshMessage: string;
-  onRefresh: () => void;
 }) {
+  const navLinks = [
+    { href: "#signal", label: "Signal" },
+    { href: "#players", label: "Players" },
+    { href: "#injective", label: "Flow" },
+    { href: "#real-data", label: "Data" },
+  ];
+
   return (
     <header className="hero">
       <div className="spotlight-layer" aria-hidden="true" />
-      <div className="hero-prompt-cloud" aria-hidden="true">
-        <span>forecast_match()</span>
-        <span>x402 402</span>
-        <span>rank_match_players()</span>
-        <span>USDC CCTP memo</span>
-      </div>
-      <div className="hero-symbols" aria-hidden="true">
-        <img className="hero-trophy" src={assetPath("/worldcup/trophy-line.svg")} alt="" />
-        <img className="hero-football" src={assetPath("/worldcup/football-line.svg")} alt="" />
-      </div>
-      <div className="hero-media" aria-hidden="true">
-        <div className="pitch">
-          <div className="pitch-line center-line" />
-          <div className="pitch-line box-left" />
-          <div className="pitch-line box-right" />
-          <div className="ball-track">
-            <span />
-          </div>
-        </div>
-      </div>
       <nav className="topbar shell" aria-label="Project navigation">
-        <div className="brand">
-          <Crosshair size={20} />
-          <span>Cup Signal</span>
-        </div>
-        <div className="nav-actions">
-          <div className="nav-pills">
-            <span>x402</span>
-            <span>CCTP</span>
-            <span>MCP</span>
-            <span>Agent Skill</span>
-          </div>
-          <button className={`live-refresh-button ${refreshState}`} onClick={onRefresh} disabled={refreshState === "loading"}>
-            <Activity size={15} />
-            {refreshState === "loading" ? copy[lang].refreshLoading : copy[lang].refreshIdle}
-          </button>
-        </div>
+        {navLinks.map((item) => (
+          <a href={item.href} key={item.href}>
+            {item.label}
+          </a>
+        ))}
       </nav>
-      {refreshMessage ? <div className={`hero-refresh-note shell ${refreshState}`}>{refreshMessage}</div> : null}
-      <div className="shell hero-content reveal-block">
-        <div>
-          <div className="studio-kicker">
-            <span>Live World Cup Signal</span>
-            <span>{selected.match.round}</span>
-            <span>{selected.match.scoreLabel === "final" ? "verified result" : "model watch"}</span>
-          </div>
-          <p className="eyebrow">Injective Global Cup Matchday AI</p>
-          <h1>Turn World Cup noise into one usable watch-party signal.</h1>
-          <p className="hero-copy">
-            Cup Signal reads fixture context, live pressure, team profiles, and fan utility needs, then packages a paid
-            premium brief through an x402 flow and an Injective-oriented USDC CCTP settlement note.
-          </p>
-          <div className="hero-actions">
-            <a href="#signal">Open Signal</a>
-            <a href="#injective">Inspect Injective Flow</a>
-          </div>
-        </div>
-        <aside className="live-card tilt-card" aria-label="Selected live match">
-          <div className="live-card-header">
-            <span className="pulse-dot" />
-            <span>{selected.match.status.toUpperCase()}</span>
-            <span>{selected.match.minute ? `${selected.match.minute}'` : selected.match.kickoffLocal}</span>
-          </div>
-          <h2>
-            {selected.home.name} <span>vs</span> {selected.away.name}
-          </h2>
-          <div className="scoreline">
-            <strong>{selected.projectedScore[0]}</strong>
-            <span>{selected.match.scoreLabel === "final" ? "final" : "projected"}</span>
-            <strong>{selected.projectedScore[1]}</strong>
-          </div>
-          <div className="prob-row">
-            <span>{formatPercent(selected.homeWin)} home</span>
-            <span>{formatPercent(selected.draw)} draw</span>
-            <span>{formatPercent(selected.awayWin)} away</span>
-          </div>
-        </aside>
+      <div className="hero-heading-wrap reveal-block">
+        <h1 className="hero-heading">Cup Signal</h1>
       </div>
-      <div className="shell hero-meta-rail" aria-label="Hero match metadata">
-        <span>{selected.match.venue}</span>
-        <span>xG {selected.match.xgHome.toFixed(2)} / {selected.match.xgAway.toFixed(2)}</span>
-        <span>{selected.match.liveDataSource}</span>
+      <div className="hero-showpiece reveal-block" aria-label="Cup Signal motion preview">
+        <video
+          src={assetPath("/media/cup-signal-teaser.mp4")}
+          poster={assetPath("/media/cup-signal-teaser-cover.jpg")}
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="metadata"
+          aria-hidden="true"
+        />
+        <div className="hero-score-chip">
+          <span>{selected.match.round}</span>
+          <strong>
+            {selected.home.code} {selected.projectedScore[0]} - {selected.projectedScore[1]} {selected.away.code}
+          </strong>
+        </div>
+      </div>
+      <div className="shell hero-bottom reveal-block">
+        <p>
+          {lang === "zh"
+            ? "把世界杯现场噪音压缩成一个可交易、可展示、可交给 Agent 的信号。"
+            : "A matchday AI cockpit that turns World Cup chaos into one tradable signal."}
+        </p>
+        <a className="hero-contact-pill" href="#signal">
+          Open Signal
+        </a>
       </div>
     </header>
   );
