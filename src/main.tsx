@@ -277,6 +277,7 @@ function App() {
       <LanguageToggle lang={lang} onToggle={() => setLang((current) => (current === "en" ? "zh" : "en"))} />
       <Hero selected={selected} lang={lang} refreshState={refreshState} refreshMessage={refreshMessage} onRefresh={refreshLiveData} />
       <LiveTicker selected={selected} topPlayer={playerScores[0]} />
+      <StudioIndex selected={selected} topPlayer={playerScores[0]} />
       <TeaserVideoPanel />
       <MotionPromptStrip />
       <RealWorldCupDataPanel lang={lang} data={worldData} refreshState={refreshState} refreshMessage={refreshMessage} />
@@ -439,26 +440,94 @@ function MotionPromptStrip() {
   );
 }
 
+function StudioIndex({ selected, topPlayer }: { selected: Prediction; topPlayer: PlayerScore }) {
+  const rows = [
+    {
+      key: "01",
+      label: "Match Signal",
+      value: `${selected.home.code} ${selected.projectedScore[0]}-${selected.projectedScore[1]} ${selected.away.code}`,
+      detail: `${Math.round(selected.confidence * 100)}% confidence / ${Math.round(selected.volatility)} volatility`,
+      href: "#signal",
+    },
+    {
+      key: "02",
+      label: "Player Layer",
+      value: topPlayer.player.displayName,
+      detail: `${topPlayer.score.toFixed(2)} live rating / ${topPlayer.grade} grade`,
+      href: "#players",
+    },
+    {
+      key: "03",
+      label: "Showreel",
+      value: "Teaser video",
+      detail: "No-country World Cup data cockpit motion",
+      href: "#teaser",
+    },
+    {
+      key: "04",
+      label: "Injective Rail",
+      value: "x402 / CCTP / MCP / Skill",
+      detail: "Paid scout intel, fan pool memo, agent-readable match tools",
+      href: "#injective",
+    },
+  ];
+
+  return (
+    <section className="studio-index" aria-label="Cup Signal studio index">
+      <div className="shell studio-index-inner">
+        <div className="studio-index-copy">
+          <p className="eyebrow">Case Index</p>
+          <h2>A football signal system staged as a live product film.</h2>
+        </div>
+        <div className="studio-index-list">
+          {rows.map((row) => (
+            <a href={row.href} key={row.key}>
+              <span>{row.key}</span>
+              <strong>{row.label}</strong>
+              <b>{row.value}</b>
+              <em>{row.detail}</em>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function TeaserVideoPanel() {
   return (
-    <section className="shell teaser-video-panel reveal-block" aria-label="Cup Signal teaser video">
-      <div className="teaser-video-copy">
-        <p className="eyebrow">Teaser Video</p>
-        <h2>World Cup data cockpit in motion</h2>
-        <p>
-          A short generated teaser for the submission pack. The video keeps the campaign visual generic to football and World Cup
-          data signals, without country, team, or player identity elements.
-        </p>
+    <section id="teaser" className="teaser-video-panel reveal-block" aria-label="Cup Signal motion background">
+      <video
+        className="teaser-video-bg"
+        src={assetPath("/media/cup-signal-teaser.mp4")}
+        poster={assetPath("/media/cup-signal-teaser-cover.jpg")}
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="metadata"
+        aria-hidden="true"
+      />
+      <div className="teaser-video-shade" aria-hidden="true" />
+      <div className="shell teaser-video-stage">
+        <div className="teaser-video-copy">
+          <p className="eyebrow">Matchday Film</p>
+          <h2>World Cup data cockpit in motion</h2>
+          <p>
+            A looping matchday signal layer carries pressure maps, paid scout intel, and fan-pool settlement rails through
+            the Cup Signal case narrative.
+          </p>
+        </div>
+        <div className="teaser-signal-stack" aria-label="Motion layer signals">
+          <span>SHOWREEL / 00:06 LOOP</span>
+          <strong>x402 / CCTP / MCP / AGENT SKILL</strong>
+          <b>FOOTBALL DATA STUDIO</b>
+        </div>
       </div>
-      <div className="teaser-video-frame tilt-card">
-        <video
-          src={assetPath("/media/cup-signal-teaser.mp4")}
-          poster={assetPath("/media/cup-signal-teaser-cover.jpg")}
-          controls
-          muted
-          playsInline
-          preload="metadata"
-        />
+      <div className="shell teaser-video-rail" aria-hidden="true">
+        <span>01 Live pressure map</span>
+        <span>02 Paid scout brief</span>
+        <span>03 Fan pool settlement memo</span>
       </div>
     </section>
   );
