@@ -269,7 +269,9 @@ Two additional GPT Image 2 assets are included for the submission and social/vid
 
 - `docs/assets/cup-signal-studio-hero.png`: horizontal cinematic key visual for README, X post, and submission cover usage.
 - `docs/assets/cup-signal-video-keyframe.png`: vertical keyframe reference for short-form video generation.
-- `public/media/cup-signal-teaser.mp4`: 6-second H.264/AAC teaser video generated from the no-country football data-cockpit direction.
+- `public/media/cup-signal-loop.mp4`: 6-second H.264/AAC motion loop used inside the web experience.
+- `public/media/cup-signal-teaser.mp4`: backwards-compatible URL for the full narrated submission video.
+- `public/media/cup-signal-demo-v2.mp4`: canonical full narrated submission video.
 - `docs/assets/cup-signal-teaser-cover.jpg`: extracted cover frame for the teaser.
 
 The generated assets are original Cup Signal visuals. They do not use third-party website assets, country names, national flags, team crests, official federation marks, jerseys, specific scorelines, or claimed player likenesses. The live site still uses the interactive canvas and data panels as the primary experience; these images are supporting campaign material.

@@ -94,6 +94,8 @@ Screenshot from the live panel attached.
 
 - `docs/assets/cup-signal-studio-hero.png`: GPT Image 2 horizontal key visual for X card, README cover, or submission thumbnail. It uses only universal football World Cup elements, with no country/team visual identity.
 - `docs/assets/cup-signal-video-keyframe.png`: GPT Image 2 vertical keyframe for video-generation reference. It uses only universal football World Cup elements, with no country/team visual identity.
-- `public/media/cup-signal-teaser.mp4`: 6-second H.264/AAC teaser video generated from the no-country football data-cockpit direction.
+- `public/media/cup-signal-loop.mp4`: 6-second H.264/AAC motion loop used by the web experience.
+- `public/media/cup-signal-teaser.mp4`: backwards-compatible URL for the full narrated submission video.
+- `public/media/cup-signal-demo-v2.mp4`: canonical full narrated submission video.
 - `docs/assets/cup-signal-teaser-cover.jpg`: extracted cover frame for the teaser.
 - `docs/VIDEO_PROMPTS.md`: video prompts and shot sequence.

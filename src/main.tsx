@@ -535,7 +535,7 @@ function TeaserVideoPanel() {
     <section id="teaser" className="teaser-video-panel reveal-block" aria-label="Cup Signal motion background">
       <video
         className="teaser-video-bg"
-        src={assetPath("/media/cup-signal-teaser.mp4")}
+        src={assetPath("/media/cup-signal-loop.mp4")}
         poster={assetPath("/media/cup-signal-teaser-cover.jpg")}
         autoPlay
         loop
@@ -1156,7 +1156,7 @@ function Hero({
       </div>
       <div className="hero-showpiece reveal-block" aria-label="Cup Signal motion preview">
         <video
-          src={assetPath("/media/cup-signal-teaser.mp4")}
+          src={assetPath("/media/cup-signal-loop.mp4")}
           poster={assetPath("/media/cup-signal-teaser-cover.jpg")}
           autoPlay
           loop
