@@ -1,4 +1,5 @@
 import express from "express";
+import { PaymentRequiredV2Schema } from "@x402/core/schemas";
 import { buildWatchBrief } from "../src/forecast";
 import { scorePlayers } from "../src/players";
 import { injectivePlaybookSummary, injectivePlays } from "../src/injectivePlaybook";
@@ -6,7 +7,7 @@ import { injectivePlaybookSummary, injectivePlays } from "../src/injectivePlaybo
 const app = express();
 const port = Number(process.env.PORT ?? 4020);
 const receiver = process.env.X402_RECEIVER ?? "0x0000000000000000000000000000000000004020";
-const network = process.env.X402_NETWORK ?? "base-sepolia";
+const network = process.env.X402_NETWORK ?? "eip155:1439";
 
 app.use(express.json());
 
@@ -33,30 +34,40 @@ app.get("/api/premium-report/:matchId", (request, response) => {
   const paymentHeader = request.header("X-PAYMENT");
 
   if (!paymentHeader && process.env.X402_LIVE !== "true") {
-    response.status(402).json({
+    const resource = `/api/premium-report/${brief.matchId}`;
+    const paymentRequired = PaymentRequiredV2Schema.parse({
       x402Version: 2,
+      resource: {
+        url: resource,
+        description: `Cup Signal premium World Cup report for ${brief.matchId}`,
+        mimeType: "application/json",
+        serviceName: "Cup Signal",
+        tags: ["world-cup", "injective", "match-intelligence"],
+      },
       accepts: [
         {
           scheme: "exact",
           network,
-          maxAmountRequired: "100000",
-          resource: brief.payment.resource,
-          description: `Cup Signal premium World Cup report for ${brief.matchId}`,
-          mimeType: "application/json",
+          amount: "100000",
           payTo: receiver,
           maxTimeoutSeconds: 120,
           asset: "USDC",
-          outputSchema: {
-            type: "object",
-            properties: {
-              headline: { type: "string" },
-              premiumReport: { type: "array", items: { type: "string" } },
-              cctp: { type: "object" },
+          extra: {
+            outputSchema: {
+              type: "object",
+              properties: {
+                headline: { type: "string" },
+                premiumReport: { type: "array", items: { type: "string" } },
+                cctp: { type: "object" },
+              },
             },
           },
         },
       ],
-      note: "Dry-run x402 challenge. In production, wire @x402/express with a facilitator and settle the X-PAYMENT header.",
+    });
+    response.status(402).json({
+      ...paymentRequired,
+      note: "Dry-run x402 challenge. In production, use Injective x402 facilitator verification and settlement.",
     });
     return;
   }

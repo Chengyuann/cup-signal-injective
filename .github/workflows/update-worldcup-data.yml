@@ -36,9 +36,11 @@ jobs:
 
       - name: Verify
         run: |
-          BASE_PATH=/cup-signal-injective/ npm run build
           npm test
           npm run check:mcp
+          npm run proof:judge
+          BASE_PATH=/cup-signal-injective/ npm run build
+          npm run audit:pages
 
       - name: Commit updated data
         id: commit

@@ -1,0 +1,105 @@
+{
+  "version": 1,
+  "generatedAt": "2026-08-04T17:15:27.369Z",
+  "project": "Cup Signal",
+  "boundaries": {
+    "x402": "Dry-run HTTP 402 handshake. No settlement transaction is claimed.",
+    "cctp": "Deterministic USDC CCTP settlement intent. No burn, attestation, or mint transaction is claimed.",
+    "mcp": "Live local stdio MCP server verified by the official TypeScript SDK.",
+    "agentSkill": "Portable SKILL.md workflow verified against the local MCP tool names."
+  },
+  "model": {
+    "matchId": "cup-001",
+    "projection": [
+      3,
+      2
+    ],
+    "probabilities": {
+      "home": 0.6485175785769468,
+      "draw": 0.20345131307165065,
+      "away": 0.14803110835140254
+    },
+    "probabilityTotal": 1,
+    "confidence": 0.6485175785769468,
+    "volatility": 74.24
+  },
+  "x402": {
+    "request": "GET /api/premium-report/cup-001",
+    "challengeStatus": 402,
+    "challengeVersion": 2,
+    "resource": {
+      "url": "/api/premium-report/cup-001",
+      "description": "Cup Signal premium World Cup report for cup-001",
+      "mimeType": "application/json",
+      "serviceName": "Cup Signal",
+      "tags": [
+        "world-cup",
+        "injective",
+        "match-intelligence"
+      ]
+    },
+    "accepts": [
+      {
+        "scheme": "exact",
+        "network": "eip155:1439",
+        "amount": "100000",
+        "asset": "USDC",
+        "payTo": "0x0000000000000000000000000000000000004020",
+        "maxTimeoutSeconds": 120,
+        "extra": {
+          "outputSchema": {
+            "type": "object",
+            "properties": {
+              "headline": {
+                "type": "string"
+              },
+              "premiumReport": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "cctp": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "paidStatus": 200,
+    "paymentResponseHeader": "{\"success\":true,\"mode\":\"dry-run-header-accepted\",\"receiver\":\"0x0000000000000000000000000000000000004020\"}",
+    "unlockedHeadline": "Argentina vs Egypt: Argentina carries the sharper live edge"
+  },
+  "cctp": {
+    "source": "Base Sepolia",
+    "destination": "Injective testnet",
+    "token": "USDC",
+    "memo": "cup-signal:cup-001:watch-brief"
+  },
+  "mcp": {
+    "sdk": "@modelcontextprotocol/sdk",
+    "tools": [
+      "list_fixtures",
+      "forecast_match",
+      "build_watch_brief",
+      "rank_teams",
+      "rank_match_players",
+      "get_worldcup_2026_data",
+      "get_injective_playbook"
+    ],
+    "forecastContentItems": 1,
+    "briefContentItems": 1
+  },
+  "agentSkill": {
+    "path": "agent-skill/SKILL.md",
+    "workflow": [
+      "list_fixtures",
+      "forecast_match",
+      "build_watch_brief",
+      "rank_match_players",
+      "get_injective_playbook"
+    ]
+  },
+  "sha256": "429a104c63f12f4960f1110584e85c632d8d18a0732ce1b492ceb716c48e6c89"
+}

@@ -6,6 +6,11 @@ Cup Signal is a World Cup matchday AI cockpit built for **The Injective Global C
 
 - **MVP:** https://chengyuann.github.io/cup-signal-injective/
 - **Full demo video (77 seconds):** https://chengyuann.github.io/cup-signal-injective/media/cup-signal-demo-v2.mp4
+- **3-minute judge guide:** [docs/JUDGE_GUIDE.md](docs/JUDGE_GUIDE.md)
+- **Generated proof bundle:** https://chengyuann.github.io/cup-signal-injective/proofs/judge-proof.json
+- **Technical status and boundaries:** [STATUS.md](STATUS.md)
+- **Public competitive review:** [docs/COMPETITIVE_REVIEW.md](docs/COMPETITIVE_REVIEW.md)
+- **August 2026 technology radar:** [docs/TECH_RADAR_2026-08.md](docs/TECH_RADAR_2026-08.md)
 - **Repository:** https://github.com/Chengyuann/cup-signal-injective
 - **X post:** https://x.com/macy200201/status/2073792929613955566
 
@@ -107,6 +112,12 @@ Run the MCP verification:
 npm run check:mcp
 ```
 
+Generate the same proof bundle published on the live site:
+
+```bash
+npm run proof:judge
+```
+
 Run a plain agent demo:
 
 ```bash
@@ -134,7 +145,7 @@ Production path:
 
 1. Replace `X402_RECEIVER` with the real receiving address.
 2. Set the target network and supported asset.
-3. Wire `@x402/express` plus a facilitator to verify and settle `X-PAYMENT`.
+3. Wire the official Injective x402 package and facilitator to verify and settle the payment payload.
 4. Keep the same premium report resource path.
 
 ### USDC CCTP
@@ -281,7 +292,10 @@ Video prompts and reference-frame notes are in `docs/VIDEO_PROMPTS.md`.
 ## Verified Locally
 
 - `npm run build`
+- `npm test`
 - `npm run check:mcp`
+- `npm run proof:judge`
+- `npm run audit:pages`
 - `npm run demo:agent`
 - `npm run capture`
 - x402 dry-run `curl` returned `402 Payment Required`, then `200 OK` with `X-PAYMENT-RESPONSE` when a demo `X-PAYMENT` header was supplied.

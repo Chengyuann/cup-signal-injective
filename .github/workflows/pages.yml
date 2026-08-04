@@ -32,9 +32,13 @@ jobs:
         run: |
           npm test
           npm run check:mcp
+          npm run proof:judge
 
       - name: Build
         run: BASE_PATH=/cup-signal-injective/ npm run build
+
+      - name: Audit Pages artifact
+        run: npm run audit:pages
 
       - name: Deploy to gh-pages
         uses: peaceiris/actions-gh-pages@v4

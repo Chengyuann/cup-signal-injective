@@ -2789,6 +2789,16 @@ input[type="range"] {
     flex-direction: column;
   }
 
+  .topbar {
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 18px;
+  }
+
+  .topbar .desktop-nav-link {
+    display: none;
+  }
+
   .nav-pills {
     display: none;
   }

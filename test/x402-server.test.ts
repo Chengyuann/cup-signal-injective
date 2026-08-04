@@ -35,8 +35,12 @@ test("premium endpoint returns a valid 402 challenge", async () => {
 
   assert.equal(response.status, 402);
   assert.equal(body.x402Version, 2);
+  assert.equal(body.resource.url, "/api/premium-report/cup-001");
+  assert.equal(body.accepts[0].network, "eip155:1439");
+  assert.equal(body.accepts[0].amount, "100000");
   assert.equal(body.accepts[0].asset, "USDC");
-  assert.match(body.accepts[0].resource, /^\/api\/premium-report\//);
+  assert.equal(body.accepts[0].extra.outputSchema.type, "object");
+  assert.equal("maxAmountRequired" in body.accepts[0], false);
 });
 
 test("demo payment header unlocks the report", async () => {

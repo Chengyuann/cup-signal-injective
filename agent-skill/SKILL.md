@@ -10,6 +10,8 @@ Use this skill when a user wants a concise World Cup match read, a watch-party p
 ## Required Context
 
 - Prefer the local MCP server command: `npm run mcp`
+- When discussing payment, CCTP, wallets, or transactions, read
+  `references/payment-boundaries.md`.
 - Useful tools:
   - `list_fixtures`
   - `forecast_match`
@@ -39,4 +41,5 @@ Use this skill when a user wants a concise World Cup match read, a watch-party p
 
 - Keep the output useful for fans, not betting advice.
 - Do not claim a real on-chain payment happened unless the user provides proof.
+- Keep dry-run confirmation distinct from a facilitator settlement receipt.
 - If posting to X, include `@injective`, `@NinjaLabsHQ`, `@NinjaLabsCN`, and `#InjectiveGlobalCupHackathon`.

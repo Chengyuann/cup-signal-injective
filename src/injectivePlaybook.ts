@@ -21,7 +21,7 @@ export const injectivePlays: InjectivePlay[] = [
     fanAction: "Click Simulate x402 Unlock, then use the unlocked player/event report as the paid intelligence card.",
     implementation: "server/x402-report-server.ts returns HTTP 402 requirements for /api/premium-report/:matchId and emits X-PAYMENT-RESPONSE when paid.",
     proof: "npm run server:x402 plus curl /api/premium-report/cup-001 returns 402, then 200 with X-PAYMENT.",
-    productionStep: "Replace the demo header with @x402/express facilitator verification and a real receiving address.",
+    productionStep: "Replace the demo header with official Injective x402 facilitator verification, a funded receiver, and persisted settlement receipts.",
     scoreBoost: "+1 x402 technical point; turns match analysis into a pay-per-request football data product.",
   },
   {

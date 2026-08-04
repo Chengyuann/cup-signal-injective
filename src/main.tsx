@@ -1135,10 +1135,12 @@ function Hero({
   lang: Lang;
 }) {
   const navLinks = [
-    { href: "#signal", label: "Signal" },
-    { href: "#players", label: "Players" },
-    { href: "#injective", label: "Flow" },
-    { href: "#real-data", label: "Data" },
+    { href: "#signal", label: "Signal", compact: false },
+    { href: "#players", label: "Players", compact: false },
+    { href: "#injective", label: "Flow", compact: false },
+    { href: "#real-data", label: "Data", compact: false },
+    { href: "https://github.com/Chengyuann/cup-signal-injective/blob/main/docs/JUDGE_GUIDE.md", label: "Judge Guide", external: true },
+    { href: assetPath("/proofs/judge-proof.json"), label: "Proof", external: true },
   ];
 
   return (
@@ -1146,7 +1148,13 @@ function Hero({
       <div className="spotlight-layer" aria-hidden="true" />
       <nav className="topbar shell" aria-label="Project navigation">
         {navLinks.map((item) => (
-          <a href={item.href} key={item.href}>
+          <a
+            href={item.href}
+            key={item.href}
+            className={item.compact === false ? "desktop-nav-link" : undefined}
+            target={item.external ? "_blank" : undefined}
+            rel={item.external ? "noreferrer" : undefined}
+          >
             {item.label}
           </a>
         ))}

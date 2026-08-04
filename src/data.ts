@@ -2,7 +2,7 @@ import type { Match, Team, Weights } from "./types";
 
 export const eventSnapshot = {
   name: "The Injective Global Cup",
-  window: "2026-07-03 to 2026-07-19",
+  window: "2026-07-03 to 2026-07-26",
   submission: "https://xsxo494365r.typeform.com/to/TMaGb1du",
   judgingFocus: [
     "World Cup utility",

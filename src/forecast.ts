@@ -136,7 +136,7 @@ export function buildWatchBrief(matchId: string, weights: Weights = defaultWeigh
     payment: {
       protocol: "x402",
       price: "$0.10",
-      network: "base-sepolia",
+      network: "eip155:1439",
       receiver: "0x0000000000000000000000000000000000004020",
       resource: `/api/premium-report/${prediction.match.id}`,
     },
