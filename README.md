@@ -296,6 +296,7 @@ Video prompts and reference-frame notes are in `docs/VIDEO_PROMPTS.md`.
 - `npm run check:mcp`
 - `npm run proof:judge`
 - `npm run audit:pages`
+- `REQUIRE_PUBLIC_PROOF=true npm run check:submission`
 - `npm run demo:agent`
 - `npm run capture`
 - x402 dry-run `curl` returned `402 Payment Required`, then `200 OK` with `X-PAYMENT-RESPONSE` when a demo `X-PAYMENT` header was supplied.
