@@ -29,7 +29,7 @@ https://chengyuann.github.io/cup-signal-injective/
 Demo video:
 
 ```text
-https://chengyuann.github.io/cup-signal-injective/media/cup-signal-teaser.mp4
+https://chengyuann.github.io/cup-signal-injective/media/cup-signal-demo-v2.mp4
 ```
 
 X tweet link:

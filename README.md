@@ -2,6 +2,13 @@
 
 Cup Signal is a World Cup matchday AI cockpit built for **The Injective Global Cup**. It helps fans and watch-party hosts turn noisy match context into one usable signal: win probability, projected score, tactical read, group-chat prompt, and a premium report unlock flow.
 
+## Live Submission
+
+- **MVP:** https://chengyuann.github.io/cup-signal-injective/
+- **Full demo video (77 seconds):** https://chengyuann.github.io/cup-signal-injective/media/cup-signal-demo-v2.mp4
+- **Repository:** https://github.com/Chengyuann/cup-signal-injective
+- **X post:** https://x.com/macy200201/status/2073792929613955566
+
 The project is intentionally small enough for judges to run quickly, but it includes all four Injective challenge hooks:
 
 - **x402**: a pay-per-request premium report endpoint shape using HTTP 402.
@@ -27,15 +34,17 @@ The page includes an **Injective Playbook** section that maps each technical hoo
 
 ![Cup Signal video keyframe](docs/assets/cup-signal-video-keyframe.png)
 
-## Teaser Video
+## Demo Video
 
-The generated teaser video is bundled in the public demo:
+The full narrated submission video is bundled in the public demo:
 
 ```text
-https://chengyuann.github.io/cup-signal-injective/media/cup-signal-teaser.mp4
+https://chengyuann.github.io/cup-signal-injective/media/cup-signal-demo-v2.mp4
 ```
 
-<video src="public/media/cup-signal-teaser.mp4" poster="docs/assets/cup-signal-teaser-cover.jpg" controls muted playsinline width="720"></video>
+[Open the full narrated demo video](https://chengyuann.github.io/cup-signal-injective/media/cup-signal-demo-v2.mp4)
+
+<video src="public/media/cup-signal-demo-v2.mp4" poster="docs/assets/cup-signal-teaser-cover.jpg" controls playsinline width="720"></video>
 
 ## Real World Cup Data
 

@@ -35,7 +35,10 @@ jobs:
         run: npm run update:worldcup
 
       - name: Verify
-        run: npm run build && npm run check:mcp
+        run: |
+          BASE_PATH=/cup-signal-injective/ npm run build
+          npm test
+          npm run check:mcp
 
       - name: Commit updated data
         id: commit
@@ -51,11 +54,3 @@ jobs:
           git commit -m "Update World Cup data snapshot"
           git push
           echo "changed=true" >> "$GITHUB_OUTPUT"
-
-      - name: Deploy refreshed site to gh-pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: dist
-          publish_branch: gh-pages
-          force_orphan: true

@@ -28,6 +28,11 @@ jobs:
       - name: Install
         run: npm install --no-audit --no-fund
 
+      - name: Test
+        run: |
+          npm test
+          npm run check:mcp
+
       - name: Build
         run: BASE_PATH=/cup-signal-injective/ npm run build
 
