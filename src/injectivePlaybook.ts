@@ -27,12 +27,12 @@ export const injectivePlays: InjectivePlay[] = [
   {
     key: "cctp",
     label: "USDC CCTP Fan Pool",
-    status: "intent-only",
-    hook: "Every premium brief carries a CCTP memo so a fan group can settle a cross-chain USDC prize pool into an Injective-oriented flow.",
-    fanAction: "Copy the memo cup-signal:<match>:watch-brief for a watch-party USDC pool or player-of-the-match bounty.",
-    implementation: "buildWatchBrief() emits Base Sepolia -> Injective testnet USDC settlement metadata with a deterministic memo.",
-    proof: "The app, MCP build_watch_brief tool, and x402 response all expose the same cctp object.",
-    productionStep: "Wire the memo into Circle CCTP burn/attestation/mint flow, then reconcile the minted USDC on Injective.",
+    status: "live-settled",
+    hook: "A fan-group USDC pool can move from Base Sepolia to Injective Testnet through Circle CCTP V2.",
+    fanAction: "Inspect the burn, Circle attestation, destination mint, and the reconciled Cup Signal memo.",
+    implementation: "Circle Bridge Kit performs approve and burn on Base Sepolia; the resume path retrieves the IRIS attestation and calls receiveMessage on Injective.",
+    proof: "public/proofs/cctp-transfer.json records the source transaction, event nonce, complete attestation, destination transaction, and USDC balance delta.",
+    productionStep: "Add production relayer monitoring, retry queues, KMS custody, and mainnet limits before moving real-value USDC.",
     scoreBoost: "+1 CCTP technical point; makes live fan rewards cross-chain instead of purely local.",
   },
   {

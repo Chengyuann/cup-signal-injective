@@ -9,7 +9,7 @@
     "explorerUrl": "https://testnet.blockscout.injective.network"
   },
   "deployer": "0x0C69f390Da3e0B35570F031c0878e9F000cf5D84",
-  "balanceBeforeInj": "9.999699313984",
+  "balanceBeforeInj": "9.98968569024",
   "contract": {
     "name": "CupSignalProofRegistry",
     "address": "0x751784E837763cE0cB1786b2A0741092B15bB808",
@@ -18,20 +18,20 @@
     "explorer": "https://testnet.blockscout.injective.network/address/0x751784E837763cE0cB1786b2A0741092B15bB808"
   },
   "anchor": {
-    "proofSha256": "0xdc32859487f33a8a3b027684077565c5eb83a1692b80a7b58082b3d8d986e150",
+    "proofSha256": "0xc6821290f8b7e7388f0da315399e45b9ffa1be62616916eb218bff82765331ee",
     "cctpMemoSha256": "0x7a7d75de8a4003d8b4883b0c6b6635e3a355862cf9fdc74db131505183ccec11",
     "proofUri": "https://chengyuann.github.io/cup-signal-injective/proofs/judge-proof.json",
-    "transaction": "0x59820d4a3c289d2a73d7164e809d1b57539385a0a5377e17f8ea9343c85958ec",
-    "block": "135815046",
-    "explorer": "https://testnet.blockscout.injective.network/tx/0x59820d4a3c289d2a73d7164e809d1b57539385a0a5377e17f8ea9343c85958ec",
+    "transaction": "0x1040a8c5a6ac29d62b618eadadd95aff5e259ff580c4dcdffeab6fcbb345a7bd",
+    "block": "135818934",
+    "explorer": "https://testnet.blockscout.injective.network/tx/0x1040a8c5a6ac29d62b618eadadd95aff5e259ff580c4dcdffeab6fcbb345a7bd",
     "eventSignature": "ProofAnchored(bytes32,bytes32,string,uint64,address)"
   },
   "readback": {
-    "proofSha256": "0xdc32859487f33a8a3b027684077565c5eb83a1692b80a7b58082b3d8d986e150",
+    "proofSha256": "0xc6821290f8b7e7388f0da315399e45b9ffa1be62616916eb218bff82765331ee",
     "cctpMemoSha256": "0x7a7d75de8a4003d8b4883b0c6b6635e3a355862cf9fdc74db131505183ccec11",
     "proofUri": "https://chengyuann.github.io/cup-signal-injective/proofs/judge-proof.json",
-    "anchoredAt": "1785934217",
+    "anchoredAt": "1785937384",
     "submitter": "0x0C69f390Da3e0B35570F031c0878e9F000cf5D84"
   },
-  "generatedAt": "2026-08-05T12:50:20.065Z"
+  "generatedAt": "2026-08-05T13:43:07.086Z"
 }

@@ -3,7 +3,7 @@
   "project": "Cup Signal",
   "boundaries": {
     "x402": "Local zero-funds harness plus real public and agent testnet USDC settlement receipts.",
-    "cctp": "Deterministic USDC CCTP settlement intent. No burn, attestation, or mint transaction is claimed.",
+    "cctp": "Completed 1 USDC Base Sepolia to Injective Testnet CCTP V2 transfer.",
     "mcp": "Live local stdio MCP server verified by the official TypeScript SDK.",
     "agentSkill": "Portable SKILL.md workflow verified against the local MCP tool names."
   },
@@ -121,7 +121,15 @@
     "source": "Base Sepolia",
     "destination": "Injective testnet",
     "token": "USDC",
-    "memo": "cup-signal:cup-001:watch-brief"
+    "memo": "cup-signal:cup-001:watch-brief",
+    "status": "success",
+    "amount": "1",
+    "sourceTransaction": "0x91da650b7b6139192850ccad68aa5cf4300f24ab63271c81a8b0ce7593641760",
+    "eventNonce": "0xf1b698374af9ef58d3933e785005af8c52ba95a9d6a8257582caf004d06d6eb8",
+    "attestationStatus": "complete",
+    "destinationTransaction": "0x2be61d74a3f88a503596b369919f2a12f7eefc3102235a63886597e2222a6f29",
+    "balanceBefore": "19.96",
+    "balanceAfter": "20.96"
   },
   "mcp": {
     "sdk": "@modelcontextprotocol/sdk",
@@ -152,6 +160,6 @@
     "contract": "0x751784E837763cE0cB1786b2A0741092B15bB808",
     "proofRecord": "https://chengyuann.github.io/cup-signal-injective/proofs/onchain-proof.json"
   },
-  "generatedAt": "2026-08-05T12:49:50.703Z",
-  "sha256": "dc32859487f33a8a3b027684077565c5eb83a1692b80a7b58082b3d8d986e150"
+  "generatedAt": "2026-08-05T13:42:58.666Z",
+  "sha256": "c6821290f8b7e7388f0da315399e45b9ffa1be62616916eb218bff82765331ee"
 }

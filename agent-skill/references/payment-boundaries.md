@@ -10,12 +10,13 @@ or an on-chain transaction.
 - `public/proofs/x402-payment.json` contains a real public settlement receipt.
 - `public/proofs/agent-x402-run.json` contains a budget-gated agent settlement.
 - `X-PAYMENT: demo-paid` remains available only in the local zero-funds harness.
-- The CCTP object is a Base Sepolia to Injective testnet settlement intent.
+- `public/proofs/cctp-transfer.json` records a completed Base Sepolia to
+  Injective Testnet CCTP V2 transfer.
 
 ## Never claim
 
 - that a payment settled without linking one of the public receipt proofs,
-- that a CCTP burn or mint completed,
+- that a different CCTP transfer or a mainnet transfer completed without fresh proof,
 - that a mainnet payment occurred,
 - that the proof-registry anchor itself is the x402 payment.
 
@@ -25,9 +26,8 @@ or an on-chain transaction.
 - agent settlement: `public/proofs/agent-x402-run.json`
 - proof registry: `public/proofs/onchain-proof.json`
 
-## CCTP evidence still required
+## Current CCTP proof
 
-- source-chain burn transaction,
-- Circle attestation and message,
-- destination-chain mint transaction,
-- reconciliation against the Cup Signal memo.
+- source burn and destination mint: `public/proofs/cctp-transfer.json`
+- Circle IRIS status: `complete`
+- reconciled memo: `cup-signal:cup-001:watch-brief`

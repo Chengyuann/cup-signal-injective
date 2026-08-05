@@ -128,4 +128,24 @@ if (agentProofResponse.status === 200) {
   });
 }
 
+const cctpProofResponse = await fetch(
+  "https://chengyuann.github.io/cup-signal-injective/proofs/cctp-transfer.json",
+  { headers: { "user-agent": "Cup-Signal-Submission-Check/1.0" } },
+);
+if (cctpProofResponse.status === 200) {
+  const cctp = await cctpProofResponse.json();
+  assert.equal(cctp.status, "success");
+  assert.equal(cctp.attestationStatus, "complete");
+  assert.match(cctp.sourceTransaction, /^0x[0-9a-fA-F]{64}$/);
+  assert.match(cctp.destinationTransaction, /^0x[0-9a-fA-F]{64}$/);
+  results.push({
+    url: cctpProofResponse.url,
+    status: cctpProofResponse.status,
+    cctpSource: cctp.sourceTransaction,
+    cctpDestination: cctp.destinationTransaction,
+  });
+} else if (process.env.REQUIRE_CCTP_PROOF === "true") {
+  throw new Error(`Public CCTP proof returned ${cctpProofResponse.status}`);
+}
+
 console.log(JSON.stringify({ ok: true, results }, null, 2));

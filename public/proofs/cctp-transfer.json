@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "status": "pending_confirmations",
+  "status": "success",
   "source": "Base Sepolia",
   "destination": "Injective Testnet",
   "sourceDomain": 6,
@@ -23,12 +23,17 @@
   "approveTransaction": "0x78e6c4e3fbca93ffb968de3a0be260d8e1723224656dfa941e8e414eec3900e2",
   "sourceTransaction": "0x91da650b7b6139192850ccad68aa5cf4300f24ab63271c81a8b0ce7593641760",
   "eventNonce": "0xf1b698374af9ef58d3933e785005af8c52ba95a9d6a8257582caf004d06d6eb8",
-  "attestationStatus": "pending_confirmations",
+  "attestationStatus": "complete",
   "irisUrl": "https://iris-api-sandbox.circle.com/v2/messages/6?transactionHash=0x91da650b7b6139192850ccad68aa5cf4300f24ab63271c81a8b0ce7593641760",
   "explorer": {
-    "approve": "https://sepolia.basescan.org/tx/0x78e6c4e3fbca93ffb968de3a0be260d8e1723224656dfa941e8e414eec3900e2",
-    "source": "https://sepolia.basescan.org/tx/0x91da650b7b6139192850ccad68aa5cf4300f24ab63271c81a8b0ce7593641760"
+    "source": "https://sepolia.basescan.org/tx/0x91da650b7b6139192850ccad68aa5cf4300f24ab63271c81a8b0ce7593641760",
+    "destination": "https://testnet.blockscout.injective.network/tx/0x2be61d74a3f88a503596b369919f2a12f7eefc3102235a63886597e2222a6f29"
   },
   "resumeCommand": "npm run cctp:resume",
-  "updatedAt": "2026-08-05T13:20:00.000Z"
+  "updatedAt": "2026-08-05T13:20:00.000Z",
+  "destinationTransaction": "0x2be61d74a3f88a503596b369919f2a12f7eefc3102235a63886597e2222a6f29",
+  "destinationBlock": "135818830",
+  "balanceBefore": "19.96",
+  "balanceAfter": "20.96",
+  "completedAt": "2026-08-05T13:41:42.824Z"
 }

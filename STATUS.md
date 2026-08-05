@@ -21,7 +21,8 @@ Last reviewed: 2026-08-05.
 
 - The local harness is a dry-run; the public endpoint has completed real
   testnet USDC settlements.
-- The CCTP object is a settlement intent, not a completed burn/attestation/mint flow.
+- A 1 USDC CCTP V2 transfer completed from Base Sepolia to Injective Testnet,
+  including burn, Circle attestation, destination mint, and balance reconciliation.
 - Tournament schedule/team data is sourced from public repositories.
 - Player ratings and player event data are simulated product analytics.
 - The proof-registry contract is deployed on Injective EVM Testnet and its
@@ -46,12 +47,14 @@ Secrets remain in Cloudflare, GitHub, and local secret stores rather than source
 
 ### CCTP
 
-Circle CCTP now supports Injective. The production sequence is:
+The testnet sequence is complete:
 
-1. burn USDC on the source chain,
-2. retrieve the Circle attestation,
-3. submit the message on Injective,
-4. persist the destination transaction and reconcile it with the Cup Signal memo.
+1. approve and burn 1 USDC on Base Sepolia,
+2. retrieve the Circle CCTP V2 attestation,
+3. submit `receiveMessage` on Injective Testnet,
+4. reconcile the destination USDC balance with the Cup Signal memo.
+
+Proof: `public/proofs/cctp-transfer.json`.
 
 ### MCP and Agent Skills
 
@@ -77,7 +80,7 @@ Deployed contract:
 Anchor transaction:
 
 ```text
-0x59820d4a3c289d2a73d7164e809d1b57539385a0a5377e17f8ea9343c85958ec
+0x1040a8c5a6ac29d62b618eadadd95aff5e259ff580c4dcdffeab6fcbb345a7bd
 ```
 
 The chain stores proof and memo hashes only. This is timestamped evidence, not

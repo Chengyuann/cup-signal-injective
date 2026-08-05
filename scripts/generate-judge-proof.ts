@@ -14,6 +14,7 @@ const prediction = predictMatch(match);
 const brief = buildWatchBrief(match.id);
 const x402Settlement = JSON.parse(await readFile("public/proofs/x402-payment.json", "utf8"));
 const agentSettlement = JSON.parse(await readFile("public/proofs/agent-x402-run.json", "utf8"));
+const cctpSettlement = JSON.parse(await readFile("public/proofs/cctp-transfer.json", "utf8"));
 let server: ChildProcess | undefined;
 
 try {
@@ -55,7 +56,7 @@ try {
     project: "Cup Signal",
     boundaries: {
       x402: "Local zero-funds harness plus real public and agent testnet USDC settlement receipts.",
-      cctp: "Deterministic USDC CCTP settlement intent. No burn, attestation, or mint transaction is claimed.",
+      cctp: "Completed 1 USDC Base Sepolia to Injective Testnet CCTP V2 transfer.",
       mcp: "Live local stdio MCP server verified by the official TypeScript SDK.",
       agentSkill: "Portable SKILL.md workflow verified against the local MCP tool names.",
     },
@@ -93,7 +94,17 @@ try {
         receipt: agentSettlement.receipt,
       },
     },
-    cctp: brief.cctp,
+    cctp: {
+      ...brief.cctp,
+      status: cctpSettlement.status,
+      amount: cctpSettlement.amount,
+      sourceTransaction: cctpSettlement.sourceTransaction,
+      eventNonce: cctpSettlement.eventNonce,
+      attestationStatus: cctpSettlement.attestationStatus,
+      destinationTransaction: cctpSettlement.destinationTransaction,
+      balanceBefore: cctpSettlement.balanceBefore,
+      balanceAfter: cctpSettlement.balanceAfter,
+    },
     mcp: {
       sdk: "@modelcontextprotocol/sdk",
       tools: tools.tools.map((tool) => tool.name),

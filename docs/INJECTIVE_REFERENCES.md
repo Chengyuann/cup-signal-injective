@@ -23,7 +23,7 @@ Current references:
 
 ## USDC CCTP
 
-Cup Signal emits a CCTP checkout intent:
+Cup Signal emits a deterministic CCTP checkout memo:
 
 ```json
 {
@@ -34,12 +34,17 @@ Cup Signal emits a CCTP checkout intent:
 }
 ```
 
-The app does not claim to execute a transfer. Production integration should use the CCTP burn, attestation, and mint flow.
+The included testnet proof records a completed CCTP V2 transfer:
+
+- Base Sepolia burn transaction,
+- Circle IRIS attestation status `complete`,
+- Injective Testnet `receiveMessage` transaction,
+- destination USDC balance increase.
 
 Circle announced CCTP support for Injective Testnet in March 2026 and
 Injective Mainnet support in May 2026. This makes the production path concrete,
-but Cup Signal still requires a funded wallet and transaction reconciliation
-before it can claim completed settlement.
+The repository now includes funded testnet execution and transaction
+reconciliation. Mainnet operation still requires production custody and limits.
 
 ## MCP Server
 

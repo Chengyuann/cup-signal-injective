@@ -44,6 +44,6 @@ Use this skill when a user wants a concise World Cup match read, a watch-party p
 - Use `public/proofs/x402-payment.json` or `public/proofs/agent-x402-run.json`
   before claiming a real x402 payment.
 - Keep the local dry-run harness distinct from the public facilitator receipt.
-- Do not claim a completed CCTP transfer until both source and destination
-  transactions plus the Circle attestation are available.
+- Use `public/proofs/cctp-transfer.json` before claiming the completed testnet
+  CCTP transfer; require fresh proof for any later transfer or mainnet claim.
 - If posting to X, include `@injective`, `@NinjaLabsHQ`, `@NinjaLabsCN`, and `#InjectiveGlobalCupHackathon`.

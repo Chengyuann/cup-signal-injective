@@ -27,7 +27,7 @@ Cup Signal is a World Cup matchday AI cockpit built for **The Injective Global C
 The project is intentionally small enough for judges to run quickly, but it includes all four Injective challenge hooks:
 
 - **x402**: a public pay-per-request report with real testnet USDC receipts, plus a local zero-funds harness.
-- **USDC CCTP**: each paid brief includes a USDC settlement memo from Base Sepolia to Injective testnet.
+- **USDC CCTP**: a completed 1 USDC Base Sepolia → Injective Testnet CCTP V2 transfer plus a deterministic match memo.
 - **MCP Server**: local MCP tools expose fixtures, forecasts, watch briefs, and team ranking.
 - **Agent Skill**: a portable skill file teaches an agent how to use the MCP tools for live match commentary.
 
@@ -196,7 +196,12 @@ facilitator settlement, and published PAYMENT-RESPONSE receipts.
 }
 ```
 
-This is used as the checkout/settlement intent for a fan host who wants to pay or settle cross-chain in USDC. In production, the memo can be attached to a real CCTP transfer flow.
+This memo has been reconciled against a completed testnet CCTP V2 flow:
+
+- Base burn: `0x91da650b7b6139192850ccad68aa5cf4300f24ab63271c81a8b0ce7593641760`
+- Circle attestation: `complete`
+- Injective mint: `0x2be61d74a3f88a503596b369919f2a12f7eefc3102235a63886597e2222a6f29`
+- Proof: `public/proofs/cctp-transfer.json`
 
 ### MCP Server
 
@@ -344,4 +349,5 @@ Video prompts and reference-frame notes are in `docs/VIDEO_PROMPTS.md`.
 - Fixture and team data are demo data. Replace `src/data.ts` with a licensed live sports feed for production.
 - The local x402 command is dry-run by default; the public endpoint is live on
   Injective EVM Testnet.
-- The CCTP memo is an intent object, not an executed transfer.
+- The included CCTP proof is a completed testnet transfer; no mainnet transfer
+  is claimed.

@@ -39,8 +39,10 @@ assert.equal(agentPayment.status, "success");
 assert.equal(agentPayment.quote.withinBudget, true);
 assert.match(agentPayment.receipt.transaction, /^0x[0-9a-fA-F]{64}$/);
 const cctp = JSON.parse(await readFile("dist/proofs/cctp-transfer.json", "utf8"));
-assert.ok(["pending_confirmations", "success"].includes(cctp.status));
+assert.equal(cctp.status, "success");
 assert.match(cctp.sourceTransaction, /^0x[0-9a-fA-F]{64}$/);
+assert.match(cctp.destinationTransaction, /^0x[0-9a-fA-F]{64}$/);
+assert.equal(cctp.attestationStatus, "complete");
 
 let onchainStatus = "pending";
 try {

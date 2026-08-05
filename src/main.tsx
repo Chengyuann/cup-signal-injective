@@ -49,6 +49,15 @@ type X402PaymentProof = {
   transaction: { hash: string; explorer: string };
   payment: { amountUsdc: string; payer: string; payee: string };
 };
+type CctpPaymentProof = {
+  status: "success";
+  amount: string;
+  sourceTransaction: string;
+  destinationTransaction: string;
+  balanceBefore: string;
+  balanceAfter: string;
+  explorer: { source: string; destination: string };
+};
 type WorldCupRuntimeData = {
   teams: WorldCupTeam[];
   groups: WorldCupGroup[];
@@ -230,6 +239,7 @@ function App() {
   const [refreshMessage, setRefreshMessage] = useState("");
   const [onchainProof, setOnchainProof] = useState<OnchainProof | null>(null);
   const [x402Payment, setX402Payment] = useState<X402PaymentProof | null>(null);
+  const [cctpPayment, setCctpPayment] = useState<CctpPaymentProof | null>(null);
   const predictions = useMemo(() => buildPredictions(weights), [weights]);
   const selected = predictions.find((prediction) => prediction.match.id === selectedId) ?? predictions[0];
   const brief = useMemo(() => buildWatchBrief(selected.match.id, weights), [selected.match.id, weights]);
@@ -248,6 +258,13 @@ function App() {
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    fetch(assetPath("/proofs/cctp-transfer.json"), { headers: { accept: "application/json" } })
+      .then((response) => (response.ok ? response.json() : null))
+      .then((proof) => setCctpPayment(proof?.status === "success" ? proof : null))
+      .catch(() => setCctpPayment(null));
   }, []);
 
   useEffect(() => {
@@ -329,7 +346,12 @@ function App() {
         onWindow={setWindowKey}
       />
       <WorldCupMotionPanel lang={lang} scores={playerScores} selected={selected} />
-      <InjectivePlaybookPanel lang={lang} onchainProof={onchainProof} x402Payment={x402Payment} />
+      <InjectivePlaybookPanel
+        lang={lang}
+        onchainProof={onchainProof}
+        x402Payment={x402Payment}
+        cctpPayment={cctpPayment}
+      />
       <section className="shell lower-grid">
         <InjectivePanel paid={paid} loading={loading} onUnlock={unlockReport} brief={brief} />
         <AgentPanel selected={selected} />
@@ -610,10 +632,12 @@ function InjectivePlaybookPanel({
   lang,
   onchainProof,
   x402Payment,
+  cctpPayment,
 }: {
   lang: Lang;
   onchainProof: OnchainProof | null;
   x402Payment: X402PaymentProof | null;
+  cctpPayment: CctpPaymentProof | null;
 }) {
   return (
     <section className="shell injective-playbook reveal-block tilt-card" aria-label="Injective technology playbook">
@@ -644,6 +668,16 @@ function InjectivePlaybookPanel({
           </a>
         ) : (
           <code>Injective native USDC / EIP-3009</code>
+        )}
+      </div>
+      <div className={cctpPayment?.status === "success" ? "onchain-proof live" : "onchain-proof pending"}>
+        <span>{cctpPayment ? "CCTP V2 TRANSFER LIVE" : "CCTP TRANSFER PROOF PENDING"}</span>
+        {cctpPayment ? (
+          <a href={cctpPayment.explorer.destination} target="_blank" rel="noreferrer">
+            {cctpPayment.amount} USDC / {cctpPayment.balanceBefore} → {cctpPayment.balanceAfter}
+          </a>
+        ) : (
+          <code>Base Sepolia → Injective Testnet</code>
         )}
       </div>
       <div className="playbook-grid">

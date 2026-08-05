@@ -48,10 +48,11 @@ Reviewed: 2026-08-05.
 
 ### Circle CCTP V2 on Injective
 
-- Current state: Circle announced USDC and CCTP V2 support on Injective.
-- Required work: source burn, attestation retrieval, destination message submission,
-  transaction reconciliation, and failure recovery.
-- Decision: keep the deterministic memo now; implement funded transfers after judging.
+- Status: adopted on testnet.
+- Evidence: 1 USDC burn on Base Sepolia, complete Circle attestation, Injective
+  Testnet mint, and balance reconciliation.
+- Remaining production work: relayer monitoring, durable retry queues, KMS
+  custody, and mainnet transfer limits.
 
 ### MCP 2026-07-28 stateless core
 

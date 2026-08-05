@@ -34,4 +34,5 @@ jobs:
           REQUIRE_ONCHAIN_PROOF: "true"
           REQUIRE_X402_SETTLEMENT: "true"
           REQUIRE_PUBLIC_X402_API: "true"
+          REQUIRE_CCTP_PROOF: "true"
         run: npm run check:submission

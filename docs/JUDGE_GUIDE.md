@@ -11,6 +11,7 @@ This guide is the shortest reproducible path through the submission.
 - Real x402 settlement: https://chengyuann.github.io/cup-signal-injective/proofs/x402-payment.json
 - Public x402 API: https://cup-signal-x402.mcy23.workers.dev/api/premium-report/cup-001
 - Agent auto-payment proof: https://chengyuann.github.io/cup-signal-injective/proofs/agent-x402-run.json
+- CCTP transfer proof: https://chengyuann.github.io/cup-signal-injective/proofs/cctp-transfer.json
 
 Recommended product path:
 
@@ -58,17 +59,16 @@ The first request returns `402`. The second returns `200` with an
 | Technology | Current evidence | Boundary |
 | --- | --- | --- |
 | x402 | Public v2 API plus real 0.01 native testnet USDC EIP-3009 settlement | Testnet payment; no mainnet value claimed |
-| USDC CCTP | Consistent Base Sepolia to Injective testnet intent and memo | No burn, attestation, or mint transaction claimed |
+| USDC CCTP | Completed 1 USDC Base Sepolia → Injective Testnet CCTP V2 flow | Testnet only; no mainnet transfer claimed |
 | MCP Server | 7 tools, 1 resource, 1 prompt over stdio | Local server; official Injective MCP can be paired for chain actions |
 | Agent Skill | Portable Skill plus a budget-gated public x402 client and receipt | Testnet only; requires explicit `--yes` before signing |
 | On-chain proof | Deployed proof registry on Injective EVM Testnet with RPC readback verification | Anchors evidence hashes only; it is not an x402 or CCTP settlement |
 
 ## 5. Why the boundaries matter
 
-Cup Signal does not fabricate a CCTP transfer or official live player data.
-The x402 public and agent payments have real testnet transaction receipts. CCTP
-remains an intent until source burn, Circle attestation, and destination mint
-proofs are available.
+Cup Signal does not fabricate official live player data. The x402 public and
+agent payments have real testnet receipts, and the CCTP proof contains the Base
+burn, Circle attestation, Injective mint, and USDC balance reconciliation.
 
 ## 6. On-chain verification
 
@@ -94,7 +94,7 @@ Contract:
 Anchor transaction:
 
 ```text
-0x59820d4a3c289d2a73d7164e809d1b57539385a0a5377e17f8ea9343c85958ec
+0x1040a8c5a6ac29d62b618eadadd95aff5e259ff580c4dcdffeab6fcbb345a7bd
 ```
 
 ## 7. Real x402 receipt
