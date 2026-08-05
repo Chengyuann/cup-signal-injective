@@ -1,0 +1,165 @@
+{
+  "version": 1,
+  "project": "Cup Signal",
+  "boundaries": {
+    "x402": "Local zero-funds harness plus real public and agent testnet USDC settlement receipts.",
+    "cctp": "Completed 1 USDC Base Sepolia to Injective Testnet CCTP V2 transfer.",
+    "mcp": "Live local stdio MCP server verified by the official TypeScript SDK.",
+    "agentSkill": "Portable SKILL.md workflow verified against the local MCP tool names."
+  },
+  "model": {
+    "matchId": "cup-001",
+    "projection": [
+      3,
+      2
+    ],
+    "probabilities": {
+      "home": 0.6485175785769468,
+      "draw": 0.20345131307165065,
+      "away": 0.14803110835140254
+    },
+    "probabilityTotal": 1,
+    "confidence": 0.6485175785769468,
+    "volatility": 74.24
+  },
+  "x402": {
+    "mode": "local-zero-funds-harness",
+    "request": "GET /api/premium-report/cup-001",
+    "challengeStatus": 402,
+    "challengeVersion": 2,
+    "resource": {
+      "url": "/api/premium-report/cup-001",
+      "description": "Cup Signal premium World Cup report for cup-001",
+      "mimeType": "application/json",
+      "serviceName": "Cup Signal",
+      "tags": [
+        "world-cup",
+        "injective",
+        "match-intelligence"
+      ]
+    },
+    "accepts": [
+      {
+        "scheme": "exact",
+        "network": "eip155:1439",
+        "amount": "100000",
+        "asset": "USDC",
+        "payTo": "0x0000000000000000000000000000000000004020",
+        "maxTimeoutSeconds": 120,
+        "extra": {
+          "outputSchema": {
+            "type": "object",
+            "properties": {
+              "headline": {
+                "type": "string"
+              },
+              "premiumReport": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "cctp": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    ],
+    "paidStatus": 200,
+    "paymentResponseHeader": "{\"success\":true,\"mode\":\"dry-run-header-accepted\",\"receiver\":\"0x0000000000000000000000000000000000004020\"}",
+    "unlockedHeadline": "Argentina vs Egypt: Argentina carries the sharper live edge",
+    "publicSettlement": {
+      "endpoint": "https://cup-signal-x402.mcy23.workers.dev/api/premium-report/cup-001",
+      "transaction": {
+        "hash": "0x52bcffdd6ce893f5bb1310f6f2ba3dc0a8e67d3b6d5900317f448210e319b32c",
+        "blockNumber": "135800344",
+        "status": "success",
+        "explorer": "https://testnet.blockscout.injective.network/tx/0x52bcffdd6ce893f5bb1310f6f2ba3dc0a8e67d3b6d5900317f448210e319b32c"
+      },
+      "payment": {
+        "scheme": "exact",
+        "asset": "0x0C382e685bbeeFE5d3d9C29e29E341fEE8E84C5d",
+        "symbol": "USDC",
+        "amountBaseUnits": "10000",
+        "amountUsdc": "0.01",
+        "payer": "0x36090AA807e6B13bdD162F7852cB0793b0d87c1a",
+        "payee": "0x0C69f390Da3e0B35570F031c0878e9F000cf5D84"
+      },
+      "balances": {
+        "payerBefore": "19.98",
+        "payerAfter": "19.97",
+        "payeeBefore": "0.02",
+        "payeeAfter": "0.03"
+      }
+    },
+    "agentSettlement": {
+      "endpoint": "https://cup-signal-x402.mcy23.workers.dev/api/premium-report/cup-001",
+      "budget": {
+        "endpoint": "https://cup-signal-x402.mcy23.workers.dev/api/premium-report/cup-001",
+        "network": "eip155:1439",
+        "asset": "0x0C382e685bbeeFE5d3d9C29e29E341fEE8E84C5d",
+        "amountBaseUnits": "10000",
+        "amountUsdc": "0.01",
+        "payTo": "0x0C69f390Da3e0B35570F031c0878e9F000cf5D84",
+        "withinBudget": true
+      },
+      "receipt": {
+        "success": true,
+        "transaction": "0x1876f7d842193750d961167c545aed6fbb952c7188ba0367cd3e13bb5c687e6a",
+        "network": "eip155:1439",
+        "payer": "0x36090AA807e6B13bdD162F7852cB0793b0d87c1a",
+        "amount": "10000",
+        "extra": {
+          "blockNumber": "135800352"
+        }
+      }
+    }
+  },
+  "cctp": {
+    "source": "Base Sepolia",
+    "destination": "Injective testnet",
+    "token": "USDC",
+    "memo": "cup-signal:cup-001:watch-brief",
+    "status": "success",
+    "amount": "1",
+    "sourceTransaction": "0x91da650b7b6139192850ccad68aa5cf4300f24ab63271c81a8b0ce7593641760",
+    "eventNonce": "0xf1b698374af9ef58d3933e785005af8c52ba95a9d6a8257582caf004d06d6eb8",
+    "attestationStatus": "complete",
+    "destinationTransaction": "0x2be61d74a3f88a503596b369919f2a12f7eefc3102235a63886597e2222a6f29",
+    "balanceBefore": "19.96",
+    "balanceAfter": "20.96"
+  },
+  "mcp": {
+    "sdk": "@modelcontextprotocol/sdk",
+    "tools": [
+      "list_fixtures",
+      "forecast_match",
+      "build_watch_brief",
+      "rank_teams",
+      "rank_match_players",
+      "get_worldcup_2026_data",
+      "get_injective_playbook"
+    ],
+    "forecastContentItems": 1,
+    "briefContentItems": 1
+  },
+  "agentSkill": {
+    "path": "agent-skill/SKILL.md",
+    "workflow": [
+      "list_fixtures",
+      "forecast_match",
+      "build_watch_brief",
+      "rank_match_players",
+      "get_injective_playbook"
+    ]
+  },
+  "onchainRegistry": {
+    "network": "eip155:1439",
+    "contract": "0x751784E837763cE0cB1786b2A0741092B15bB808",
+    "proofRecord": "https://chengyuann.github.io/cup-signal-injective/proofs/onchain-proof.json"
+  },
+  "generatedAt": "2026-08-05T14:02:39.889Z",
+  "sha256": "c6821290f8b7e7388f0da315399e45b9ffa1be62616916eb218bff82765331ee"
+}

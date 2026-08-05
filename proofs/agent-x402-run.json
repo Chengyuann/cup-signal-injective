@@ -1,0 +1,36 @@
+{
+  "status": "success",
+  "quote": {
+    "endpoint": "https://cup-signal-x402.mcy23.workers.dev/api/premium-report/cup-001",
+    "network": "eip155:1439",
+    "asset": "0x0C382e685bbeeFE5d3d9C29e29E341fEE8E84C5d",
+    "amountBaseUnits": "10000",
+    "amountUsdc": "0.01",
+    "payTo": "0x0C69f390Da3e0B35570F031c0878e9F000cf5D84",
+    "withinBudget": true
+  },
+  "receipt": {
+    "success": true,
+    "transaction": "0x1876f7d842193750d961167c545aed6fbb952c7188ba0367cd3e13bb5c687e6a",
+    "network": "eip155:1439",
+    "payer": "0x36090AA807e6B13bdD162F7852cB0793b0d87c1a",
+    "amount": "10000",
+    "extra": {
+      "blockNumber": "135800352"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headline": "Argentina vs Egypt: Argentina carries the sharper live edge",
+    "premiumReport": [
+      "Argentina has the cleaner weighted profile at 85.3.",
+      "Egypt can flip the read if set pieces create an early xG spike.",
+      "Live pressure index is 68-57, so the next substitution window matters more than possession share.",
+      "Group chat prompt: ask friends for a Argentina result plus one scorer before kickoff.",
+      "Premium brief can be unlocked as a paid x402 resource for watch-party hosts.",
+      "If using live comments for the Injective Global Cup points race, capture this match panel during 2026-07-07 12:00 UTC-4.",
+      "Payment unlock path: x402 protects /api/premium-report/cup-001; CCTP note prepares USDC settlement from Base testnet to Injective testnet."
+    ]
+  },
+  "completedAt": "2026-08-05T09:31:04.978Z"
+}
