@@ -25,9 +25,10 @@ try {
     const response = await page.goto(base, { waitUntil: "networkidle", timeout: 60_000 });
     assert.equal(response?.status(), 200);
     assert.equal((await page.locator("h1").innerText()).toLowerCase(), "cup signal");
-    assert.equal(await page.locator(".onchain-proof.live").count(), 2);
+    assert.equal(await page.locator(".onchain-proof.live").count(), 3);
     assert.match(await page.locator(".onchain-proof.live").nth(0).innerText(), /ON-CHAIN PROOF LIVE/);
     assert.match(await page.locator(".onchain-proof.live").nth(1).innerText(), /REAL x402 SETTLEMENT LIVE/);
+    assert.match(await page.locator(".onchain-proof.live").nth(2).innerText(), /CCTP V2 TRANSFER LIVE/);
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth), viewport.width);
     assert.deepEqual(errors, []);
     await page.close();
