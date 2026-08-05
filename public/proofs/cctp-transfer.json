@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "status": "pending_confirmations",
+  "source": "Base Sepolia",
+  "destination": "Injective Testnet",
+  "sourceDomain": 6,
+  "destinationDomain": 29,
+  "token": "USDC",
+  "amount": "1",
+  "recipient": "0x36090AA807e6B13bdD162F7852cB0793b0d87c1a",
+  "memo": "cup-signal:cup-001:watch-brief",
+  "funding": {
+    "usdcFaucetAmount": "20",
+    "ethFaucetAmount": "0.012",
+    "ethFaucetTransaction": "0x297b495b7a80b4c40151260d8810c918df1c72285f5120ec6b23c07faa8300ce",
+    "injectiveGasFundingTransaction": "0x718e52dc007cfa567fab139e0130980b495cdf75fe2bcf3feac936a373a259d7"
+  },
+  "sourceBalances": {
+    "usdcBefore": "20",
+    "usdcAfterBurn": "19",
+    "ethAfterFaucet": "0.012"
+  },
+  "approveTransaction": "0x78e6c4e3fbca93ffb968de3a0be260d8e1723224656dfa941e8e414eec3900e2",
+  "sourceTransaction": "0x91da650b7b6139192850ccad68aa5cf4300f24ab63271c81a8b0ce7593641760",
+  "eventNonce": "0xf1b698374af9ef58d3933e785005af8c52ba95a9d6a8257582caf004d06d6eb8",
+  "attestationStatus": "pending_confirmations",
+  "irisUrl": "https://iris-api-sandbox.circle.com/v2/messages/6?transactionHash=0x91da650b7b6139192850ccad68aa5cf4300f24ab63271c81a8b0ce7593641760",
+  "explorer": {
+    "approve": "https://sepolia.basescan.org/tx/0x78e6c4e3fbca93ffb968de3a0be260d8e1723224656dfa941e8e414eec3900e2",
+    "source": "https://sepolia.basescan.org/tx/0x91da650b7b6139192850ccad68aa5cf4300f24ab63271c81a8b0ce7593641760"
+  },
+  "resumeCommand": "npm run cctp:resume",
+  "updatedAt": "2026-08-05T13:20:00.000Z"
+}

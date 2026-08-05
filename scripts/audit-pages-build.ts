@@ -38,6 +38,9 @@ const agentPayment = JSON.parse(await readFile("dist/proofs/agent-x402-run.json"
 assert.equal(agentPayment.status, "success");
 assert.equal(agentPayment.quote.withinBudget, true);
 assert.match(agentPayment.receipt.transaction, /^0x[0-9a-fA-F]{64}$/);
+const cctp = JSON.parse(await readFile("dist/proofs/cctp-transfer.json", "utf8"));
+assert.ok(["pending_confirmations", "success"].includes(cctp.status));
+assert.match(cctp.sourceTransaction, /^0x[0-9a-fA-F]{64}$/);
 
 let onchainStatus = "pending";
 try {

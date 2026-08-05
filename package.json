@@ -17,6 +17,7 @@
     "x402:pay:live": "tsx scripts/pay-live-x402.ts",
     "agent:x402": "tsx scripts/agent-x402-client.ts",
     "cctp:bridge": "tsx scripts/cctp-bridge.ts",
+    "cctp:resume": "tsx scripts/cctp-resume.ts",
     "e2e:public": "tsx scripts/e2e-public-pages.ts",
     "worker:types": "wrangler types worker-configuration.d.ts",
     "worker:deploy": "wrangler deploy --minify",

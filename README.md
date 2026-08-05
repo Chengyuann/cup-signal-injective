@@ -12,6 +12,7 @@ Cup Signal is a World Cup matchday AI cockpit built for **The Injective Global C
 - **On-chain proof:** https://chengyuann.github.io/cup-signal-injective/proofs/onchain-proof.json
 - **Real x402 settlement proof:** https://chengyuann.github.io/cup-signal-injective/proofs/x402-payment.json
 - **Agent auto-payment proof:** https://chengyuann.github.io/cup-signal-injective/proofs/agent-x402-run.json
+- **CCTP transfer state:** https://chengyuann.github.io/cup-signal-injective/proofs/cctp-transfer.json
 - **Public paid API:** https://cup-signal-x402.mcy23.workers.dev/api/premium-report/cup-001
 - **Proof registry:** https://testnet.blockscout.injective.network/address/0x751784E837763cE0cB1786b2A0741092B15bB808
 - **Technical status and boundaries:** [STATUS.md](STATUS.md)
