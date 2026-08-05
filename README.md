@@ -8,6 +8,7 @@ Cup Signal is a World Cup matchday AI cockpit built for **The Injective Global C
 - **Full demo video (77 seconds):** https://chengyuann.github.io/cup-signal-injective/media/cup-signal-demo-v2.mp4
 - **3-minute judge guide:** [docs/JUDGE_GUIDE.md](docs/JUDGE_GUIDE.md)
 - **Generated proof bundle:** https://chengyuann.github.io/cup-signal-injective/proofs/judge-proof.json
+- **On-chain proof status:** [STATUS.md](STATUS.md)
 - **Technical status and boundaries:** [STATUS.md](STATUS.md)
 - **Public competitive review:** [docs/COMPETITIVE_REVIEW.md](docs/COMPETITIVE_REVIEW.md)
 - **August 2026 technology radar:** [docs/TECH_RADAR_2026-08.md](docs/TECH_RADAR_2026-08.md)
@@ -116,6 +117,13 @@ Generate the same proof bundle published on the live site:
 
 ```bash
 npm run proof:judge
+```
+
+Compile and verify the Injective EVM proof registry:
+
+```bash
+npm run contract:compile
+npm run contract:verify:testnet
 ```
 
 Run a plain agent demo:

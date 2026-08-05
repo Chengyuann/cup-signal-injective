@@ -2146,6 +2146,39 @@ input[type="range"] {
   font-size: 12px;
 }
 
+.onchain-proof {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  border: 1px solid var(--line);
+  padding: 14px 16px;
+  font-family: "Geist Mono", "SFMono-Regular", Consolas, monospace;
+  font-size: 11px;
+}
+
+.onchain-proof span {
+  color: var(--gold);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.onchain-proof a,
+.onchain-proof code {
+  color: var(--chalk);
+  overflow-wrap: anywhere;
+}
+
+.onchain-proof.live {
+  border-color: rgba(159, 207, 136, 0.52);
+  background: rgba(159, 207, 136, 0.08);
+}
+
+.onchain-proof.pending {
+  background: rgba(255, 255, 255, 0.025);
+}
+
 .playbook-grid {
   grid-column: 1 / -1;
   display: grid;
@@ -2797,6 +2830,11 @@ input[type="range"] {
 
   .topbar .desktop-nav-link {
     display: none;
+  }
+
+  .onchain-proof {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .nav-pills {

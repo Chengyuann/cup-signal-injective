@@ -22,6 +22,8 @@ Last reviewed: 2026-08-05.
 - No Injective EVM smart contract deployment is claimed.
 - Tournament schedule/team data is sourced from public repositories.
 - Player ratings and player event data are simulated product analytics.
+- The proof-registry contract is compiled and tested. Deployment remains pending
+  until the dedicated testnet address receives faucet INJ.
 
 ## Current production path
 
@@ -56,3 +58,16 @@ The MCP 2026-07-28 specification introduces a stateless core and breaking
 changes; migration should happen after the competition rather than during the
 judging window. The Agent Skill remains portable and references the current
 tool inventory.
+
+### On-chain proof registry
+
+The minimal `CupSignalProofRegistry` contract is designed for Injective EVM
+Testnet. It anchors the stable judge-proof SHA-256, CCTP memo SHA-256, and
+public proof URI. It does not handle funds and does not convert the dry-run
+x402 flow into a settlement claim.
+
+Pending deployer address:
+
+```text
+0x0C69f390Da3e0B35570F031c0878e9F000cf5D84
+```

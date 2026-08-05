@@ -23,6 +23,12 @@ Reviewed: 2026-08-05.
 - Evidence: `public/proofs/judge-proof.json`.
 - Reason: judges can inspect HTTP, CCTP, MCP, and model output without trusting screenshots.
 
+### Injective EVM proof registry
+
+- Status: contract compiled and tested; testnet deployment pending faucet funding.
+- Scope: anchor proof SHA-256, CCTP memo SHA-256, and public URI.
+- Boundary: timestamped evidence only; no custody or payment-settlement claim.
+
 ### Agent Skill progressive disclosure
 
 - Status: adopted.

@@ -37,6 +37,11 @@ const weightLabels: Record<WeightKey, string> = {
 
 type Lang = "en" | "zh";
 type RefreshState = "idle" | "loading" | "success" | "error";
+type OnchainProof = {
+  network: { name: string; caip2: string };
+  contract: { address: string; explorer: string };
+  anchor: { transaction: string; explorer: string; proofSha256: string };
+};
 type WorldCupRuntimeData = {
   teams: WorldCupTeam[];
   groups: WorldCupGroup[];
@@ -216,6 +221,7 @@ function App() {
   const [worldData, setWorldData] = useState<WorldCupRuntimeData>(initialWorldCupRuntimeData);
   const [refreshState, setRefreshState] = useState<RefreshState>("idle");
   const [refreshMessage, setRefreshMessage] = useState("");
+  const [onchainProof, setOnchainProof] = useState<OnchainProof | null>(null);
   const predictions = useMemo(() => buildPredictions(weights), [weights]);
   const selected = predictions.find((prediction) => prediction.match.id === selectedId) ?? predictions[0];
   const brief = useMemo(() => buildWatchBrief(selected.match.id, weights), [selected.match.id, weights]);
@@ -234,6 +240,13 @@ function App() {
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    fetch(assetPath("/proofs/onchain-proof.json"), { headers: { accept: "application/json" } })
+      .then((response) => (response.ok ? response.json() : null))
+      .then((proof) => setOnchainProof(proof))
+      .catch(() => setOnchainProof(null));
   }, []);
 
   useEffect(() => {
@@ -301,7 +314,7 @@ function App() {
         onWindow={setWindowKey}
       />
       <WorldCupMotionPanel lang={lang} scores={playerScores} selected={selected} />
-      <InjectivePlaybookPanel lang={lang} />
+      <InjectivePlaybookPanel lang={lang} onchainProof={onchainProof} />
       <section className="shell lower-grid">
         <InjectivePanel paid={paid} loading={loading} onUnlock={unlockReport} brief={brief} />
         <AgentPanel selected={selected} />
@@ -578,7 +591,7 @@ function LanguageToggle({ lang, onToggle }: { lang: Lang; onToggle: () => void }
   );
 }
 
-function InjectivePlaybookPanel({ lang }: { lang: Lang }) {
+function InjectivePlaybookPanel({ lang, onchainProof }: { lang: Lang; onchainProof: OnchainProof | null }) {
   return (
     <section className="shell injective-playbook reveal-block tilt-card" aria-label="Injective technology playbook">
       <div className="playbook-copy">
@@ -589,6 +602,16 @@ function InjectivePlaybookPanel({ lang }: { lang: Lang }) {
       <div className="playbook-score">
         <strong>{injectivePlaybookSummary.totalTechHooks}/4</strong>
         <span>technical hooks covered</span>
+      </div>
+      <div className={onchainProof ? "onchain-proof live" : "onchain-proof pending"}>
+        <span>{onchainProof ? "ON-CHAIN PROOF LIVE" : "TESTNET DEPLOYMENT PENDING"}</span>
+        {onchainProof ? (
+          <a href={onchainProof.contract.explorer} target="_blank" rel="noreferrer">
+            {onchainProof.contract.address}
+          </a>
+        ) : (
+          <code>Injective EVM Testnet / eip155:1439</code>
+        )}
       </div>
       <div className="playbook-grid">
         {injectivePlays.map((play) => (

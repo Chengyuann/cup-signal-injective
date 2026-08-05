@@ -1,6 +1,5 @@
 {
   "version": 1,
-  "generatedAt": "2026-08-04T17:15:27.369Z",
   "project": "Cup Signal",
   "boundaries": {
     "x402": "Dry-run HTTP 402 handshake. No settlement transaction is claimed.",
@@ -101,5 +100,6 @@
       "get_injective_playbook"
     ]
   },
-  "sha256": "429a104c63f12f4960f1110584e85c632d8d18a0732ce1b492ceb716c48e6c89"
+  "generatedAt": "2026-08-05T07:43:34.317Z",
+  "sha256": "52f62eadf0d78cc30a2c50c16d4e9e4b98b774171ac68cee6b87b3a80778bb50"
 }

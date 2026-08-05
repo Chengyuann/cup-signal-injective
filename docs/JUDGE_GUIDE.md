@@ -57,6 +57,7 @@ The first request returns `402`. The second returns `200` with an
 | USDC CCTP | Consistent Base Sepolia to Injective testnet intent and memo | No burn, attestation, or mint transaction claimed |
 | MCP Server | 7 tools, 1 resource, 1 prompt over stdio | Local server; official Injective MCP can be paired for chain actions |
 | Agent Skill | Portable `agent-skill/SKILL.md` using the MCP tool names | Generates a workflow; does not autonomously spend funds |
+| On-chain proof | Tested proof-registry contract for Injective EVM Testnet | Deployment status is published in `STATUS.md` and `proofs/onchain-proof.json` once funded |
 
 ## 5. Why the boundaries matter
 
@@ -64,3 +65,18 @@ Cup Signal does not fabricate a wallet payment, CCTP transfer, transaction hash,
 or official live player data. The submission demonstrates the product and
 protocol interfaces that can be upgraded to real settlement once a funded
 wallet, facilitator, and production sports feed are configured.
+
+## 6. On-chain verification
+
+The proof registry anchors the stable judge-proof hash, not a payment claim.
+
+```bash
+npm run contract:compile
+npm run contract:verify:testnet
+```
+
+After deployment, the public record is available at:
+
+```text
+https://chengyuann.github.io/cup-signal-injective/proofs/onchain-proof.json
+```

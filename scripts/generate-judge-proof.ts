@@ -48,9 +48,8 @@ try {
   });
   await client.close();
 
-  const proof = {
+  const proofClaims = {
     version: 1,
-    generatedAt: new Date().toISOString(),
     project: "Cup Signal",
     boundaries: {
       x402: "Dry-run HTTP 402 handshake. No settlement transaction is claimed.",
@@ -99,9 +98,10 @@ try {
     },
   };
 
-  const canonical = JSON.stringify(proof, null, 2);
+  const canonical = JSON.stringify(proofClaims, null, 2);
   const envelope = {
-    ...proof,
+    ...proofClaims,
+    generatedAt: new Date().toISOString(),
     sha256: createHash("sha256").update(canonical).digest("hex"),
   };
   await mkdir("public/proofs", { recursive: true });

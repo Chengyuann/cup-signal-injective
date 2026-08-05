@@ -27,6 +27,17 @@ assert.equal(proof.x402.accepts[0].network, "eip155:1439");
 assert.equal(proof.model.probabilityTotal, 1);
 assert.equal(proof.mcp.tools.length, 7);
 
+let onchainStatus = "pending";
+try {
+  const onchain = JSON.parse(await readFile("dist/proofs/onchain-proof.json", "utf8"));
+  assert.equal(onchain.network.chainId, 1439);
+  assert.match(onchain.contract.address, /^0x[0-9a-fA-F]{40}$/);
+  assert.match(onchain.anchor.transaction, /^0x[0-9a-fA-F]{64}$/);
+  onchainStatus = "live";
+} catch (error) {
+  if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+}
+
 console.log(
   JSON.stringify(
     {
@@ -35,6 +46,7 @@ console.log(
       requiredFiles,
       x402Network: proof.x402.accepts[0].network,
       mcpTools: proof.mcp.tools.length,
+      onchainStatus,
     },
     null,
     2,
