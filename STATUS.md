@@ -26,6 +26,9 @@ Last reviewed: 2026-08-05.
   on-chain readback matches the public judge-proof SHA-256.
 - A real 0.01 native testnet USDC x402 payment settled through the public
   Cloudflare Worker endpoint and returned a PAYMENT-RESPONSE receipt.
+- A budget-gated agent independently discovered the public 402, accepted the
+  0.01 USDC quote, paid, replayed the request, and decoded the receipt.
+- Blockscout reports the proof registry source as Verified (Exact Match).
 
 ## Current production path
 
@@ -93,3 +96,12 @@ an x402 settlement or CCTP transfer claim.
 - Payee balance: `0.01 -> 0.02 USDC`
 - Asset: native Injective Testnet USDC
 - Scheme: x402 v2 exact payment using EIP-3009
+
+### Agent payment
+
+- Policy: Injective Testnet native USDC only
+- Max spend: `0.01 USDC`
+- Settlement:
+  `0x1876f7d842193750d961167c545aed6fbb952c7188ba0367cd3e13bb5c687e6a`
+- Proof:
+  `https://chengyuann.github.io/cup-signal-injective/proofs/agent-x402-run.json`

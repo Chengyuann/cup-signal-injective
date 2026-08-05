@@ -6,10 +6,12 @@ Cup Signal is a World Cup matchday AI cockpit built for **The Injective Global C
 
 - **MVP:** https://chengyuann.github.io/cup-signal-injective/
 - **Full demo video (77 seconds):** https://chengyuann.github.io/cup-signal-injective/media/cup-signal-demo-v2.mp4
+- **x402/on-chain update video (12 seconds):** https://chengyuann.github.io/cup-signal-injective/media/cup-signal-x402-onchain-update.mp4
 - **3-minute judge guide:** [docs/JUDGE_GUIDE.md](docs/JUDGE_GUIDE.md)
 - **Generated proof bundle:** https://chengyuann.github.io/cup-signal-injective/proofs/judge-proof.json
 - **On-chain proof:** https://chengyuann.github.io/cup-signal-injective/proofs/onchain-proof.json
 - **Real x402 settlement proof:** https://chengyuann.github.io/cup-signal-injective/proofs/x402-payment.json
+- **Agent auto-payment proof:** https://chengyuann.github.io/cup-signal-injective/proofs/agent-x402-run.json
 - **Public paid API:** https://cup-signal-x402.mcy23.workers.dev/api/premium-report/cup-001
 - **Proof registry:** https://testnet.blockscout.injective.network/address/0x751784E837763cE0cB1786b2A0741092B15bB808
 - **Technical status and boundaries:** [STATUS.md](STATUS.md)
@@ -134,6 +136,13 @@ Quote the public x402 endpoint:
 ```bash
 npm run x402:quote:live -- \
   https://cup-signal-x402.mcy23.workers.dev/api/premium-report/cup-001
+```
+
+Run the budget-gated agent flow:
+
+```bash
+npm run agent:x402
+npm run agent:x402 -- --yes
 ```
 
 Run a plain agent demo:

@@ -6,9 +6,11 @@ This guide is the shortest reproducible path through the submission.
 
 - MVP: https://chengyuann.github.io/cup-signal-injective/
 - Full demo: https://chengyuann.github.io/cup-signal-injective/media/cup-signal-demo-v2.mp4
+- x402/on-chain update: https://chengyuann.github.io/cup-signal-injective/media/cup-signal-x402-onchain-update.mp4
 - Generated proof bundle: https://chengyuann.github.io/cup-signal-injective/proofs/judge-proof.json
 - Real x402 settlement: https://chengyuann.github.io/cup-signal-injective/proofs/x402-payment.json
 - Public x402 API: https://cup-signal-x402.mcy23.workers.dev/api/premium-report/cup-001
+- Agent auto-payment proof: https://chengyuann.github.io/cup-signal-injective/proofs/agent-x402-run.json
 
 Recommended product path:
 
@@ -111,3 +113,19 @@ Settlement transaction:
 
 The public proof records payer/payee balance changes, HTTP 200 premium response,
 and the decoded `PAYMENT-RESPONSE` receipt.
+
+## 8. Agent payment
+
+The agent first quotes without signing, enforces a maximum spend of 0.01 USDC,
+then requires `--yes` before signing:
+
+```bash
+npm run agent:x402
+npm run agent:x402 -- --yes
+```
+
+Agent settlement:
+
+```text
+0x1876f7d842193750d961167c545aed6fbb952c7188ba0367cd3e13bb5c687e6a
+```

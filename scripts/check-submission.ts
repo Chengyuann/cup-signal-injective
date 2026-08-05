@@ -6,6 +6,7 @@ const publicUrls = [
   "https://chengyuann.github.io/cup-signal-injective/media/cup-signal-demo-v2.mp4",
   "https://github.com/Chengyuann/cup-signal-injective",
   "https://cup-signal-x402.mcy23.workers.dev/health",
+  "https://chengyuann.github.io/cup-signal-injective/media/cup-signal-x402-onchain-update.mp4",
 ];
 
 const results = [];
@@ -88,6 +89,22 @@ if (x402ProofResponse.status === 200) {
   });
 } else if (process.env.REQUIRE_X402_SETTLEMENT === "true") {
   throw new Error(`Public x402 payment proof returned ${x402ProofResponse.status}`);
+}
+
+const agentProofResponse = await fetch(
+  "https://chengyuann.github.io/cup-signal-injective/proofs/agent-x402-run.json",
+  { headers: { "user-agent": "Cup-Signal-Submission-Check/1.0" } },
+);
+if (agentProofResponse.status === 200) {
+  const agent = await agentProofResponse.json();
+  assert.equal(agent.status, "success");
+  assert.equal(agent.quote.withinBudget, true);
+  assert.match(agent.receipt.transaction, /^0x[0-9a-fA-F]{64}$/);
+  results.push({
+    url: agentProofResponse.url,
+    status: agentProofResponse.status,
+    agentSettlement: agent.receipt.transaction,
+  });
 }
 
 console.log(JSON.stringify({ ok: true, results }, null, 2));
