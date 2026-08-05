@@ -24,6 +24,9 @@ const proof = JSON.parse(await readFile("dist/proofs/judge-proof.json", "utf8"))
 assert.equal(proof.x402.challengeStatus, 402);
 assert.equal(proof.x402.paidStatus, 200);
 assert.equal(proof.x402.accepts[0].network, "eip155:1439");
+assert.match(proof.x402.publicSettlement.transaction.hash, /^0x[0-9a-fA-F]{64}$/);
+assert.match(proof.x402.agentSettlement.receipt.transaction, /^0x[0-9a-fA-F]{64}$/);
+assert.equal(proof.onchainRegistry.contract, "0x751784E837763cE0cB1786b2A0741092B15bB808");
 assert.equal(proof.model.probabilityTotal, 1);
 assert.equal(proof.mcp.tools.length, 7);
 const x402Payment = JSON.parse(await readFile("dist/proofs/x402-payment.json", "utf8"));

@@ -1,6 +1,6 @@
 import { spawn, type ChildProcess } from "node:child_process";
 import { createHash } from "node:crypto";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StdioClientTransport } from "@modelcontextprotocol/sdk/client/stdio.js";
 import { matches } from "../src/data";
@@ -12,6 +12,8 @@ const baseUrl = `http://127.0.0.1:${port}`;
 const match = matches[0];
 const prediction = predictMatch(match);
 const brief = buildWatchBrief(match.id);
+const x402Settlement = JSON.parse(await readFile("public/proofs/x402-payment.json", "utf8"));
+const agentSettlement = JSON.parse(await readFile("public/proofs/agent-x402-run.json", "utf8"));
 let server: ChildProcess | undefined;
 
 try {
@@ -52,7 +54,7 @@ try {
     version: 1,
     project: "Cup Signal",
     boundaries: {
-      x402: "Dry-run HTTP 402 handshake. No settlement transaction is claimed.",
+      x402: "Local zero-funds harness plus real public and agent testnet USDC settlement receipts.",
       cctp: "Deterministic USDC CCTP settlement intent. No burn, attestation, or mint transaction is claimed.",
       mcp: "Live local stdio MCP server verified by the official TypeScript SDK.",
       agentSkill: "Portable SKILL.md workflow verified against the local MCP tool names.",
@@ -70,6 +72,7 @@ try {
       volatility: prediction.volatility,
     },
     x402: {
+      mode: "local-zero-funds-harness",
       request: `GET /api/premium-report/${match.id}`,
       challengeStatus: challengeResponse.status,
       challengeVersion: challenge.x402Version,
@@ -78,6 +81,17 @@ try {
       paidStatus: paidResponse.status,
       paymentResponseHeader: paidResponse.headers.get("x-payment-response"),
       unlockedHeadline: paid.headline,
+      publicSettlement: {
+        endpoint: x402Settlement.endpoint,
+        transaction: x402Settlement.transaction,
+        payment: x402Settlement.payment,
+        balances: x402Settlement.balances,
+      },
+      agentSettlement: {
+        endpoint: agentSettlement.quote.endpoint,
+        budget: agentSettlement.quote,
+        receipt: agentSettlement.receipt,
+      },
     },
     cctp: brief.cctp,
     mcp: {
@@ -95,6 +109,11 @@ try {
         "rank_match_players",
         "get_injective_playbook",
       ],
+    },
+    onchainRegistry: {
+      network: "eip155:1439",
+      contract: "0x751784E837763cE0cB1786b2A0741092B15bB808",
+      proofRecord: "https://chengyuann.github.io/cup-signal-injective/proofs/onchain-proof.json",
     },
   };
 

@@ -8,18 +8,20 @@ Last reviewed: 2026-08-05.
 - GitHub Pages builds with `/cup-signal-injective/` as the base path.
 - Daily World Cup data refresh no longer deploys an incorrect root-path build.
 - Forecast probabilities are normalized and covered by automated tests.
-- x402 dry-run server returns a structured HTTP 402 challenge.
-- The challenge is validated against the x402 v2 schema and targets Injective EVM Testnet (`eip155:1439`).
-- A demo payment header returns the premium report and `X-PAYMENT-RESPONSE`.
+- The local zero-funds harness returns a structured, schema-valid HTTP 402 challenge.
+- The public Worker settles native testnet USDC through x402 v2 on Injective
+  EVM Testnet (`eip155:1439`).
+- Public and agent PAYMENT-RESPONSE receipts include transaction and balance
+  reconciliation evidence.
 - MCP server exposes 7 tools, 1 resource, and 1 prompt.
 - Agent Skill references the actual MCP tool names.
 - `public/proofs/judge-proof.json` is generated from live local HTTP and MCP calls.
 
 ## Honest boundaries
 
-- The x402 route is a protocol-faithful dry-run, not a completed USDC payment.
+- The local harness is a dry-run; the public endpoint has completed real
+  testnet USDC settlements.
 - The CCTP object is a settlement intent, not a completed burn/attestation/mint flow.
-- No Injective EVM smart contract deployment is claimed.
 - Tournament schedule/team data is sourced from public repositories.
 - Player ratings and player event data are simulated product analytics.
 - The proof-registry contract is deployed on Injective EVM Testnet and its
@@ -30,22 +32,17 @@ Last reviewed: 2026-08-05.
   0.01 USDC quote, paid, replayed the request, and decoded the receipt.
 - Blockscout reports the proof registry source as Verified (Exact Match).
 
-## Current production path
+## Current operating path
 
 ### x402
 
-The current dry-run preserves the premium resource contract. A production
-deployment should use the official Injective x402 package or current x402
-resource-server middleware with:
+The public endpoint already uses the official Injective x402 package with a
+funded receiver, EIP-3009 signatures, facilitator settlement, and persisted
+public receipts. The local harness remains available for zero-funds judging.
 
-- a funded receiver,
-- an Injective EVM network identifier,
-- facilitator verification and settlement,
-- a returned settlement transaction reference,
-- idempotency and receipt persistence.
-
-The repository intentionally does not install wallet/signing packages or accept
-private keys during judging. This reduces supply-chain and secret-handling risk.
+Before mainnet or real-value operation, add KMS-backed key custody, atomic
+idempotency, rate limits, abuse controls, and an explicit mainnet spend policy.
+Secrets remain in Cloudflare, GitHub, and local secret stores rather than source.
 
 ### CCTP
 
@@ -68,8 +65,8 @@ tool inventory.
 
 The minimal `CupSignalProofRegistry` contract is designed for Injective EVM
 Testnet. It anchors the stable judge-proof SHA-256, CCTP memo SHA-256, and
-public proof URI. It does not handle funds and does not convert the dry-run
-x402 flow into a settlement claim.
+public proof URI. It does not handle funds; x402 settlement is independently
+evidenced by native USDC transfer receipts.
 
 Deployed contract:
 
@@ -80,7 +77,7 @@ Deployed contract:
 Anchor transaction:
 
 ```text
-0x4a8109bffeebfefb70fc36f829eefb258aaa7aca49420c72133d7c22fc615e19
+0x59820d4a3c289d2a73d7164e809d1b57539385a0a5377e17f8ea9343c85958ec
 ```
 
 The chain stores proof and memo hashes only. This is timestamped evidence, not
@@ -91,9 +88,9 @@ an x402 settlement or CCTP transfer claim.
 - Public endpoint:
   `https://cup-signal-x402.mcy23.workers.dev/api/premium-report/cup-001`
 - Settlement transaction:
-  `0xb41852a70b83d36ac8ccf7e0cc78822f27ae7bf983d113508ab1f4a9f1930ef1`
-- Payer balance: `19.99 -> 19.98 USDC`
-- Payee balance: `0.01 -> 0.02 USDC`
+  `0x52bcffdd6ce893f5bb1310f6f2ba3dc0a8e67d3b6d5900317f448210e319b32c`
+- Payer balance: `19.98 -> 19.97 USDC`
+- Payee balance: `0.02 -> 0.03 USDC`
 - Asset: native Injective Testnet USDC
 - Scheme: x402 v2 exact payment using EIP-3009
 

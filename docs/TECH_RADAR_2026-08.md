@@ -7,7 +7,8 @@ Reviewed: 2026-08-05.
 ### x402 v2 response schema
 
 - Status: adopted.
-- Evidence: the dry-run 402 body is parsed by `PaymentRequiredV2Schema`.
+- Evidence: the local harness is schema-validated; the public Worker has real
+  EIP-3009 testnet USDC settlements and PAYMENT-RESPONSE receipts.
 - Network: Injective EVM Testnet, CAIP-2 `eip155:1439`.
 - Reason: protocol correctness is valuable even before funded settlement.
 
@@ -39,10 +40,11 @@ Reviewed: 2026-08-05.
 
 ### Official Injective x402 settlement
 
-- Candidate package: `@injectivelabs/x402`.
-- Required work: receiver wallet, facilitator setup, settlement transaction persistence,
-  idempotency, and receipt display.
-- Decision: do not add funded signing during judging.
+- Status: adopted and deployed.
+- Package: `@injectivelabs/x402`.
+- Evidence: public Worker, payment proof, agent proof, and Blockscout transfers.
+- Remaining production work: atomic idempotency, KMS custody, rate limits, and
+  mainnet operating policy.
 
 ### Circle CCTP V2 on Injective
 

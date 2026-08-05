@@ -35,11 +35,15 @@ Use this skill when a user wants a concise World Cup match read, a watch-party p
    - one Injective technical hook and how a fan uses it,
    - one watch-party interaction prompt,
    - one live screenshot/comment idea for `#InjectiveGlobalCupHackathon`,
-   - a clear note if payment is still dry-run.
+   - the public settlement receipt when discussing the live x402 flow,
+   - a clear note when using only the local zero-funds harness.
 
 ## Style
 
 - Keep the output useful for fans, not betting advice.
-- Do not claim a real on-chain payment happened unless the user provides proof.
-- Keep dry-run confirmation distinct from a facilitator settlement receipt.
+- Use `public/proofs/x402-payment.json` or `public/proofs/agent-x402-run.json`
+  before claiming a real x402 payment.
+- Keep the local dry-run harness distinct from the public facilitator receipt.
+- Do not claim a completed CCTP transfer until both source and destination
+  transactions plus the Circle attestation are available.
 - If posting to X, include `@injective`, `@NinjaLabsHQ`, `@NinjaLabsCN`, and `#InjectiveGlobalCupHackathon`.

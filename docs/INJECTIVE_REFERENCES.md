@@ -4,11 +4,12 @@ This project was implemented against current public documentation and keeps the 
 
 ## x402
 
-Cup Signal models the premium report as a 402-gated API resource:
+Cup Signal runs the premium report as a 402-gated API resource:
 
 - `GET /api/premium-report/:matchId`
 - returns an `accepts` payment requirement when no payment header exists
-- returns the premium JSON report when a demo `X-PAYMENT` header exists
+- settles native testnet USDC when a valid EIP-3009 PAYMENT-SIGNATURE exists
+- also retains a local demo-header harness for zero-funds reproduction
 
 Injective documents x402 as an HTTP 402-based payment protocol for pay-per-request services on Injective EVM.
 
@@ -17,7 +18,8 @@ Current references:
 - Injective x402 guide: https://docs.injective.network/developers-ai/x402
 - Injective EVM Testnet uses chain ID `1439`, represented as CAIP-2 `eip155:1439`.
 - Current x402 v2 requirements use `amount`, a top-level `resource`, and an `accepts` array.
-- The generated proof bundle validates the dry-run response against the official x402 v2 schema.
+- The generated proof bundle validates the local harness.
+- Public x402 and agent receipt files prove real testnet settlement.
 
 ## USDC CCTP
 
@@ -74,7 +76,8 @@ This is included so judges can inspect the integration logic without reading all
 
 ## Security review
 
-- No private key or funded wallet is required by the repository.
+- No private key is stored in the repository; deployment and test wallets use
+  Cloudflare/GitHub/local secret stores.
 - The unused Coinbase facilitator package was removed.
 - Production dependencies were upgraded and `npm audit --omit=dev` reports no known vulnerabilities as of 2026-08-05.
 - The Pages artifact is audited before deployment for the correct base path,

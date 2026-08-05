@@ -16,6 +16,7 @@
     "x402:quote:live": "tsx scripts/quote-live-x402.ts",
     "x402:pay:live": "tsx scripts/pay-live-x402.ts",
     "agent:x402": "tsx scripts/agent-x402-client.ts",
+    "cctp:bridge": "tsx scripts/cctp-bridge.ts",
     "e2e:public": "tsx scripts/e2e-public-pages.ts",
     "worker:types": "wrangler types worker-configuration.d.ts",
     "worker:deploy": "wrangler deploy --minify",
@@ -50,6 +51,8 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@circle-fin/adapter-viem-v2": "^1.14.1",
+    "@circle-fin/bridge-kit": "^1.12.2",
     "@types/node": "^24.0.10",
     "@types/react": "^18.3.23",
     "@types/react-dom": "^18.3.7",

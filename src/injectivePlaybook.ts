@@ -3,7 +3,7 @@ export type InjectiveTechKey = "x402" | "cctp" | "mcp" | "agent-skill";
 export type InjectivePlay = {
   key: InjectiveTechKey;
   label: string;
-  status: "demo-live" | "dry-run" | "production-ready-shape";
+  status: "demo-live" | "live-settled" | "intent-only";
   hook: string;
   fanAction: string;
   implementation: string;
@@ -16,18 +16,18 @@ export const injectivePlays: InjectivePlay[] = [
   {
     key: "x402",
     label: "x402 Paid Scout Intel",
-    status: "dry-run",
-    hook: "A watch-party host unlocks a premium tactical report only when the endpoint receives an X-PAYMENT header.",
-    fanAction: "Click Simulate x402 Unlock, then use the unlocked player/event report as the paid intelligence card.",
-    implementation: "server/x402-report-server.ts returns HTTP 402 requirements for /api/premium-report/:matchId and emits X-PAYMENT-RESPONSE when paid.",
-    proof: "npm run server:x402 plus curl /api/premium-report/cup-001 returns 402, then 200 with X-PAYMENT.",
-    productionStep: "Replace the demo header with official Injective x402 facilitator verification, a funded receiver, and persisted settlement receipts.",
+    status: "live-settled",
+    hook: "A watch-party host or agent pays native testnet USDC to unlock a premium tactical report through the public x402 API.",
+    fanAction: "Inspect the live settlement proof or use the zero-funds local harness to preview the premium report.",
+    implementation: "Cloudflare Workers serves the public x402 v2 endpoint; the official Injective SDK verifies EIP-3009 signatures and settles native testnet USDC.",
+    proof: "The public x402 and agent proof files contain PAYMENT-RESPONSE receipts, transaction hashes, and payer/payee balance reconciliation.",
+    productionStep: "Add KMS custody, atomic idempotency, rate limits, and mainnet operating policy before accepting real-value payments.",
     scoreBoost: "+1 x402 technical point; turns match analysis into a pay-per-request football data product.",
   },
   {
     key: "cctp",
     label: "USDC CCTP Fan Pool",
-    status: "production-ready-shape",
+    status: "intent-only",
     hook: "Every premium brief carries a CCTP memo so a fan group can settle a cross-chain USDC prize pool into an Injective-oriented flow.",
     fanAction: "Copy the memo cup-signal:<match>:watch-brief for a watch-party USDC pool or player-of-the-match bounty.",
     implementation: "buildWatchBrief() emits Base Sepolia -> Injective testnet USDC settlement metadata with a deterministic memo.",
@@ -61,7 +61,7 @@ export const injectivePlays: InjectivePlay[] = [
 
 export const injectivePlaybookSummary = {
   totalTechHooks: injectivePlays.length,
-  liveDemoHooks: injectivePlays.filter((play) => play.status === "demo-live").length,
-  dryRunBoundaries: injectivePlays.filter((play) => play.status === "dry-run").map((play) => play.key),
+  liveDemoHooks: injectivePlays.filter((play) => play.status !== "intent-only").length,
+  dryRunBoundaries: injectivePlays.filter((play) => play.status === "intent-only").map((play) => play.key),
   maxHackathonTechBonus: 4,
 };

@@ -11,7 +11,7 @@ Cup Signal for Injective Global Cup
 Short description:
 
 ```text
-Cup Signal is a World Cup matchday AI cockpit that turns fixture context, live pressure, team profiles, player stats, and fan utility needs into one watch-party signal. It includes a detailed player rating dashboard, current-form-vs-normal ability comparison, GPT Image 2 chibi player avatars, a React demo, x402-style premium report endpoint, USDC CCTP settlement memo, local MCP tools, and an Agent Skill for live match commentary.
+Cup Signal is a World Cup matchday AI cockpit that turns fixture context, live pressure, team profiles, player stats, and fan utility needs into one watch-party signal. It includes a detailed player rating dashboard, a public x402 endpoint with real testnet USDC receipts, a budget-gated agent payment, a verified proof contract, a CCTP settlement memo, local MCP tools, and an Agent Skill for live match commentary.
 ```
 
 GitHub repository:
@@ -35,7 +35,7 @@ https://chengyuann.github.io/cup-signal-injective/media/cup-signal-demo-v2.mp4
 X tweet link:
 
 ```text
-<add X post URL after publishing>
+https://x.com/macy200201/status/2084941358951972900
 ```
 
 ## X Main Post Draft
@@ -88,7 +88,8 @@ Screenshot from the live panel attached.
 - Click `Simulate x402 Unlock`.
 - Show the premium report lines.
 - Run `npm run check:mcp` in terminal.
-- Mention that CCTP is represented as a USDC settlement intent, not a fake completed transfer.
+- Show the public x402 and agent receipt proof files.
+- Mention that CCTP remains a USDC settlement intent, not a fake completed transfer.
 
 ## Visual Assets
 

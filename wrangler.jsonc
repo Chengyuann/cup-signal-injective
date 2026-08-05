@@ -12,5 +12,19 @@
   "observability": {
     "enabled": true,
     "head_sampling_rate": 1
-  }
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "RECEIPTS",
+        "class_name": "ReceiptStore"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["ReceiptStore"]
+    }
+  ]
 }

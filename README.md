@@ -25,7 +25,7 @@ Cup Signal is a World Cup matchday AI cockpit built for **The Injective Global C
 
 The project is intentionally small enough for judges to run quickly, but it includes all four Injective challenge hooks:
 
-- **x402**: a pay-per-request premium report endpoint shape using HTTP 402.
+- **x402**: a public pay-per-request report with real testnet USDC receipts, plus a local zero-funds harness.
 - **USDC CCTP**: each paid brief includes a USDC settlement memo from Base Sepolia to Injective testnet.
 - **MCP Server**: local MCP tools expose fixtures, forecasts, watch briefs, and team ranking.
 - **Agent Skill**: a portable skill file teaches an agent how to use the MCP tools for live match commentary.
@@ -164,19 +164,23 @@ npm run capture
 
 ### x402
 
-`server/x402-report-server.ts` exposes:
+`server/x402-report-server.ts` is the local zero-funds harness and exposes:
 
 - `GET /api/free-brief/:matchId`
 - `GET /api/premium-report/:matchId`
 
-Without an `X-PAYMENT` header, the premium route returns a 402 response with payment requirements. With a demo header, it returns the premium report and `X-PAYMENT-RESPONSE`. The default server is dry-run so judges can test it without spending funds or provisioning API keys.
+Without an `X-PAYMENT` header, the premium route returns a 402 response with
+payment requirements. With a demo header, it returns the premium report and a
+local `X-PAYMENT-RESPONSE`. This harness lets judges test without spending.
 
-Production path:
+The live path is deployed at:
 
-1. Replace `X402_RECEIVER` with the real receiving address.
-2. Set the target network and supported asset.
-3. Wire the official Injective x402 package and facilitator to verify and settle the payment payload.
-4. Keep the same premium report resource path.
+```text
+https://cup-signal-x402.mcy23.workers.dev/api/premium-report/cup-001
+```
+
+It uses the official Injective package, native testnet USDC, EIP-3009,
+facilitator settlement, and published PAYMENT-RESPONSE receipts.
 
 ### USDC CCTP
 
@@ -329,11 +333,14 @@ Video prompts and reference-frame notes are in `docs/VIDEO_PROMPTS.md`.
 - `REQUIRE_PUBLIC_PROOF=true npm run check:submission`
 - `npm run demo:agent`
 - `npm run capture`
-- x402 dry-run `curl` returned `402 Payment Required`, then `200 OK` with `X-PAYMENT-RESPONSE` when a demo `X-PAYMENT` header was supplied.
+- The local x402 harness returned `402`, then `200` with a demo header.
+- The public endpoint settled native testnet USDC and returned real
+  PAYMENT-RESPONSE receipts.
 - `npm run check:mcp` verifies `get_injective_playbook` alongside forecast, player, and World Cup tools.
 
 ## Limitations
 
 - Fixture and team data are demo data. Replace `src/data.ts` with a licensed live sports feed for production.
-- The x402 route is dry-run by default. Real settlement requires a receiving wallet and facilitator credentials.
+- The local x402 command is dry-run by default; the public endpoint is live on
+  Injective EVM Testnet.
 - The CCTP memo is an intent object, not an executed transfer.

@@ -31,11 +31,11 @@ npm run proof:judge
 
 Expected result:
 
-- 6 automated tests pass.
+- 12 automated tests pass.
 - 7 MCP tools are listed and representative tools return content.
 - `public/proofs/judge-proof.json` records:
   - an HTTP `402 Payment Required` challenge,
-  - a dry-run paid request returning `200`,
+  - a local zero-funds request returning `200`,
   - the `X-PAYMENT-RESPONSE` header,
   - the CCTP settlement intent,
   - the MCP tool inventory,
@@ -60,15 +60,15 @@ The first request returns `402`. The second returns `200` with an
 | x402 | Public v2 API plus real 0.01 native testnet USDC EIP-3009 settlement | Testnet payment; no mainnet value claimed |
 | USDC CCTP | Consistent Base Sepolia to Injective testnet intent and memo | No burn, attestation, or mint transaction claimed |
 | MCP Server | 7 tools, 1 resource, 1 prompt over stdio | Local server; official Injective MCP can be paired for chain actions |
-| Agent Skill | Portable `agent-skill/SKILL.md` using the MCP tool names | Generates a workflow; does not autonomously spend funds |
+| Agent Skill | Portable Skill plus a budget-gated public x402 client and receipt | Testnet only; requires explicit `--yes` before signing |
 | On-chain proof | Deployed proof registry on Injective EVM Testnet with RPC readback verification | Anchors evidence hashes only; it is not an x402 or CCTP settlement |
 
 ## 5. Why the boundaries matter
 
-Cup Signal does not fabricate a wallet payment, CCTP transfer, transaction hash,
-or official live player data. The submission demonstrates the product and
-protocol interfaces that can be upgraded to real settlement once a funded
-wallet, facilitator, and production sports feed are configured.
+Cup Signal does not fabricate a CCTP transfer or official live player data.
+The x402 public and agent payments have real testnet transaction receipts. CCTP
+remains an intent until source burn, Circle attestation, and destination mint
+proofs are available.
 
 ## 6. On-chain verification
 
@@ -94,7 +94,7 @@ Contract:
 Anchor transaction:
 
 ```text
-0x4a8109bffeebfefb70fc36f829eefb258aaa7aca49420c72133d7c22fc615e19
+0x59820d4a3c289d2a73d7164e809d1b57539385a0a5377e17f8ea9343c85958ec
 ```
 
 ## 7. Real x402 receipt
@@ -108,7 +108,7 @@ https://cup-signal-x402.mcy23.workers.dev/api/premium-report/cup-001
 Settlement transaction:
 
 ```text
-0xb41852a70b83d36ac8ccf7e0cc78822f27ae7bf983d113508ab1f4a9f1930ef1
+0x52bcffdd6ce893f5bb1310f6f2ba3dc0a8e67d3b6d5900317f448210e319b32c
 ```
 
 The public proof records payer/payee balance changes, HTTP 200 premium response,
