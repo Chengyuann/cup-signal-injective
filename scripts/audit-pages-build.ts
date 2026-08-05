@@ -26,6 +26,11 @@ assert.equal(proof.x402.paidStatus, 200);
 assert.equal(proof.x402.accepts[0].network, "eip155:1439");
 assert.equal(proof.model.probabilityTotal, 1);
 assert.equal(proof.mcp.tools.length, 7);
+const x402Payment = JSON.parse(await readFile("dist/proofs/x402-payment.json", "utf8"));
+assert.equal(x402Payment.status, "settled");
+assert.equal(x402Payment.endpoint, "https://cup-signal-x402.mcy23.workers.dev/api/premium-report/cup-001");
+assert.equal(x402Payment.payment.amountUsdc, "0.01");
+assert.match(x402Payment.transaction.hash, /^0x[0-9a-fA-F]{64}$/);
 
 let onchainStatus = "pending";
 try {
@@ -50,6 +55,7 @@ console.log(
       x402Network: proof.x402.accepts[0].network,
       mcpTools: proof.mcp.tools.length,
       onchainStatus,
+      x402Settlement: x402Payment.transaction.hash,
     },
     null,
     2,

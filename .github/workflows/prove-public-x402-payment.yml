@@ -29,9 +29,16 @@ jobs:
       - name: Settle 0.01 testnet USDC
         run: npm run x402:pay:live -- --yes
 
+      - name: Agent quote and autonomous payment
+        run: |
+          npm run agent:x402
+          npm run agent:x402 -- --yes
+
       - name: Upload settlement proof
         uses: actions/upload-artifact@v4
         with:
           name: public-x402-payment-proof
-          path: public/proofs/x402-payment.json
+          path: |
+            public/proofs/x402-payment.json
+            public/proofs/agent-x402-run.json
           if-no-files-found: error

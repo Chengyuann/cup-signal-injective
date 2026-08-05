@@ -24,6 +24,8 @@ Last reviewed: 2026-08-05.
 - Player ratings and player event data are simulated product analytics.
 - The proof-registry contract is deployed on Injective EVM Testnet and its
   on-chain readback matches the public judge-proof SHA-256.
+- A real 0.01 native testnet USDC x402 payment settled through the public
+  Cloudflare Worker endpoint and returned a PAYMENT-RESPONSE receipt.
 
 ## Current production path
 
@@ -80,3 +82,14 @@ Anchor transaction:
 
 The chain stores proof and memo hashes only. This is timestamped evidence, not
 an x402 settlement or CCTP transfer claim.
+
+### Real x402 settlement
+
+- Public endpoint:
+  `https://cup-signal-x402.mcy23.workers.dev/api/premium-report/cup-001`
+- Settlement transaction:
+  `0xb41852a70b83d36ac8ccf7e0cc78822f27ae7bf983d113508ab1f4a9f1930ef1`
+- Payer balance: `19.99 -> 19.98 USDC`
+- Payee balance: `0.01 -> 0.02 USDC`
+- Asset: native Injective Testnet USDC
+- Scheme: x402 v2 exact payment using EIP-3009

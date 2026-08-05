@@ -9,6 +9,8 @@ Cup Signal is a World Cup matchday AI cockpit built for **The Injective Global C
 - **3-minute judge guide:** [docs/JUDGE_GUIDE.md](docs/JUDGE_GUIDE.md)
 - **Generated proof bundle:** https://chengyuann.github.io/cup-signal-injective/proofs/judge-proof.json
 - **On-chain proof:** https://chengyuann.github.io/cup-signal-injective/proofs/onchain-proof.json
+- **Real x402 settlement proof:** https://chengyuann.github.io/cup-signal-injective/proofs/x402-payment.json
+- **Public paid API:** https://cup-signal-x402.mcy23.workers.dev/api/premium-report/cup-001
 - **Proof registry:** https://testnet.blockscout.injective.network/address/0x751784E837763cE0cB1786b2A0741092B15bB808
 - **Technical status and boundaries:** [STATUS.md](STATUS.md)
 - **Public competitive review:** [docs/COMPETITIVE_REVIEW.md](docs/COMPETITIVE_REVIEW.md)
@@ -125,6 +127,13 @@ Compile and verify the Injective EVM proof registry:
 ```bash
 npm run contract:compile
 npm run contract:verify:testnet
+```
+
+Quote the public x402 endpoint:
+
+```bash
+npm run x402:quote:live -- \
+  https://cup-signal-x402.mcy23.workers.dev/api/premium-report/cup-001
 ```
 
 Run a plain agent demo:

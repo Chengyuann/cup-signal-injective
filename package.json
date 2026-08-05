@@ -15,6 +15,8 @@
     "server:x402:live": "tsx server/x402-live-server.ts",
     "x402:quote:live": "tsx scripts/quote-live-x402.ts",
     "x402:pay:live": "tsx scripts/pay-live-x402.ts",
+    "agent:x402": "tsx scripts/agent-x402-client.ts",
+    "e2e:public": "tsx scripts/e2e-public-pages.ts",
     "worker:types": "wrangler types worker-configuration.d.ts",
     "worker:deploy": "wrangler deploy --minify",
     "mcp": "tsx mcp/cup-signal-mcp.ts",

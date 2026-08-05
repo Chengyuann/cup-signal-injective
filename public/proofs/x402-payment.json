@@ -1,7 +1,7 @@
 {
   "version": 1,
   "status": "settled",
-  "endpoint": "http://127.0.0.1:4021/api/premium-report/cup-001",
+  "endpoint": "https://cup-signal-x402.mcy23.workers.dev/api/premium-report/cup-001",
   "network": {
     "name": "Injective EVM Testnet",
     "chainId": 1439,
@@ -19,25 +19,25 @@
   },
   "receipt": {
     "success": true,
-    "transaction": "0xf57b81310f12306b8f60c6ac831f97252028ab99784d39dc9b1c2e3e97410d3c",
+    "transaction": "0xb41852a70b83d36ac8ccf7e0cc78822f27ae7bf983d113508ab1f4a9f1930ef1",
     "network": "eip155:1439",
     "payer": "0x36090AA807e6B13bdD162F7852cB0793b0d87c1a",
     "amount": "10000",
     "extra": {
-      "blockNumber": "135798102"
+      "blockNumber": "135800070"
     }
   },
   "transaction": {
-    "hash": "0xf57b81310f12306b8f60c6ac831f97252028ab99784d39dc9b1c2e3e97410d3c",
-    "blockNumber": "135798102",
+    "hash": "0xb41852a70b83d36ac8ccf7e0cc78822f27ae7bf983d113508ab1f4a9f1930ef1",
+    "blockNumber": "135800070",
     "status": "success",
-    "explorer": "https://testnet.blockscout.injective.network/tx/0xf57b81310f12306b8f60c6ac831f97252028ab99784d39dc9b1c2e3e97410d3c"
+    "explorer": "https://testnet.blockscout.injective.network/tx/0xb41852a70b83d36ac8ccf7e0cc78822f27ae7bf983d113508ab1f4a9f1930ef1"
   },
   "balances": {
-    "payerBefore": "20",
-    "payerAfter": "19.99",
-    "payeeBefore": "0",
-    "payeeAfter": "0.01"
+    "payerBefore": "19.99",
+    "payerAfter": "19.98",
+    "payeeBefore": "0.01",
+    "payeeAfter": "0.02"
   },
   "response": {
     "status": 200,
@@ -47,8 +47,8 @@
       "network": "eip155:1439",
       "amount": "10000",
       "asset": "0x0C382e685bbeeFE5d3d9C29e29E341fEE8E84C5d",
-      "txHash": "0xf57b81310f12306b8f60c6ac831f97252028ab99784d39dc9b1c2e3e97410d3c"
+      "txHash": "0xb41852a70b83d36ac8ccf7e0cc78822f27ae7bf983d113508ab1f4a9f1930ef1"
     }
   },
-  "generatedAt": "2026-08-05T09:00:33.265Z"
+  "generatedAt": "2026-08-05T09:27:16.038Z"
 }

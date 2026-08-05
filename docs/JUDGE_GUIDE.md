@@ -7,6 +7,8 @@ This guide is the shortest reproducible path through the submission.
 - MVP: https://chengyuann.github.io/cup-signal-injective/
 - Full demo: https://chengyuann.github.io/cup-signal-injective/media/cup-signal-demo-v2.mp4
 - Generated proof bundle: https://chengyuann.github.io/cup-signal-injective/proofs/judge-proof.json
+- Real x402 settlement: https://chengyuann.github.io/cup-signal-injective/proofs/x402-payment.json
+- Public x402 API: https://cup-signal-x402.mcy23.workers.dev/api/premium-report/cup-001
 
 Recommended product path:
 
@@ -53,7 +55,7 @@ The first request returns `402`. The second returns `200` with an
 
 | Technology | Current evidence | Boundary |
 | --- | --- | --- |
-| x402 | Schema-validated v2 HTTP 402 challenge on Injective EVM Testnet (`eip155:1439`) and deterministic unlock response | Dry-run header, no settlement transaction claimed |
+| x402 | Public v2 API plus real 0.01 native testnet USDC EIP-3009 settlement | Testnet payment; no mainnet value claimed |
 | USDC CCTP | Consistent Base Sepolia to Injective testnet intent and memo | No burn, attestation, or mint transaction claimed |
 | MCP Server | 7 tools, 1 resource, 1 prompt over stdio | Local server; official Injective MCP can be paired for chain actions |
 | Agent Skill | Portable `agent-skill/SKILL.md` using the MCP tool names | Generates a workflow; does not autonomously spend funds |
@@ -92,3 +94,20 @@ Anchor transaction:
 ```text
 0x4a8109bffeebfefb70fc36f829eefb258aaa7aca49420c72133d7c22fc615e19
 ```
+
+## 7. Real x402 receipt
+
+Public endpoint:
+
+```text
+https://cup-signal-x402.mcy23.workers.dev/api/premium-report/cup-001
+```
+
+Settlement transaction:
+
+```text
+0xb41852a70b83d36ac8ccf7e0cc78822f27ae7bf983d113508ab1f4a9f1930ef1
+```
+
+The public proof records payer/payee balance changes, HTTP 200 premium response,
+and the decoded `PAYMENT-RESPONSE` receipt.

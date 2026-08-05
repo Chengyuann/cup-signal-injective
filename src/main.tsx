@@ -43,6 +43,12 @@ type OnchainProof = {
   contract?: { address: string; explorer: string };
   anchor?: { transaction: string; explorer: string; proofSha256: string };
 };
+type X402PaymentProof = {
+  status: "settled";
+  endpoint: string;
+  transaction: { hash: string; explorer: string };
+  payment: { amountUsdc: string; payer: string; payee: string };
+};
 type WorldCupRuntimeData = {
   teams: WorldCupTeam[];
   groups: WorldCupGroup[];
@@ -223,6 +229,7 @@ function App() {
   const [refreshState, setRefreshState] = useState<RefreshState>("idle");
   const [refreshMessage, setRefreshMessage] = useState("");
   const [onchainProof, setOnchainProof] = useState<OnchainProof | null>(null);
+  const [x402Payment, setX402Payment] = useState<X402PaymentProof | null>(null);
   const predictions = useMemo(() => buildPredictions(weights), [weights]);
   const selected = predictions.find((prediction) => prediction.match.id === selectedId) ?? predictions[0];
   const brief = useMemo(() => buildWatchBrief(selected.match.id, weights), [selected.match.id, weights]);
@@ -241,6 +248,13 @@ function App() {
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    fetch(assetPath("/proofs/x402-payment.json"), { headers: { accept: "application/json" } })
+      .then((response) => (response.ok ? response.json() : null))
+      .then((proof) => setX402Payment(proof))
+      .catch(() => setX402Payment(null));
   }, []);
 
   useEffect(() => {
@@ -315,7 +329,7 @@ function App() {
         onWindow={setWindowKey}
       />
       <WorldCupMotionPanel lang={lang} scores={playerScores} selected={selected} />
-      <InjectivePlaybookPanel lang={lang} onchainProof={onchainProof} />
+      <InjectivePlaybookPanel lang={lang} onchainProof={onchainProof} x402Payment={x402Payment} />
       <section className="shell lower-grid">
         <InjectivePanel paid={paid} loading={loading} onUnlock={unlockReport} brief={brief} />
         <AgentPanel selected={selected} />
@@ -592,7 +606,15 @@ function LanguageToggle({ lang, onToggle }: { lang: Lang; onToggle: () => void }
   );
 }
 
-function InjectivePlaybookPanel({ lang, onchainProof }: { lang: Lang; onchainProof: OnchainProof | null }) {
+function InjectivePlaybookPanel({
+  lang,
+  onchainProof,
+  x402Payment,
+}: {
+  lang: Lang;
+  onchainProof: OnchainProof | null;
+  x402Payment: X402PaymentProof | null;
+}) {
   return (
     <section className="shell injective-playbook reveal-block tilt-card" aria-label="Injective technology playbook">
       <div className="playbook-copy">
@@ -612,6 +634,16 @@ function InjectivePlaybookPanel({ lang, onchainProof }: { lang: Lang; onchainPro
           </a>
         ) : (
           <code>Injective EVM Testnet / eip155:1439</code>
+        )}
+      </div>
+      <div className={x402Payment?.status === "settled" ? "onchain-proof live" : "onchain-proof pending"}>
+        <span>{x402Payment ? "REAL x402 SETTLEMENT LIVE" : "x402 SETTLEMENT PROOF PENDING"}</span>
+        {x402Payment ? (
+          <a href={x402Payment.transaction.explorer} target="_blank" rel="noreferrer">
+            {x402Payment.payment.amountUsdc} USDC / {x402Payment.transaction.hash}
+          </a>
+        ) : (
+          <code>Injective native USDC / EIP-3009</code>
         )}
       </div>
       <div className="playbook-grid">
