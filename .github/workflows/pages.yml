@@ -33,6 +33,8 @@ jobs:
           npm test
           npm run check:mcp
           npm run proof:judge
+          npm run worker:types
+          npx wrangler deploy --dry-run --outdir /tmp/cup-signal-worker
 
       - name: Build
         run: BASE_PATH=/cup-signal-injective/ npm run build

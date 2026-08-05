@@ -5,7 +5,6 @@ const publicUrls = [
   "https://chengyuann.github.io/cup-signal-injective/media/cup-signal-teaser.mp4",
   "https://chengyuann.github.io/cup-signal-injective/media/cup-signal-demo-v2.mp4",
   "https://github.com/Chengyuann/cup-signal-injective",
-  "https://cup-signal-x402.mcy23.workers.dev/health",
   "https://chengyuann.github.io/cup-signal-injective/media/cup-signal-x402-onchain-update.mp4",
 ];
 
@@ -23,6 +22,28 @@ for (const url of publicUrls) {
     contentLength: response.headers.get("content-length"),
   });
   await response.body?.cancel();
+}
+
+try {
+  const response = await fetch("https://cup-signal-x402.mcy23.workers.dev/health", {
+    headers: { "user-agent": "Cup-Signal-Submission-Check/1.0" },
+    redirect: "follow",
+  });
+  assert.equal(response.status, 200, `public x402 health returned ${response.status}`);
+  const health = await response.json();
+  assert.equal(health.network, "eip155:1439");
+  results.push({
+    url: response.url,
+    status: response.status,
+    x402Api: health.service,
+  });
+} catch (error) {
+  if (process.env.REQUIRE_PUBLIC_X402_API === "true") throw error;
+  results.push({
+    url: "https://cup-signal-x402.mcy23.workers.dev/health",
+    status: "unreachable-from-this-network",
+    note: String(error),
+  });
 }
 
 const proofResponse = await fetch("https://chengyuann.github.io/cup-signal-injective/proofs/judge-proof.json", {

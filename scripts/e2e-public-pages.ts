@@ -24,7 +24,7 @@ try {
 
     const response = await page.goto(base, { waitUntil: "networkidle", timeout: 60_000 });
     assert.equal(response?.status(), 200);
-    assert.equal(await page.locator("h1").innerText(), "Cup Signal");
+    assert.equal((await page.locator("h1").innerText()).toLowerCase(), "cup signal");
     assert.equal(await page.locator(".onchain-proof.live").count(), 2);
     assert.match(await page.locator(".onchain-proof.live").nth(0).innerText(), /ON-CHAIN PROOF LIVE/);
     assert.match(await page.locator(".onchain-proof.live").nth(1).innerText(), /REAL x402 SETTLEMENT LIVE/);

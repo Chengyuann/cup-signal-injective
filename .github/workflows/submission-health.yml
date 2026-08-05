@@ -31,4 +31,7 @@ jobs:
       - name: Verify public submission URLs
         env:
           REQUIRE_PUBLIC_PROOF: "true"
+          REQUIRE_ONCHAIN_PROOF: "true"
+          REQUIRE_X402_SETTLEMENT: "true"
+          REQUIRE_PUBLIC_X402_API: "true"
         run: npm run check:submission
