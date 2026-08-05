@@ -1,0 +1,16 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "cup-signal-x402",
+  "main": "worker/x402-api.ts",
+  "compatibility_date": "2026-08-05",
+  "compatibility_flags": ["nodejs_compat"],
+  "vars": {
+    "PUBLIC_BASE_URL": "https://cup-signal-x402.mcy23.workers.dev",
+    "INJECTIVE_RPC_URL": "https://testnet.evm.archival.chain.virtual.json-rpc.injective.network/",
+    "RECEIVER_ADDRESS": "0x0C69f390Da3e0B35570F031c0878e9F000cf5D84"
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  }
+}

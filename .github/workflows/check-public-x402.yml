@@ -1,0 +1,33 @@
+name: Check Public x402 API
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "15 */6 * * *"
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify health and payment challenge
+        run: |
+          set -euo pipefail
+          base="https://cup-signal-x402.mcy23.workers.dev"
+          curl --fail --silent --show-error "$base/health" | tee health.json
+          status="$(curl --silent --show-error --output challenge.json --write-out '%{http_code}' \
+            "$base/api/premium-report/cup-001")"
+          test "$status" = "402"
+          python3 - <<'PY'
+          import json
+          health = json.load(open("health.json"))
+          challenge = json.load(open("challenge.json"))
+          assert health["network"] == "eip155:1439"
+          assert challenge["x402Version"] == 2
+          assert challenge["accepts"][0]["network"] == "eip155:1439"
+          assert challenge["accepts"][0]["amount"] == "10000"
+          assert challenge["accepts"][0]["asset"].lower() == "0x0c382e685bbeefe5d3d9c29e29e341fee8e84c5d"
+          print("Public x402 challenge verified.")
+          PY

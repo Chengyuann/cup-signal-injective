@@ -16,6 +16,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["src", "server", "mcp", "scripts", "vite.config.ts"],
+  "include": ["src", "server", "mcp", "scripts", "types", "vite.config.ts"],
   "references": []
 }

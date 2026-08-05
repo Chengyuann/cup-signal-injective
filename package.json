@@ -12,6 +12,11 @@
     "check:submission": "tsx scripts/check-submission.ts",
     "preview": "vite preview --host 127.0.0.1",
     "server:x402": "tsx server/x402-report-server.ts",
+    "server:x402:live": "tsx server/x402-live-server.ts",
+    "x402:quote:live": "tsx scripts/quote-live-x402.ts",
+    "x402:pay:live": "tsx scripts/pay-live-x402.ts",
+    "worker:types": "wrangler types worker-configuration.d.ts",
+    "worker:deploy": "wrangler deploy --minify",
     "mcp": "tsx mcp/cup-signal-mcp.ts",
     "demo:agent": "tsx scripts/agent-demo.ts",
     "check:mcp": "tsx scripts/check-mcp.ts",
@@ -21,10 +26,13 @@
     "wallet:testnet:balance": "tsx scripts/check-testnet-balance.ts",
     "contract:deploy:testnet": "tsx scripts/deploy-proof-contract.ts",
     "contract:verify:testnet": "tsx scripts/verify-onchain-proof.ts",
+    "wallet:x402:payer:create": "tsx scripts/create-x402-payer-wallet.ts",
+    "x402:balances": "tsx scripts/check-x402-balances.ts",
     "capture": "tsx scripts/capture-demo.ts",
     "update:worldcup": "node --import tsx scripts/update-worldcup-data.mjs"
   },
   "dependencies": {
+    "@injectivelabs/x402": "^0.0.1",
     "@modelcontextprotocol/sdk": "^1.30.0",
     "@types/express": "^4.17.25",
     "@vitejs/plugin-react": "^4.6.0",
@@ -44,7 +52,8 @@
     "@types/react": "^18.3.23",
     "@types/react-dom": "^18.3.7",
     "playwright": "^1.61.1",
-    "solc": "^0.8.36"
+    "solc": "^0.8.36",
+    "wrangler": "^4.118.0"
   },
   "engines": {
     "node": ">=20"

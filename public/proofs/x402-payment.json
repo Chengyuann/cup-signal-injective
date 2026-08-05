@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "status": "settled",
+  "endpoint": "http://127.0.0.1:4021/api/premium-report/cup-001",
+  "network": {
+    "name": "Injective EVM Testnet",
+    "chainId": 1439,
+    "caip2": "eip155:1439",
+    "rpcUrl": "https://testnet.evm.archival.chain.virtual.json-rpc.injective.network/"
+  },
+  "payment": {
+    "scheme": "exact",
+    "asset": "0x0C382e685bbeeFE5d3d9C29e29E341fEE8E84C5d",
+    "symbol": "USDC",
+    "amountBaseUnits": "10000",
+    "amountUsdc": "0.01",
+    "payer": "0x36090AA807e6B13bdD162F7852cB0793b0d87c1a",
+    "payee": "0x0C69f390Da3e0B35570F031c0878e9F000cf5D84"
+  },
+  "receipt": {
+    "success": true,
+    "transaction": "0xf57b81310f12306b8f60c6ac831f97252028ab99784d39dc9b1c2e3e97410d3c",
+    "network": "eip155:1439",
+    "payer": "0x36090AA807e6B13bdD162F7852cB0793b0d87c1a",
+    "amount": "10000",
+    "extra": {
+      "blockNumber": "135798102"
+    }
+  },
+  "transaction": {
+    "hash": "0xf57b81310f12306b8f60c6ac831f97252028ab99784d39dc9b1c2e3e97410d3c",
+    "blockNumber": "135798102",
+    "status": "success",
+    "explorer": "https://testnet.blockscout.injective.network/tx/0xf57b81310f12306b8f60c6ac831f97252028ab99784d39dc9b1c2e3e97410d3c"
+  },
+  "balances": {
+    "payerBefore": "20",
+    "payerAfter": "19.99",
+    "payeeBefore": "0",
+    "payeeAfter": "0.01"
+  },
+  "response": {
+    "status": 200,
+    "headline": "Argentina vs Egypt: Argentina carries the sharper live edge",
+    "settlement": {
+      "payer": "0x36090AA807e6B13bdD162F7852cB0793b0d87c1a",
+      "network": "eip155:1439",
+      "amount": "10000",
+      "asset": "0x0C382e685bbeeFE5d3d9C29e29E341fEE8E84C5d",
+      "txHash": "0xf57b81310f12306b8f60c6ac831f97252028ab99784d39dc9b1c2e3e97410d3c"
+    }
+  },
+  "generatedAt": "2026-08-05T09:00:33.265Z"
+}
