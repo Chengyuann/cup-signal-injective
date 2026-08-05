@@ -11,7 +11,7 @@ Cup Signal for Injective Global Cup
 Short description:
 
 ```text
-Cup Signal is a World Cup matchday AI cockpit that turns fixture context, live pressure, team profiles, player stats, and fan utility needs into one watch-party signal. It includes a detailed player rating dashboard, a public x402 endpoint with real testnet USDC receipts, a budget-gated agent payment, a verified proof contract, a CCTP settlement memo, local MCP tools, and an Agent Skill for live match commentary.
+Cup Signal is a World Cup matchday intelligence market on Injective. It turns fixture context, live pressure, player form, and fan discussion into one paid, agent-readable signal. The build includes a public x402 paid-report API with native testnet USDC receipts, a budget-gated agent payment, a completed Base Sepolia -> Injective CCTP transfer, a verified proof contract, MCP tools, and an Agent Skill for match commentary.
 ```
 
 GitHub repository:
@@ -52,8 +52,8 @@ New layer: player ratings.
 - original GPT Image 2 chibi player avatars
 
 Injective hooks:
-- x402 Paid Scout Intel: premium tactical/player report endpoint
-- USDC CCTP Fan Pool: deterministic memo for cross-chain watch-party rewards
+- x402 Paid Scout Intel: real testnet USDC receipt
+- USDC CCTP Fan Pool: Base Sepolia -> Injective Testnet transfer
 - MCP Match Analyst Server: fixture, forecast, player, and World Cup tools
 - Agent Skill Live Posting Coach: repeatable live-post workflow
 
@@ -85,11 +85,11 @@ Screenshot from the live panel attached.
 - Select the default real-result fixture, `Argentina / Egypt`.
 - Move one model slider and show probabilities changing.
 - Open the player board, switch `attack / defense / pressing`, and select Messi, Enzo, Salah, or Elneny.
-- Click `Simulate x402 Unlock`.
+- Click `Preview paid report`.
 - Show the premium report lines.
 - Run `npm run check:mcp` in terminal.
 - Show the public x402 and agent receipt proof files.
-- Mention that CCTP remains a USDC settlement intent, not a fake completed transfer.
+- Show the completed CCTP proof: burn, attestation, mint, and balance delta.
 
 ## Visual Assets
 

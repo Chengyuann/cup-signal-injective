@@ -18,7 +18,7 @@ export const injectivePlays: InjectivePlay[] = [
     label: "x402 Paid Scout Intel",
     status: "live-settled",
     hook: "A watch-party host or agent pays native testnet USDC to unlock a premium tactical report through the public x402 API.",
-    fanAction: "Inspect the live settlement proof or use the zero-funds local harness to preview the premium report.",
+    fanAction: "Inspect the live settlement proof or use the local harness to preview the premium report.",
     implementation: "Cloudflare Workers serves the public x402 v2 endpoint; the official Injective SDK verifies EIP-3009 signatures and settles native testnet USDC.",
     proof: "The public x402 and agent proof files contain PAYMENT-RESPONSE receipts, transaction hashes, and payer/payee balance reconciliation.",
     productionStep: "Add KMS custody, atomic idempotency, rate limits, and mainnet operating policy before accepting real-value payments.",

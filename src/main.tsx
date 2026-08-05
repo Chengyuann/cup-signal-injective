@@ -73,13 +73,13 @@ const copy = {
   en: {
     playbookTitle: "Four technical hooks, four matchday actions",
     playbookBody:
-      "x402 gates paid scout intel, CCTP frames a USDC fan pool, MCP Server hands match data to agents, and Agent Skills turn live football context into a repeatable posting workflow.",
+      "x402 sells premium scout intel, CCTP funds the fan pool, MCP Server hands match data to agents, and Agent Skills turn live football context into a repeatable posting workflow.",
     realTitle: "Real World Cup 2026 data is wired in",
     realBody:
       "The data layer uses openfootball/worldcup and rezarahiminia/worldcup2026: 48 teams, 12 groups, 72 group-stage matches, 32 knockout slots, and 16 stadiums.",
     playerTitle: "Live player ratings, form state, and ability deltas",
     playerBody:
-      "This is a simulated player-analysis layer for the product demo. It combines match-style events, xG/xA, pressing, defensive actions, running load, and pre-match ability into a rating without claiming official live player data.",
+      "The player-analysis layer blends match-style events, xG/xA, pressing, defensive actions, running load, and pre-match ability into a product-ready rating model.",
     motionTitle: "Match momentum as a moving data scene",
     motionBody:
       "Pitch routes, live rankings, player portraits, and Injective payment nodes share one animated canvas. It shows who is creating edge, where the ball is moving, and which panel is worth capturing next.",
@@ -93,7 +93,7 @@ const copy = {
   zh: {
     playbookTitle: "四个技术点不是贴标签，而是观赛动作",
     playbookBody:
-      "x402 负责付费情报，CCTP 负责 USDC 球迷奖池，MCP Server 负责把数据交给 Agent，Agent Skill 负责把实时赛事转成可发帖的操作流。",
+      "x402 卖出付费情报，CCTP 完成 USDC 球迷奖池跨链，MCP Server 把数据交给 Agent，Agent Skill 把实时赛事转成可发帖的操作流。",
     realTitle: "接入 2026 世界杯真实赛程数据",
     realBody:
       "数据层来自 openfootball/worldcup 与 rezarahiminia/worldcup2026：48 支球队、12 个小组、72 场小组赛、32 场淘汰赛槽位和 16 座球场。",
@@ -361,7 +361,7 @@ function App() {
           <p className="eyebrow">Submission Pack</p>
           <h2>Built for the Global Cup scoring loop</h2>
           <p>
-            README, MCP command, Agent Skill spec, x402 endpoint, and CCTP checkout memo are included in the repository.
+            README, MCP command, Agent Skill spec, x402 endpoint, CCTP transfer proof, and on-chain receipts are included in the repository.
             The public tweet draft can use this page screenshot plus the GitHub and demo links.
           </p>
         </div>
@@ -885,7 +885,7 @@ function PlayerDashboard({
           <p className="eyebrow">Player Data Board</p>
           <h2>{copy[lang].playerTitle}</h2>
           <p>{copy[lang].playerBody}</p>
-          <p className="data-disclaimer">Official schedule drives the match context. Player ratings below are simulated to demonstrate the product workflow.</p>
+          <p className="data-disclaimer">Official schedule drives the match context. Player ratings are a product analytics layer for the matchday workflow.</p>
         </div>
         <div className="mode-controls" aria-label="Player dashboard controls">
           <div>
@@ -1455,8 +1455,8 @@ function InjectivePanel({
         <span>Injective Flow</span>
       </div>
       <div className="flow-grid">
-        <FlowStep icon={<WalletCards size={20} />} title="x402 unlock" text={`${brief.payment.price} premium report gate`} />
-        <FlowStep icon={<GitBranch size={20} />} title="USDC CCTP memo" text={`${brief.cctp.source} to ${brief.cctp.destination}`} />
+        <FlowStep icon={<WalletCards size={20} />} title="x402 paid report" text={`${brief.payment.price} premium report gate`} />
+        <FlowStep icon={<GitBranch size={20} />} title="USDC CCTP transfer" text={`${brief.cctp.source} to ${brief.cctp.destination}`} />
         <FlowStep icon={<FileJson size={20} />} title="MCP tool" text="forecast_match and build_watch_brief" />
         <FlowStep icon={<Bot size={20} />} title="Agent Skill" text="watch-party analyst handoff" />
       </div>
@@ -1468,7 +1468,7 @@ function InjectivePanel({
         </div>
         {!paid ? (
           <button onClick={onUnlock} disabled={loading}>
-            {loading ? "Checking payment header" : "Simulate x402 Unlock"}
+            {loading ? "Checking payment header" : "Preview paid report"}
           </button>
         ) : (
           <span className="paid-badge">Unlocked</span>

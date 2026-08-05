@@ -64,12 +64,13 @@ Reviewed: 2026-08-05.
 
 - Potential use: register Cup Signal as a discoverable agent and attach reputation or
   service metadata.
-- Decision: useful post-competition, but not required for the submitted fan workflow.
+- Decision: useful post-competition, but the submitted fan workflow already
+  demonstrates agent payment and MCP tool consumption.
 
 ## Avoid during judging
 
-- adding private keys to repository or CI,
-- claiming CCTP settlement without source and destination transaction proofs,
-- fabricating x402 receipts,
+- adding private keys to repository,
+- claiming mainnet settlement without fresh source/destination proofs,
+- fabricating receipts,
 - migrating to breaking protocol versions without interoperability tests,
 - adding a smart contract only to increase technology count.

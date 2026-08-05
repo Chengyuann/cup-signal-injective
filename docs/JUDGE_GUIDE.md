@@ -1,6 +1,7 @@
 # Cup Signal Judge Guide
 
-This guide is the shortest reproducible path through the submission.
+This guide is the fastest way to verify the Cup Signal loop: World Cup signal,
+paid report, cross-chain USDC, MCP tools, agent workflow, and on-chain proof.
 
 ## 1. Open the product
 
@@ -18,8 +19,8 @@ Recommended product path:
 1. Inspect the World Cup data panel.
 2. Change forecast weights in the signal cockpit.
 3. Switch player rating modes and select a player.
-4. Click `Simulate x402 Unlock`.
-5. Inspect the Injective Playbook and Agent Output panels.
+4. Inspect the x402, CCTP, and proof registry live badges.
+5. Click `Preview paid report` and inspect the Injective Playbook / Agent Output panels.
 
 ## 2. Reproduce in under three minutes
 
@@ -38,7 +39,7 @@ Expected result:
   - an HTTP `402 Payment Required` challenge,
   - a local zero-funds request returning `200`,
   - the `X-PAYMENT-RESPONSE` header,
-  - the CCTP settlement intent,
+  - the completed CCTP transfer evidence,
   - the MCP tool inventory,
   - deterministic forecast output.
 
@@ -62,13 +63,14 @@ The first request returns `402`. The second returns `200` with an
 | USDC CCTP | Completed 1 USDC Base Sepolia → Injective Testnet CCTP V2 flow | Testnet only; no mainnet transfer claimed |
 | MCP Server | 7 tools, 1 resource, 1 prompt over stdio | Local server; official Injective MCP can be paired for chain actions |
 | Agent Skill | Portable Skill plus a budget-gated public x402 client and receipt | Testnet only; requires explicit `--yes` before signing |
-| On-chain proof | Deployed proof registry on Injective EVM Testnet with RPC readback verification | Anchors evidence hashes only; it is not an x402 or CCTP settlement |
+| On-chain proof | Deployed proof registry on Injective EVM Testnet with RPC readback verification | Anchors evidence hashes; payment and CCTP receipts are linked separately |
 
 ## 5. Why the boundaries matter
 
-Cup Signal does not fabricate official live player data. The x402 public and
-agent payments have real testnet receipts, and the CCTP proof contains the Base
-burn, Circle attestation, Injective mint, and USDC balance reconciliation.
+The receipts are testnet by design, but the mechanics are real: x402 settles
+native Injective testnet USDC, the agent signs and pays under a budget cap, and
+CCTP burns on Base Sepolia then mints on Injective Testnet. Player ratings are a
+demo analytics layer over public match context, not official live player data.
 
 ## 6. On-chain verification
 

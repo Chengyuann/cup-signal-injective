@@ -1,6 +1,12 @@
 # Cup Signal for Injective Global Cup
 
-Cup Signal is a World Cup matchday AI cockpit built for **The Injective Global Cup**. It helps fans and watch-party hosts turn noisy match context into one usable signal: win probability, projected score, tactical read, group-chat prompt, and a premium report unlock flow.
+Cup Signal is a World Cup matchday intelligence market built for **The Injective Global Cup**. It turns live football context into a paid, agent-readable product: fans get one clear match signal, agents can buy the premium report with x402, and watch-party USDC can move cross-chain through CCTP into Injective.
+
+The submission is not a logo integration. It is a verified loop:
+
+```text
+World Cup signal -> x402 paid report -> CCTP USDC funding -> MCP tools -> Agent Skill commentary
+```
 
 ## Live Submission
 
@@ -15,7 +21,7 @@ Cup Signal is a World Cup matchday AI cockpit built for **The Injective Global C
 - **CCTP transfer state:** https://chengyuann.github.io/cup-signal-injective/proofs/cctp-transfer.json
 - **Public paid API:** https://cup-signal-x402.mcy23.workers.dev/api/premium-report/cup-001
 - **Proof registry:** https://testnet.blockscout.injective.network/address/0x751784E837763cE0cB1786b2A0741092B15bB808
-- **Technical status and boundaries:** [STATUS.md](STATUS.md)
+- **Proof and operating scope:** [STATUS.md](STATUS.md)
 - **Public competitive review:** [docs/COMPETITIVE_REVIEW.md](docs/COMPETITIVE_REVIEW.md)
 - **August 2026 technology radar:** [docs/TECH_RADAR_2026-08.md](docs/TECH_RADAR_2026-08.md)
 - **Repository:** https://github.com/Chengyuann/cup-signal-injective
@@ -24,12 +30,12 @@ Cup Signal is a World Cup matchday AI cockpit built for **The Injective Global C
 - **Receipt links X reply:** https://x.com/macy200201/status/2084941904995844104
 - **Verified contract X reply:** https://x.com/macy200201/status/2084945419847770139
 
-The project is intentionally small enough for judges to run quickly, but it includes all four Injective challenge hooks:
+Cup Signal covers all four Injective challenge hooks as working product surfaces:
 
-- **x402**: a public pay-per-request report with real testnet USDC receipts, plus a local zero-funds harness.
-- **USDC CCTP**: a completed 1 USDC Base Sepolia → Injective Testnet CCTP V2 transfer plus a deterministic match memo.
-- **MCP Server**: local MCP tools expose fixtures, forecasts, watch briefs, and team ranking.
-- **Agent Skill**: a portable skill file teaches an agent how to use the MCP tools for live match commentary.
+- **x402 Paid Scout Intel:** public pay-per-request report with native Injective testnet USDC receipts.
+- **USDC CCTP Fan Pool:** completed 1 USDC Base Sepolia -> Injective Testnet CCTP V2 transfer tied to a match memo.
+- **MCP Match Analyst Server:** tools expose fixtures, forecasts, premium briefs, player ratings, and real World Cup data.
+- **Agent Skill Live Posting Coach:** a portable agent workflow turns match context and receipts into judge-ready commentary.
 
 The page includes an **Injective Playbook** section that maps each technical hook to a concrete fan action, proof command, and hackathon scoring angle.
 
@@ -83,7 +89,7 @@ During a World Cup match, fans usually jump between score apps, social feeds, gr
 6. Unlock the premium brief through an x402-style paid API resource.
 7. Use the CCTP memo as the settlement note when moving USDC into Injective-oriented flows.
 
-This is not betting advice. It is a fan utility and AI-agent demo for matchday discussion.
+Cup Signal is built for fan utility and agent commerce, not betting advice.
 
 ## Demo Commands
 
@@ -106,7 +112,7 @@ Build check:
 npm run build
 ```
 
-Run the dry-run x402 report service:
+Run the local x402 report harness:
 
 ```bash
 npm run server:x402
@@ -165,14 +171,15 @@ npm run capture
 
 ### x402
 
-`server/x402-report-server.ts` is the local zero-funds harness and exposes:
+`server/x402-report-server.ts` is the local no-wallet harness and exposes:
 
 - `GET /api/free-brief/:matchId`
 - `GET /api/premium-report/:matchId`
 
 Without an `X-PAYMENT` header, the premium route returns a 402 response with
 payment requirements. With a demo header, it returns the premium report and a
-local `X-PAYMENT-RESPONSE`. This harness lets judges test without spending.
+local `X-PAYMENT-RESPONSE`. This keeps the protocol shape reproducible even for
+judges who do not want to sign a transaction.
 
 The live path is deployed at:
 
@@ -196,7 +203,7 @@ facilitator settlement, and published PAYMENT-RESPONSE receipts.
 }
 ```
 
-This memo has been reconciled against a completed testnet CCTP V2 flow:
+This match memo is reconciled against a completed testnet CCTP V2 flow:
 
 - Base burn: `0x91da650b7b6139192850ccad68aa5cf4300f24ab63271c81a8b0ce7593641760`
 - Circle attestation: `complete`
@@ -347,7 +354,6 @@ Video prompts and reference-frame notes are in `docs/VIDEO_PROMPTS.md`.
 ## Limitations
 
 - Fixture and team data are demo data. Replace `src/data.ts` with a licensed live sports feed for production.
-- The local x402 command is dry-run by default; the public endpoint is live on
-  Injective EVM Testnet.
-- The included CCTP proof is a completed testnet transfer; no mainnet transfer
-  is claimed.
+- Local harness commands avoid wallet requirements; public proof files show the
+  live Injective testnet x402 and CCTP settlements.
+- Mainnet payments/transfers are not claimed; all receipts are testnet.

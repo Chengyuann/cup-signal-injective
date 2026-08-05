@@ -42,8 +42,7 @@ The included testnet proof records a completed CCTP V2 transfer:
 - destination USDC balance increase.
 
 Circle announced CCTP support for Injective Testnet in March 2026 and
-Injective Mainnet support in May 2026. This makes the production path concrete,
-The repository now includes funded testnet execution and transaction
+Injective Mainnet support in May 2026. The repository now includes funded testnet execution and transaction
 reconciliation. Mainnet operation still requires production custody and limits.
 
 ## MCP Server
@@ -61,7 +60,7 @@ as post-competition work.
 
 ## Player Rating Layer
 
-The new player board keeps the same dry-run boundary:
+The player board is intentionally separated from official data claims:
 
 - live player ratings are deterministic local TypeScript calculations,
 - generated avatars are original fan-art assets and not official photos,
