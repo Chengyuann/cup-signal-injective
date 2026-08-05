@@ -1,0 +1,37 @@
+name: Prove Public x402 Payment
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pay:
+    runs-on: ubuntu-latest
+    env:
+      X402_ENDPOINT: https://cup-signal-x402.mcy23.workers.dev/api/premium-report/cup-001
+      INJECTIVE_RPC_URL: https://testnet.evm.archival.chain.virtual.json-rpc.injective.network/
+      X402_PAYER_PRIVATE_KEY: ${{ secrets.X402_PAYER_PRIVATE_KEY }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install
+        run: npm ci --no-audit --no-fund
+
+      - name: Settle 0.01 testnet USDC
+        run: npm run x402:pay:live -- --yes
+
+      - name: Upload settlement proof
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-x402-payment-proof
+          path: public/proofs/x402-payment.json
+          if-no-files-found: error

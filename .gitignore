@@ -6,6 +6,7 @@ dist/
 !.env.example
 .agent/
 artifacts/
+.wrangler/
 work/
 *.log
 outputs/playwright/
