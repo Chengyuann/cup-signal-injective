@@ -1,14 +1,37 @@
 {
   "version": 1,
-  "status": "pending",
+  "status": "live",
   "network": {
     "name": "Injective EVM Testnet",
     "chainId": 1439,
     "caip2": "eip155:1439",
     "rpcUrl": "https://k8s.testnet.json-rpc.injective.network/",
-    "explorerUrl": "https://testnet.blockscout.injective.network/"
+    "explorerUrl": "https://testnet.blockscout.injective.network"
   },
   "deployer": "0x0C69f390Da3e0B35570F031c0878e9F000cf5D84",
-  "injectiveAddress": "inj1p35l8yx68c9n24c0qvwqs78f7qqv7hvysrluhv",
-  "reason": "Awaiting testnet INJ from an official faucet before deployment."
+  "balanceBeforeInj": "9.99992390944",
+  "contract": {
+    "name": "CupSignalProofRegistry",
+    "address": "0x751784E837763cE0cB1786b2A0741092B15bB808",
+    "deploymentTransaction": "0x08966fafdeef042bcd2cd1733fc38979ef582097c373d91d5a204e0d16f12654",
+    "deploymentBlock": null,
+    "explorer": "https://testnet.blockscout.injective.network/address/0x751784E837763cE0cB1786b2A0741092B15bB808"
+  },
+  "anchor": {
+    "proofSha256": "0x52f62eadf0d78cc30a2c50c16d4e9e4b98b774171ac68cee6b87b3a80778bb50",
+    "cctpMemoSha256": "0x7a7d75de8a4003d8b4883b0c6b6635e3a355862cf9fdc74db131505183ccec11",
+    "proofUri": "https://chengyuann.github.io/cup-signal-injective/proofs/judge-proof.json",
+    "transaction": "0x4a8109bffeebfefb70fc36f829eefb258aaa7aca49420c72133d7c22fc615e19",
+    "block": "135793455",
+    "explorer": "https://testnet.blockscout.injective.network/tx/0x4a8109bffeebfefb70fc36f829eefb258aaa7aca49420c72133d7c22fc615e19",
+    "eventSignature": "ProofAnchored(bytes32,bytes32,string,uint64,address)"
+  },
+  "readback": {
+    "proofSha256": "0x52f62eadf0d78cc30a2c50c16d4e9e4b98b774171ac68cee6b87b3a80778bb50",
+    "cctpMemoSha256": "0x7a7d75de8a4003d8b4883b0c6b6635e3a355862cf9fdc74db131505183ccec11",
+    "proofUri": "https://chengyuann.github.io/cup-signal-injective/proofs/judge-proof.json",
+    "anchoredAt": "1785916646",
+    "submitter": "0x0C69f390Da3e0B35570F031c0878e9F000cf5D84"
+  },
+  "generatedAt": "2026-08-05T07:57:29.383Z"
 }

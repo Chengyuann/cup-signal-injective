@@ -48,4 +48,27 @@ if (proofResponse.status === 200) {
   });
 }
 
+const onchainResponse = await fetch(
+  "https://chengyuann.github.io/cup-signal-injective/proofs/onchain-proof.json",
+  { headers: { "user-agent": "Cup-Signal-Submission-Check/1.0" } },
+);
+if (onchainResponse.status === 200) {
+  const onchain = await onchainResponse.json();
+  assert.equal(onchain.network.chainId, 1439);
+  assert.ok(["pending", "live"].includes(onchain.status));
+  if (process.env.REQUIRE_ONCHAIN_PROOF === "true") {
+    assert.equal(onchain.status, "live");
+    assert.match(onchain.contract.address, /^0x[0-9a-fA-F]{40}$/);
+    assert.match(onchain.anchor.transaction, /^0x[0-9a-fA-F]{64}$/);
+  }
+  results.push({
+    url: onchainResponse.url,
+    status: onchainResponse.status,
+    onchainStatus: onchain.status,
+    contract: onchain.contract?.address ?? null,
+  });
+} else if (process.env.REQUIRE_ONCHAIN_PROOF === "true") {
+  throw new Error(`Public on-chain proof returned ${onchainResponse.status}`);
+}
+
 console.log(JSON.stringify({ ok: true, results }, null, 2));

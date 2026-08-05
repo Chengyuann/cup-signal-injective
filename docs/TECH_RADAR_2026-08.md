@@ -25,7 +25,7 @@ Reviewed: 2026-08-05.
 
 ### Injective EVM proof registry
 
-- Status: contract compiled and tested; testnet deployment pending faucet funding.
+- Status: deployed and verified on Injective EVM Testnet.
 - Scope: anchor proof SHA-256, CCTP memo SHA-256, and public URI.
 - Boundary: timestamped evidence only; no custody or payment-settlement claim.
 

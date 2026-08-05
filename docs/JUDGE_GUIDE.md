@@ -57,7 +57,7 @@ The first request returns `402`. The second returns `200` with an
 | USDC CCTP | Consistent Base Sepolia to Injective testnet intent and memo | No burn, attestation, or mint transaction claimed |
 | MCP Server | 7 tools, 1 resource, 1 prompt over stdio | Local server; official Injective MCP can be paired for chain actions |
 | Agent Skill | Portable `agent-skill/SKILL.md` using the MCP tool names | Generates a workflow; does not autonomously spend funds |
-| On-chain proof | Tested proof-registry contract for Injective EVM Testnet | Deployment status is published in `STATUS.md` and `proofs/onchain-proof.json` once funded |
+| On-chain proof | Deployed proof registry on Injective EVM Testnet with RPC readback verification | Anchors evidence hashes only; it is not an x402 or CCTP settlement |
 
 ## 5. Why the boundaries matter
 
@@ -79,4 +79,16 @@ After deployment, the public record is available at:
 
 ```text
 https://chengyuann.github.io/cup-signal-injective/proofs/onchain-proof.json
+```
+
+Contract:
+
+```text
+0x751784E837763cE0cB1786b2A0741092B15bB808
+```
+
+Anchor transaction:
+
+```text
+0x4a8109bffeebfefb70fc36f829eefb258aaa7aca49420c72133d7c22fc615e19
 ```

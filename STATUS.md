@@ -22,8 +22,8 @@ Last reviewed: 2026-08-05.
 - No Injective EVM smart contract deployment is claimed.
 - Tournament schedule/team data is sourced from public repositories.
 - Player ratings and player event data are simulated product analytics.
-- The proof-registry contract is compiled and tested. Deployment remains pending
-  until the dedicated testnet address receives faucet INJ.
+- The proof-registry contract is deployed on Injective EVM Testnet and its
+  on-chain readback matches the public judge-proof SHA-256.
 
 ## Current production path
 
@@ -66,8 +66,17 @@ Testnet. It anchors the stable judge-proof SHA-256, CCTP memo SHA-256, and
 public proof URI. It does not handle funds and does not convert the dry-run
 x402 flow into a settlement claim.
 
-Pending deployer address:
+Deployed contract:
 
 ```text
-0x0C69f390Da3e0B35570F031c0878e9F000cf5D84
+0x751784E837763cE0cB1786b2A0741092B15bB808
 ```
+
+Anchor transaction:
+
+```text
+0x4a8109bffeebfefb70fc36f829eefb258aaa7aca49420c72133d7c22fc615e19
+```
+
+The chain stores proof and memo hashes only. This is timestamped evidence, not
+an x402 settlement or CCTP transfer claim.
