@@ -1,5 +1,11 @@
 # Cup Signal x402 / On-chain Update
 
+Published:
+
+- Video update: https://x.com/macy200201/status/2084941358951972900
+- Public API and receipts: https://x.com/macy200201/status/2084941904995844104
+- Verified contract and cover: https://x.com/macy200201/status/2084945419847770139
+
 ## Recommended X reply
 
 Cup Signal is now fully verifiable on Injective EVM Testnet.

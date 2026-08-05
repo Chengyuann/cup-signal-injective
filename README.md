@@ -19,6 +19,9 @@ Cup Signal is a World Cup matchday AI cockpit built for **The Injective Global C
 - **August 2026 technology radar:** [docs/TECH_RADAR_2026-08.md](docs/TECH_RADAR_2026-08.md)
 - **Repository:** https://github.com/Chengyuann/cup-signal-injective
 - **X post:** https://x.com/macy200201/status/2073792929613955566
+- **x402/on-chain X update:** https://x.com/macy200201/status/2084941358951972900
+- **Receipt links X reply:** https://x.com/macy200201/status/2084941904995844104
+- **Verified contract X reply:** https://x.com/macy200201/status/2084945419847770139
 
 The project is intentionally small enough for judges to run quickly, but it includes all four Injective challenge hooks:
 
