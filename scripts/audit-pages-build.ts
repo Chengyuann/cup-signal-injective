@@ -31,9 +31,12 @@ let onchainStatus = "pending";
 try {
   const onchain = JSON.parse(await readFile("dist/proofs/onchain-proof.json", "utf8"));
   assert.equal(onchain.network.chainId, 1439);
-  assert.match(onchain.contract.address, /^0x[0-9a-fA-F]{40}$/);
-  assert.match(onchain.anchor.transaction, /^0x[0-9a-fA-F]{64}$/);
-  onchainStatus = "live";
+  assert.ok(["pending", "live"].includes(onchain.status));
+  if (onchain.status === "live") {
+    assert.match(onchain.contract.address, /^0x[0-9a-fA-F]{40}$/);
+    assert.match(onchain.anchor.transaction, /^0x[0-9a-fA-F]{64}$/);
+  }
+  onchainStatus = onchain.status;
 } catch (error) {
   if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
 }

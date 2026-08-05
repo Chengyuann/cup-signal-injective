@@ -38,9 +38,10 @@ const weightLabels: Record<WeightKey, string> = {
 type Lang = "en" | "zh";
 type RefreshState = "idle" | "loading" | "success" | "error";
 type OnchainProof = {
+  status: "pending" | "live";
   network: { name: string; caip2: string };
-  contract: { address: string; explorer: string };
-  anchor: { transaction: string; explorer: string; proofSha256: string };
+  contract?: { address: string; explorer: string };
+  anchor?: { transaction: string; explorer: string; proofSha256: string };
 };
 type WorldCupRuntimeData = {
   teams: WorldCupTeam[];
@@ -603,9 +604,9 @@ function InjectivePlaybookPanel({ lang, onchainProof }: { lang: Lang; onchainPro
         <strong>{injectivePlaybookSummary.totalTechHooks}/4</strong>
         <span>technical hooks covered</span>
       </div>
-      <div className={onchainProof ? "onchain-proof live" : "onchain-proof pending"}>
-        <span>{onchainProof ? "ON-CHAIN PROOF LIVE" : "TESTNET DEPLOYMENT PENDING"}</span>
-        {onchainProof ? (
+      <div className={onchainProof?.status === "live" ? "onchain-proof live" : "onchain-proof pending"}>
+        <span>{onchainProof?.status === "live" ? "ON-CHAIN PROOF LIVE" : "TESTNET DEPLOYMENT PENDING"}</span>
+        {onchainProof?.status === "live" && onchainProof.contract ? (
           <a href={onchainProof.contract.explorer} target="_blank" rel="noreferrer">
             {onchainProof.contract.address}
           </a>

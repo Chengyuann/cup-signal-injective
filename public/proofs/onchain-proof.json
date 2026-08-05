@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "status": "pending",
+  "network": {
+    "name": "Injective EVM Testnet",
+    "chainId": 1439,
+    "caip2": "eip155:1439",
+    "rpcUrl": "https://k8s.testnet.json-rpc.injective.network/",
+    "explorerUrl": "https://testnet.blockscout.injective.network/"
+  },
+  "deployer": "0x0C69f390Da3e0B35570F031c0878e9F000cf5D84",
+  "injectiveAddress": "inj1p35l8yx68c9n24c0qvwqs78f7qqv7hvysrluhv",
+  "reason": "Awaiting testnet INJ from an official faucet before deployment."
+}

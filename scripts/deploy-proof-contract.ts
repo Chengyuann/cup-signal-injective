@@ -60,6 +60,7 @@ const latest = await publicClient.readContract({
 
 const record = {
   version: 1,
+  status: "live",
   network: {
     name: chain.name,
     chainId: chain.id,
