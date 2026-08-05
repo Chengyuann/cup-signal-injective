@@ -52,8 +52,6 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
-    "@circle-fin/adapter-viem-v2": "^1.14.1",
-    "@circle-fin/bridge-kit": "^1.12.2",
     "@types/node": "^24.0.10",
     "@types/react": "^18.3.23",
     "@types/react-dom": "^18.3.7",
